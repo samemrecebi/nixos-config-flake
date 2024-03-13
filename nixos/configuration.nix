@@ -116,12 +116,16 @@
   # Trim
   services.fstrim.enable = lib.mkDefault true;
 
+  # Shell
+  users.defaultUserShell = pkgs.zsh;
+  environment.shells = with pkgs; [ zsh ];
+  programs.zsh.enable = true;
+
   # User
   users.users.emrecebi = {
     isNormalUser = true;
     description = "Emre Cebi";
     extraGroups = [ "networkmanager" "wheel" "docker" ];
-    shell = pkgs.zsh;
   };
 
   # Home manager setup

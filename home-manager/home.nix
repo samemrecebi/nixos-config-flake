@@ -48,7 +48,6 @@
   qt.style.package = pkgs.adwaita-qt;
 
   # Shell
-  programs.zsh.enable = true;
   programs.starship.enable = true;
 
   programs.git.enable = true;
@@ -57,9 +56,6 @@
     enable = true;
     package = pkgs.emacs-gtk;
   };
-
-  programs.nix-ld.enable = true;
-  programs.nix-ld.libraries = with pkgs; [ ];
 
   home.sessionVariables = {
     EDITOR = "emacsclient";
