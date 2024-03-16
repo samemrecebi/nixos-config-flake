@@ -1,17 +1,33 @@
-{ config, pkgs, inputs, lib, ... }:
-
 {
-  imports =
-    [
-      ./hardware-configuration.nix
-      inputs.home-manager.nixosModules.default
+  inputs,
+  outputs,
+  lib,
+  config,
+  pkgs,
+  ...
+}: {
+  imports = [
+    ./hardware-configuration.nix
+    inputs.home-manager.nixosModules.default
+  ];
+
+  nixpkgs = {
+    overlays = [
+      outputs.overlays.additions
+      outputs.overlays.modifications
+      outputs.overlays.stable-packages
     ];
+    config = {
+      allowUnfree = true;
+      allowAliases = false;
+    };
+  };
 
   # Bootloader.
   boot = {
     kernelPackages = pkgs.linuxPackages_latest;
     consoleLogLevel = 0;
-    kernelParams = [ "quiet" "udev.log_level=0" ]; 
+    kernelParams = ["quiet" "udev.log_level=0"];
     plymouth = {
       enable = true;
       theme = "breeze";
@@ -30,8 +46,7 @@
 
   boot.initrd.luks.devices."luks-48e95629-d19a-4e8a-924e-53c660939c0c".device = "/dev/disk/by-uuid/48e95629-d19a-4e8a-924e-53c660939c0c";
   boot.initrd.systemd.enable = true;
-  boot.initrd.verbose = false; 
-
+  boot.initrd.verbose = false;
 
   networking.hostName = "asus-a15";
 
@@ -59,9 +74,29 @@
   # Enable the X11 windowing system.
   services.xserver.enable = true;
 
-  # Enable the GNOME Desktop Environment.
+  # Enable Gnome.
   services.xserver.displayManager.gdm.enable = true;
   services.xserver.desktopManager.gnome.enable = true;
+  environment.gnome.excludePackages =
+    (with pkgs; [
+      gnome-photos
+      gnome-tour
+    ])
+    ++ (with pkgs.gnome; [
+      cheese # webcam tool
+      gnome-music
+      epiphany # web browser
+      geary # email reader
+      gnome-characters
+      tali # poker game
+      iagno # go game
+      hitori # sudoku game
+      atomix # puzzle game
+      yelp # Help view
+      gnome-contacts
+      gnome-initial-setup
+    ]);
+  programs.dconf.enable = true;
 
   # Configure keymap in X11
   services.xserver.xkb = {
@@ -119,33 +154,23 @@
 
   # Shell
   users.defaultUserShell = pkgs.zsh;
-  environment.shells = with pkgs; [ zsh ];
+  environment.shells = with pkgs; [zsh];
   programs.zsh.enable = true;
 
   # User
   users.users.emrecebi = {
     isNormalUser = true;
     description = "Emre Cebi";
-    extraGroups = [ "networkmanager" "wheel" "docker" ];
-  };
-
-  # Home manager setup
-  home-manager = {
-    extraSpecialArgs = { inherit inputs; };
-    useGlobalPkgs = true;
-    useUserPackages = true;
-    users = { 
-      "emrecebi" = import ../home-manager/home.nix; 
-    };
+    extraGroups = ["networkmanager" "wheel" "docker"];
   };
 
   # System packages
   environment.systemPackages = with pkgs; [
+    gnome.gnome-tweaks
     yubikey-agent
-    gnomeExtensions.appindicator   
+    git
   ];
   virtualisation.docker.enable = true;
-  nixpkgs.config.allowUnfree = true;
 
   # Extra system services
   services.tailscale.enable = true;
@@ -154,22 +179,21 @@
     enable = true;
     package = pkgs.emacs;
   };
-  services.udev.packages = with pkgs; [ gnome.gnome-settings-daemon ];
+  services.udev.packages = with pkgs; [gnome.gnome-settings-daemon];
   services.supergfxd.enable = true;
   services.asusd = {
     enable = true;
     enableUserService = true;
   };
   services.gnome.gnome-keyring.enable = true;
-  systemd.user.services.protonmail-bridge = {          
-    description = "Protonmail Bridge";          
-    enable = true;          
-    script = "${pkgs.protonmail-bridge}/bin/protonmail-bridge --noninteractive --log-level info";          
-    path = [ pkgs.gnome3.gnome-keyring ]; # HACK: https://github.com/ProtonMail/proton-bridge/issues/176          
-    wantedBy = [ "graphical-session.target" ];          
-    partOf = [ "graphical-session.target" ];        
+  systemd.user.services.protonmail-bridge = {
+    description = "Protonmail Bridge";
+    enable = true;
+    script = "${pkgs.protonmail-bridge}/bin/protonmail-bridge --noninteractive --log-level info";
+    wantedBy = ["graphical-session.target"];
+    partOf = ["graphical-session.target"];
   };
 
-  nix.settings.experimental-features = [ "nix-command" "flakes" ];
+  nix.settings.experimental-features = ["nix-command" "flakes"];
   system.stateVersion = "23.11";
 }

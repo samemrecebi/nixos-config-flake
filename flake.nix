@@ -4,7 +4,8 @@
   inputs = {
     # Nixpkgs
     nixpkgs.url = "github:nixos/nixpkgs/nixos-unstable";
-
+    # Nixpkgs stable
+    nixpkgs-stable.url = "github:nixos/nixpkgs/nixos-23.05";
     # Home manager
     home-manager.url = "github:nix-community/home-manager";
     home-manager.inputs.nixpkgs.follows = "nixpkgs";
@@ -18,7 +19,11 @@
   } @ inputs: let
     inherit (self) outputs;
     systems = [
+      "aarch64-linux"
+      "i686-linux"
       "x86_64-linux"
+      "aarch64-darwin"
+      "x86_64-darwin"
     ];
     forAllSystems = nixpkgs.lib.genAttrs systems;
   in {
@@ -35,7 +40,13 @@
         specialArgs = {inherit inputs outputs;};
         modules = [
           ./nixos/configuration.nix
-          inputs.home-manager.nixosModules.default
+          home-manager.nixosModules.home-manager
+          {
+            home-manager.useGlobalPkgs = true;
+            home-manager.useUserPackages = true;
+            home-manager.users.emrecebi = import ./home-manager/home.nix;
+            home-manager.extraSpecialArgs = {inherit inputs outputs;};
+          }
         ];
       };
     };
