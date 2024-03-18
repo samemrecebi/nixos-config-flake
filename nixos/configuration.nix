@@ -8,7 +8,6 @@
 }: {
   imports = [
     ./hardware-configuration.nix
-    ./xfce.nix
     inputs.home-manager.nixosModules.default
   ];
 
@@ -140,6 +139,10 @@
       XDG_BIN_HOME    = "$HOME/.local/bin";
     };
   };
+
+  services.xserver.enable = true;
+  services.xserver.displayManager.sddm.enable = true;
+  services.desktopManager.plasma6.enable = true;
 
   # User
   users.users.emrecebi = {

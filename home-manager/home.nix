@@ -6,10 +6,6 @@
   pkgs,
   ...
 }: {
-  imports = [
-    ./xfce-home.nix
-  ];
-
   home.username = "emrecebi";
   home.homeDirectory = "/home/emrecebi";
   home.stateVersion = "23.11"; # Please read the comment before changing.
@@ -48,6 +44,10 @@
     pkgs.emacs-all-the-icons-fonts
     (pkgs.nerdfonts.override {fonts = ["FiraCode" "Hack"];})
   ];
+
+  # GPG
+  programs.gpg.enable = true;
+  services.gpg-agent.enable = true;
 
   # Shell and related programs
   programs.starship.enable = true;
