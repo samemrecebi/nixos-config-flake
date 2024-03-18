@@ -8,6 +8,7 @@
 }: {
   imports = [
     ./hardware-configuration.nix
+    ./xfce.nix
     inputs.home-manager.nixosModules.default
   ];
 
@@ -71,33 +72,6 @@
     LC_TIME = "nl_NL.UTF-8";
   };
 
-  # Enable the X11 windowing system.
-  services.xserver.enable = true;
-
-  # Enable Gnome.
-  services.xserver.displayManager.gdm.enable = true;
-  services.xserver.desktopManager.gnome.enable = true;
-  environment.gnome.excludePackages =
-    (with pkgs; [
-      gnome-photos
-      gnome-tour
-    ])
-    ++ (with pkgs.gnome; [
-      cheese # webcam tool
-      gnome-music
-      epiphany # web browser
-      geary # email reader
-      gnome-characters
-      tali # poker game
-      iagno # go game
-      hitori # sudoku game
-      atomix # puzzle game
-      yelp # Help view
-      gnome-contacts
-      gnome-initial-setup
-    ]);
-  programs.dconf.enable = true;
-
   # Configure keymap in X11
   services.xserver.xkb = {
     layout = "us";
@@ -157,11 +131,21 @@
   environment.shells = with pkgs; [zsh];
   programs.zsh.enable = true;
 
+  # XDG Stuff
+  environment = {
+    sessionVariables = {
+      XDG_CACHE_HOME  = "$HOME/.cache";
+      XDG_CONFIG_HOME = "$HOME/.config";
+      XDG_DATA_HOME   = "$HOME/.local/share";
+      XDG_BIN_HOME    = "$HOME/.local/bin";
+    };
+  };
+
   # User
   users.users.emrecebi = {
     isNormalUser = true;
     description = "Emre Cebi";
-    extraGroups = ["networkmanager" "wheel" "docker"];
+    extraGroups = ["networkmanager" "wheel" "docker" "libvirtd"];
   };
 
   # System packages
@@ -169,8 +153,41 @@
     gnome.gnome-tweaks
     yubikey-agent
     git
+    gcc
+    llvm
+    libclang
+    man
+    sl
+    clang
+    cmake
+    wget
+    curl
+    ffmpeg
+    lshw
+    spice
+    docker-compose
+    coreutils
+    binutils
+    pciutils
+    libtool
   ];
   virtualisation.docker.enable = true;
+  virtualisation.libvirtd = {
+    enable = true;
+    qemu = {
+      package = pkgs.qemu_kvm;
+      runAsRoot = true;
+      swtpm.enable = true;
+      ovmf = {
+        enable = true;
+        packages = [(pkgs.OVMF.override {
+          secureBoot = true;
+          tpmSupport = true;
+        }).fd];
+      };
+    };
+  };
+  programs.virt-manager.enable = true;
 
   # Extra system services
   services.tailscale.enable = true;

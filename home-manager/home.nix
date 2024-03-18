@@ -6,9 +6,14 @@
   pkgs,
   ...
 }: {
+  imports = [
+    ./xfce-home.nix
+  ];
+
   home.username = "emrecebi";
   home.homeDirectory = "/home/emrecebi";
   home.stateVersion = "23.11"; # Please read the comment before changing.
+  xdg.enable = true;
 
   home.packages = [
     pkgs.stow
@@ -36,48 +41,13 @@
     pkgs.texlive.combined.scheme-medium
     pkgs.plantuml
     pkgs.graphviz
+    pkgs.imagemagick
+    # Fonts
     pkgs.font-awesome
     pkgs.liberation_ttf
+    pkgs.emacs-all-the-icons-fonts
     (pkgs.nerdfonts.override {fonts = ["FiraCode" "Hack"];})
   ];
-
-  dconf = {
-    enable = true;
-    settings."org/gnome/desktop/interface".color-scheme = "prefer-dark";
-  };
-
-  gtk = {
-    enable = true;
-
-    iconTheme = {
-      name = "Papirus-Dark";
-      package = pkgs.papirus-icon-theme;
-    };
-
-    theme = {
-      name = "gruvbox-gtk-theme";
-      package = pkgs.gruvbox-gtk-theme;
-    };
-
-    cursorTheme = {
-      name = "Numix-Cursor";
-      package = pkgs.numix-cursor-theme;
-    };
-
-    gtk3.extraConfig = {
-      Settings = ''
-        gtk-application-prefer-dark-theme=1
-      '';
-    };
-
-    gtk4.extraConfig = {
-      Settings = ''
-        gtk-application-prefer-dark-theme=1
-      '';
-    };
-  };
-
-  home.sessionVariables.GTK_THEME = "gruvbox-gtk-theme";
 
   # Shell and related programs
   programs.starship.enable = true;
