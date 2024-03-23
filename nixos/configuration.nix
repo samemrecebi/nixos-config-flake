@@ -11,6 +11,26 @@
     inputs.home-manager.nixosModules.default
   ];
 
+  # Autoupdate and build optimisation
+  system.autoUpgrade = {
+    enable = true;
+    flake = inputs.self.outPath;
+    flags = [
+      "--update-input"
+      "nixpkgs"
+      "-L" # print build logs
+    ];
+    dates = "02:00";
+    randomizedDelaySec = "45min";
+  };
+  nix.settings.auto-optimise-store = true;
+  nix.gc = {
+    automatic = true;
+    dates = "weekly";
+    options = "--delete-older-than 30d";
+  };
+
+  # Nixpkgs config
   nixpkgs = {
     overlays = [
       outputs.overlays.additions
@@ -58,7 +78,6 @@
 
   # Select internationalisation properties.
   i18n.defaultLocale = "en_US.UTF-8";
-
   i18n.extraLocaleSettings = {
     LC_ADDRESS = "nl_NL.UTF-8";
     LC_IDENTIFICATION = "nl_NL.UTF-8";
@@ -82,12 +101,18 @@
     enable = true;
     driSupport = true;
     driSupport32Bit = true;
+    extraPackages = with pkgs; [
+      vulkan-validation-layers
+      intel-media-driver
+      vaapiVdpau
+      libvdpau-va-gl
+    ];
   };
   services.xserver.videoDrivers = ["nvidia"];
   hardware.nvidia = {
     modesetting.enable = true;
     powerManagement.enable = false;
-    powerManagement.finegrained = false;
+    powerManagement.finegrained = true;
     open = false;
     nvidiaSettings = true;
     package = config.boot.kernelPackages.nvidiaPackages.production;
@@ -140,9 +165,10 @@
     };
   };
 
+  # KDE setup
   services.xserver.enable = true;
   services.xserver.displayManager.sddm.enable = true;
-  services.desktopManager.plasma6.enable = true;
+  services.xserver.desktopManager.plasma5.enable = true;
 
   # User
   users.users.emrecebi = {
@@ -153,16 +179,10 @@
 
   # System packages
   environment.systemPackages = with pkgs; [
-    gnome.gnome-tweaks
+    neofetch
     yubikey-agent
-    git
-    gcc
-    llvm
-    libclang
     man
     sl
-    clang
-    cmake
     wget
     curl
     ffmpeg
@@ -191,28 +211,17 @@
     };
   };
   programs.virt-manager.enable = true;
+  programs.nix-ld.enable = true;
 
   # Extra system services
   services.tailscale.enable = true;
   services.tailscale.useRoutingFeatures = "client";
-  services.emacs = {
-    enable = true;
-    package = pkgs.emacs;
-  };
-  services.udev.packages = with pkgs; [gnome.gnome-settings-daemon];
   services.supergfxd.enable = true;
   services.asusd = {
     enable = true;
     enableUserService = true;
   };
   services.gnome.gnome-keyring.enable = true;
-  systemd.user.services.protonmail-bridge = {
-    description = "Protonmail Bridge";
-    enable = true;
-    script = "${pkgs.protonmail-bridge}/bin/protonmail-bridge --noninteractive --log-level info";
-    wantedBy = ["graphical-session.target"];
-    partOf = ["graphical-session.target"];
-  };
 
   nix.settings.experimental-features = ["nix-command" "flakes"];
   system.stateVersion = "23.11";

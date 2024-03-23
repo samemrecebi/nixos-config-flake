@@ -12,14 +12,13 @@
   xdg.enable = true;
 
   home.packages = [
+    # General packages
     pkgs.stow
     pkgs.firefox
     pkgs.discord
     pkgs.alacritty
     pkgs.bitwarden-desktop
-    pkgs.protonmail-bridge
-    pkgs.jetbrains.idea-ultimate
-    pkgs.vscode
+    pkgs.protonmail-bridge-gui
     pkgs.thunderbird
     pkgs.firefox
     pkgs.spotify
@@ -33,17 +32,42 @@
     pkgs.whatsapp-for-linux
     pkgs.signal-desktop
     pkgs.tailscale
-    pkgs.jdk11
     pkgs.texlive.combined.scheme-medium
+    pkgs.imagemagick
+
+    # Dev
+    pkgs.gradle_6
+    pkgs.jetbrains.idea-ultimate
     pkgs.plantuml
     pkgs.graphviz
-    pkgs.imagemagick
+
     # Fonts
     pkgs.font-awesome
     pkgs.liberation_ttf
     pkgs.emacs-all-the-icons-fonts
     (pkgs.nerdfonts.override {fonts = ["FiraCode" "Hack"];})
   ];
+
+  # Direnv
+  programs = {
+    direnv = {
+      enable = true;
+      enableZshIntegration = true; # see note on other shells below
+      nix-direnv.enable = true;
+    };
+  };
+
+  # Java
+  programs.java = {
+    enable = true;
+    package = (pkgs.jdk11.override {enableJavaFX = true;});
+  };
+
+  # Editor
+  programs.vscode = {
+    enable = true;
+    package = pkgs.vscode;
+  };
 
   # GPG
   programs.gpg.enable = true;
@@ -52,15 +76,6 @@
   # Shell and related programs
   programs.starship.enable = true;
   programs.git.enable = true;
-
-  # Editor
-  programs.emacs = {
-    enable = true;
-    package = pkgs.emacs; # replace with pkgs.emacs-gtk, or a version provided by the community overlay if desired.
-  };
-  home.sessionVariables = {
-    EDITOR = "emacsclient";
-  };
 
   programs.home-manager.enable = true;
 }
