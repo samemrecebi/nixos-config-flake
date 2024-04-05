@@ -63,10 +63,15 @@
     package = (pkgs.jdk11.override {enableJavaFX = true;});
   };
 
-  # Editor
+  # Editors
   programs.vscode = {
     enable = true;
     package = pkgs.vscode;
+  };
+
+  programs.emacs = {
+    enable = true;
+    package = pkgs.emacs;
   };
 
   # GPG

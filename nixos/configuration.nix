@@ -47,7 +47,7 @@
   boot = {
     kernelPackages = pkgs.linuxPackages_latest;
     consoleLogLevel = 0;
-    kernelParams = ["quiet" "udev.log_level=0"];
+    kernelParams = ["quiet" "udev.log_level=0" "nvidia.NVreg_PreserveVideoMemoryAllocations=1"];
     plymouth = {
       enable = true;
       theme = "breeze";
@@ -69,9 +69,13 @@
   boot.initrd.verbose = false;
 
   networking.hostName = "asus-a15";
+  services.openssh.enable = true;
 
   # Enable networking
   networking.networkmanager.enable = true;
+
+  # Firewall
+  networking.firewall.enable = true;
 
   # Set your time zone.
   time.timeZone = "Europe/Amsterdam";
@@ -111,8 +115,8 @@
   services.xserver.videoDrivers = ["nvidia"];
   hardware.nvidia = {
     modesetting.enable = true;
-    powerManagement.enable = false;
-    powerManagement.finegrained = true;
+    powerManagement.enable = true;
+    powerManagement.finegrained = false;
     open = false;
     nvidiaSettings = true;
     package = config.boot.kernelPackages.nvidiaPackages.production;
@@ -216,13 +220,17 @@
   # Extra system services
   services.tailscale.enable = true;
   services.tailscale.useRoutingFeatures = "client";
+  networking.firewall.trustedInterfaces = [ "tailscale0" ];
   services.supergfxd.enable = true;
   services.asusd = {
     enable = true;
     enableUserService = true;
   };
   services.gnome.gnome-keyring.enable = true;
-
+  services.emacs = {
+    enable = true;
+    package = pkgs.emacs;
+  };
   nix.settings.experimental-features = ["nix-command" "flakes"];
   system.stateVersion = "23.11";
 }
