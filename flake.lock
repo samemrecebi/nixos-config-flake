@@ -20,34 +20,18 @@
         "type": "github"
       }
     },
-    "my-nixos-hardware": {
+    "nixos-hardware": {
       "locked": {
-        "lastModified": 1713887307,
-        "narHash": "sha256-wcZw3Etl6qVV/DbnwbYJ+yTAqUcVFzqk25bSm2l9XkY=",
+        "lastModified": 1713888010,
+        "narHash": "sha256-YvJyXSvAyrfyrdVwL06FzKcioQY3Zb2KioJOaV5geFQ=",
         "owner": "samemrecebi",
         "repo": "nixos-hardware",
-        "rev": "90ee317b2e31ddd066689c6cbf059ce4e1db72be",
+        "rev": "e7d8680f62d8252634bafe091866e53787ee2101",
         "type": "github"
       },
       "original": {
         "owner": "samemrecebi",
         "ref": "asus-tuf-fa507nv",
-        "repo": "nixos-hardware",
-        "type": "github"
-      }
-    },
-    "nixos-hardware": {
-      "locked": {
-        "lastModified": 1713864415,
-        "narHash": "sha256-/BPDMJEkrsFAFOsQWhwm31wezlgshPFlLBn34KEUdVA=",
-        "owner": "NixOS",
-        "repo": "nixos-hardware",
-        "rev": "797f8d8082c7cc3259cba7275c699d4991b09ecc",
-        "type": "github"
-      },
-      "original": {
-        "owner": "NixOS",
-        "ref": "master",
         "repo": "nixos-hardware",
         "type": "github"
       }
@@ -87,7 +71,6 @@
     "root": {
       "inputs": {
         "home-manager": "home-manager",
-        "my-nixos-hardware": "my-nixos-hardware",
         "nixos-hardware": "nixos-hardware",
         "nixpkgs": "nixpkgs",
         "nixpkgs-stable": "nixpkgs-stable"

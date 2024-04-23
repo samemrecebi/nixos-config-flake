@@ -9,10 +9,8 @@
     # Home manager
     home-manager.url = "github:nix-community/home-manager";
     home-manager.inputs.nixpkgs.follows = "nixpkgs";
-    # Nix Hardware
-    nixos-hardware.url = "github:NixOS/nixos-hardware/master";
     # My Nix Hardware Fork
-    my-nixos-hardware.url = "github:samemrecebi/nixos-hardware/asus-tuf-fa507nv";
+    nixos-hardware.url = "github:samemrecebi/nixos-hardware/asus-tuf-fa507nv";
   };
 
   outputs = {
@@ -46,7 +44,7 @@
         specialArgs = {inherit inputs outputs;};
         modules = [
           ./nixos/configuration.nix
-          my-nixos-hardware.nixosModules.fa507rm
+          nixos-hardware.nixosModules.asus-fa507nv
           home-manager.nixosModules.home-manager
           {
             home-manager.useGlobalPkgs = true;
