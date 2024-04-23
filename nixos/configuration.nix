@@ -53,10 +53,12 @@
     };
     initrd = {
       systemd.enable = true;
+      systemd.network.wait-online.enable = false;
       verbose = false;
       luks.devices."luks-48e95629-d19a-4e8a-924e-53c660939c0c".device = "/dev/disk/by-uuid/48e95629-d19a-4e8a-924e-53c660939c0c";
     };
   };
+  systemd.network.wait-online.enable = false;
 
   networking.hostName = "asus-a15";
   services.openssh.enable = true;
@@ -71,18 +73,22 @@
   time.timeZone = "Europe/Amsterdam";
 
   # Select internationalisation properties.
+  i18n.supportedLocales = [
+    "en_US.UTF-8/UTF-8"
+    "nl_NL.UTF-8/UTF-8"
+    "tr_TR.UTF-8/UTF-8"
+  ];
   i18n.defaultLocale = "en_US.UTF-8";
   i18n.extraLocaleSettings = {
-    LANGUAGE = "en_US.UTF-8";
     LC_ADDRESS = "nl_NL.UTF-8";
     LC_IDENTIFICATION = "nl_NL.UTF-8";
-    LC_MEASUREMENT = "nl_NL.UTF-8";
+    LC_MEASUREMENT = "tr_TR.UTF-8";
     LC_MONETARY = "nl_NL.UTF-8";
-    LC_NAME = "nl_NL.UTF-8";
+    LC_NAME = "tr_TR.UTF-8";
     LC_NUMERIC = "nl_NL.UTF-8";
     LC_PAPER = "nl_NL.UTF-8";
     LC_TELEPHONE = "nl_NL.UTF-8";
-    LC_TIME = "nl_NL.UTF-8";
+    LC_TIME = "tr_TR.UTF-8";
   };
 
   # Configure keymap in X11
