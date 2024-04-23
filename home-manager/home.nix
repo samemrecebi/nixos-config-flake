@@ -25,7 +25,6 @@
     pkgs.todoist-electron
     pkgs.termius
     pkgs.qbittorrent
-    pkgs.mullvad-vpn
     pkgs.mpv
     pkgs.zoom-us
     pkgs.yubikey-manager
@@ -34,11 +33,13 @@
     pkgs.texlive.combined.scheme-medium
     pkgs.imagemagick
 
+    # Office Program
+    pkgs.libreoffice-qt
+    pkgs.hunspell
+    pkgs.hunspellDicts.en_US
+
     # Dev
-    pkgs.gradle_6
     pkgs.jetbrains.idea-ultimate
-    pkgs.plantuml
-    pkgs.graphviz
 
     # Fonts
     pkgs.b612
@@ -55,12 +56,6 @@
       enableZshIntegration = true; # see note on other shells below
       nix-direnv.enable = true;
     };
-  };
-
-  # Java
-  programs.java = {
-    enable = true;
-    package = (pkgs.jdk11.override {enableJavaFX = true;});
   };
 
   # Editors
