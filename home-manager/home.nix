@@ -29,8 +29,7 @@
     pkgs.mpv
     pkgs.zoom-us
     pkgs.yubikey-manager
-    pkgs.whatsapp-for-linux
-    pkgs.signal-desktop
+    pkgs.ferdium
     pkgs.tailscale
     pkgs.texlive.combined.scheme-medium
     pkgs.imagemagick
@@ -42,6 +41,7 @@
     pkgs.graphviz
 
     # Fonts
+    pkgs.b612
     pkgs.font-awesome
     pkgs.liberation_ttf
     pkgs.emacs-all-the-icons-fonts

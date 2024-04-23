@@ -11,24 +11,13 @@
     inputs.home-manager.nixosModules.default
   ];
 
-  # Autoupdate and build optimisation
-  system.autoUpgrade = {
-    enable = true;
-    flake = inputs.self.outPath;
-    flags = [
-      "--update-input"
-      "nixpkgs"
-      "-L" # print build logs
-    ];
-    dates = "02:00";
-    randomizedDelaySec = "45min";
-  };
   nix.settings.auto-optimise-store = true;
   nix.gc = {
     automatic = true;
     dates = "weekly";
     options = "--delete-older-than 30d";
   };
+
 
   # Nixpkgs config
   nixpkgs = {
@@ -62,11 +51,12 @@
         useOSProber = true;
       };
     };
+    initrd = {
+      systemd.enable = true;
+      verbose = false;
+      luks.devices."luks-48e95629-d19a-4e8a-924e-53c660939c0c".device = "/dev/disk/by-uuid/48e95629-d19a-4e8a-924e-53c660939c0c";
+    };
   };
-
-  boot.initrd.luks.devices."luks-48e95629-d19a-4e8a-924e-53c660939c0c".device = "/dev/disk/by-uuid/48e95629-d19a-4e8a-924e-53c660939c0c";
-  boot.initrd.systemd.enable = true;
-  boot.initrd.verbose = false;
 
   networking.hostName = "asus-a15";
   services.openssh.enable = true;
@@ -83,6 +73,7 @@
   # Select internationalisation properties.
   i18n.defaultLocale = "en_US.UTF-8";
   i18n.extraLocaleSettings = {
+    LANGUAGE = "en_US.UTF-8";
     LC_ADDRESS = "nl_NL.UTF-8";
     LC_IDENTIFICATION = "nl_NL.UTF-8";
     LC_MEASUREMENT = "nl_NL.UTF-8";
@@ -152,7 +143,7 @@
   };
 
   # Trim
-  services.fstrim.enable = lib.mkDefault true;
+  services.fstrim.enable = true;
 
   # Shell
   users.defaultUserShell = pkgs.zsh;
@@ -171,7 +162,7 @@
 
   # KDE setup
   services.xserver.enable = true;
-  services.xserver.displayManager.sddm.enable = true;
+  services.displayManager.sddm.enable = true;
   services.xserver.desktopManager.plasma5.enable = true;
 
   # User
@@ -226,7 +217,6 @@
     enable = true;
     enableUserService = true;
   };
-  services.gnome.gnome-keyring.enable = true;
   services.emacs = {
     enable = true;
     package = pkgs.emacs;
