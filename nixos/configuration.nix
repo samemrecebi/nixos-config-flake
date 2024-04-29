@@ -212,7 +212,6 @@
     };
   };
   programs.virt-manager.enable = true;
-  programs.nix-ld.enable = true;
 
   # Extra system services
   services.tailscale.enable = true;

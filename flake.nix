@@ -11,6 +11,9 @@
     home-manager.inputs.nixpkgs.follows = "nixpkgs";
     # My Nix Hardware Fork
     nixos-hardware.url = "github:samemrecebi/nixos-hardware/asus-tuf-fa507nv";
+    # Nix-ld
+    nix-ld.url = "github:Mic92/nix-ld";
+    nix-ld.inputs.nixpkgs.follows = "nixpkgs";
   };
 
   outputs = {
@@ -45,6 +48,8 @@
         modules = [
           ./nixos/configuration.nix
           nixos-hardware.nixosModules.asus-fa507nv
+          nix-ld.nixosModules.nix-ld
+          { programs.nix-ld.dev.enable = true; }
           home-manager.nixosModules.home-manager
           {
             home-manager.useGlobalPkgs = true;
