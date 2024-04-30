@@ -213,6 +213,21 @@
   };
   programs.virt-manager.enable = true;
 
+  # Nix-ld
+  programs.nix-ld.enable = true;
+  programs.nix-ld.libraries = with pkgs; [
+    stdenv.cc.cc
+    zlib
+    fuse3
+    icu
+    zlib
+    nss
+    openssl
+    curl
+    expat
+    # ...
+  ];
+
   # Extra system services
   services.tailscale.enable = true;
   services.tailscale.useRoutingFeatures = "client";

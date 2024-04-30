@@ -11,9 +11,16 @@
   home.stateVersion = "23.11"; # Please read the comment before changing.
   xdg.enable = true;
 
+  nixpkgs = {
+    overlays = [
+      outputs.overlays.additions
+      outputs.overlays.modifications
+      outputs.overlays.stable-packages
+    ];
+  };
+
   home.packages = [
     # General packages
-    pkgs.stow
     pkgs.firefox
     pkgs.discord
     pkgs.alacritty
@@ -32,6 +39,10 @@
     pkgs.tailscale
     pkgs.texlive.combined.scheme-medium
     pkgs.imagemagick
+
+    # Shell programs
+    pkgs.zoxide
+    pkgs.stow
 
     # Office Program
     pkgs.libreoffice-qt
@@ -76,6 +87,9 @@
   # Shell and related programs
   programs.starship.enable = true;
   programs.git.enable = true;
+
+  # Reload system units when config is changed
+  systemd.user.startServices = "sd-switch";
 
   programs.home-manager.enable = true;
 }
