@@ -8,7 +8,18 @@
 }: {
   imports = [
     ./hardware-configuration.nix
+
+    # Home Manager as module
     inputs.home-manager.nixosModules.default
+
+    # Modules
+    outputs.nixosModules.nix-ld
+    outputs.nixosModules.kvm
+    outputs.nixosModules.zsh
+    outputs.nixosModules.docker
+    outputs.nixosModules.kde
+    outputs.nixosModules.tailscale
+    outputs.nixosModules.asusd
   ];
 
   nix.settings.auto-optimise-store = true;
@@ -17,7 +28,6 @@
     dates = "weekly";
     options = "--delete-older-than 30d";
   };
-
 
   # Nixpkgs config
   nixpkgs = {
@@ -151,25 +161,15 @@
   # Trim
   services.fstrim.enable = true;
 
-  # Shell
-  users.defaultUserShell = pkgs.zsh;
-  environment.shells = with pkgs; [zsh];
-  programs.zsh.enable = true;
-
   # XDG Stuff
   environment = {
     sessionVariables = {
-      XDG_CACHE_HOME  = "$HOME/.cache";
+      XDG_CACHE_HOME = "$HOME/.cache";
       XDG_CONFIG_HOME = "$HOME/.config";
-      XDG_DATA_HOME   = "$HOME/.local/share";
-      XDG_BIN_HOME    = "$HOME/.local/bin";
+      XDG_DATA_HOME = "$HOME/.local/share";
+      XDG_BIN_HOME = "$HOME/.local/bin";
     };
   };
-
-  # KDE setup
-  services.xserver.enable = true;
-  services.displayManager.sddm.enable = true;
-  services.xserver.desktopManager.plasma5.enable = true;
 
   # User
   users.users.emrecebi = {
@@ -181,6 +181,7 @@
   # System packages
   environment.systemPackages = with pkgs; [
     neofetch
+    htop
     yubikey-agent
     man
     sl
@@ -188,55 +189,13 @@
     curl
     ffmpeg
     lshw
-    spice
-    docker-compose
     coreutils
     binutils
     pciutils
     libtool
   ];
-  virtualisation.docker.enable = true;
-  virtualisation.libvirtd = {
-    enable = true;
-    qemu = {
-      package = pkgs.qemu_kvm;
-      runAsRoot = true;
-      swtpm.enable = true;
-      ovmf = {
-        enable = true;
-        packages = [(pkgs.OVMF.override {
-          secureBoot = true;
-          tpmSupport = true;
-        }).fd];
-      };
-    };
-  };
-  programs.virt-manager.enable = true;
-
-  # Nix-ld
-  programs.nix-ld.enable = true;
-  programs.nix-ld.libraries = with pkgs; [
-    stdenv.cc.cc
-    zlib
-    fuse3
-    icu
-    zlib
-    nss
-    openssl
-    curl
-    expat
-    # ...
-  ];
 
   # Extra system services
-  services.tailscale.enable = true;
-  services.tailscale.useRoutingFeatures = "client";
-  networking.firewall.trustedInterfaces = [ "tailscale0" ];
-  services.supergfxd.enable = true;
-  services.asusd = {
-    enable = true;
-    enableUserService = true;
-  };
   services.emacs = {
     enable = true;
     package = pkgs.emacs;

@@ -40,16 +40,16 @@
 
     # NixOS configuration entrypoint
     nixosConfigurations = {
-      default = nixpkgs.lib.nixosSystem {
+      a15 = nixpkgs.lib.nixosSystem {
         specialArgs = {inherit inputs outputs;};
         modules = [
-          ./nixos/configuration.nix
+          ./nixos/a15/configuration.nix
           nixos-hardware.nixosModules.asus-fa507nv
           home-manager.nixosModules.home-manager
           {
             home-manager.useGlobalPkgs = true;
             home-manager.useUserPackages = true;
-            home-manager.users.emrecebi = import ./home-manager/home.nix;
+            home-manager.users.emrecebi = import ./home-manager/a15/home.nix;
             home-manager.extraSpecialArgs = {inherit inputs outputs;};
           }
         ];
