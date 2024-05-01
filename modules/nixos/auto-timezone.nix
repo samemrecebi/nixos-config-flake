@@ -1,4 +1,7 @@
-{self, pkgs, ...} : 
 {
-    services.automatic-timezoned.enable = true;
+  self,
+  pkgs,
+  ...
+}: {
+  services.automatic-timezoned.enable = true;
 }

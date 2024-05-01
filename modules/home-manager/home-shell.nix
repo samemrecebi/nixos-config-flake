@@ -1,18 +1,22 @@
-{pkgs, ...}:
-{
-    home.packages = [
-        pkgs.alacritty
-        pkgs.stow 
-        pkgs.zoxide
-    ];
+{pkgs, ...}: {
+  home.packages = [
+    pkgs.alacritty
+    pkgs.stow
+  ];
 
-    programs = {
-        direnv = {
-            enable = true;
-            enableZshIntegration = true; # see note on other shells below
-            nix-direnv.enable = true;
-        };
-    };
-    programs.starship.enable = true;
-    programs.git.enable = true;
+  programs.direnv = {
+    enable = true;
+    enableZshIntegration = true;
+    nix-direnv.enable = true;
+  };
+  programs.zoxide = {
+    enable = true;
+    enableZshIntegration = true;
+  };
+  programs.fzf = {
+    enable = true;
+    enableZshIntegration = true;
+  };
+  programs.starship.enable = true;
+  programs.git.enable = true;
 }

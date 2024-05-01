@@ -1,5 +1,8 @@
-{ pkgs, self, ... }:
 {
+  pkgs,
+  self,
+  ...
+}: {
   # Enable nix ld
   programs.nix-ld.enable = true;
 
