@@ -46,12 +46,6 @@
           ./nixos/a15/configuration.nix
           nixos-hardware.nixosModules.asus-fa507nv
           home-manager.nixosModules.home-manager
-          {
-            home-manager.useGlobalPkgs = true;
-            home-manager.useUserPackages = true;
-            home-manager.users.emrecebi = import ./home-manager/a15/home.nix;
-            home-manager.extraSpecialArgs = {inherit inputs outputs;};
-          }
         ];
       };
     };

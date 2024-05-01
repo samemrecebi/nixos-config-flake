@@ -25,6 +25,13 @@
     outputs.nixosModules.nh
   ];
 
+  home-manager = {
+    extraSpecialArgs = { inherit inputs outputs; };
+    users.emrecebi = import ../home-manager/a15/home.nix;
+    useGlobalPkgs = true;
+    useUserPackages = true;
+  };
+
   # Nixpkgs config
   nixpkgs = {
     overlays = [
@@ -66,14 +73,16 @@
   };
   systemd.network.wait-online.enable = false;
 
-  networking.hostName = "asus-a15";
-  services.openssh.enable = true;
-
   # Enable networking
   networking.networkmanager.enable = true;
+  networking.hostName = "asus-a15";
 
   # Firewall
   networking.firewall.enable = true;
+
+  #SSH
+  services.openssh.enable = true;
+  programs.ssh.startAgent = true;
 
   # Configure keymap in X11
   services.xserver.xkb = {
@@ -81,9 +90,16 @@
     variant = "";
   };
 
+  fonts.fontconfig.antialias = true;
+  fonts.fontconfig.subpixel = {
+    rgba = "none";
+    lcdfilter = "none";
+  };
+
   # Nvidia setup
   hardware.opengl = {
     enable = true;
+    setLdLibraryPath = true;
     driSupport = true;
     driSupport32Bit = true;
     extraPackages = with pkgs; [
@@ -129,6 +145,9 @@
     powerOnBoot = true;
   };
 
+  # Mouse
+  services.ratbagd.enable = true;
+
   # User
   users.users.emrecebi = {
     isNormalUser = true;
@@ -153,8 +172,6 @@
     enable = true;
     package = pkgs.emacs;
   };
-
-  programs.ssh.startAgent = true;
 
   nix.settings.experimental-features = ["nix-command" "flakes"];
   system.stateVersion = "23.11";
