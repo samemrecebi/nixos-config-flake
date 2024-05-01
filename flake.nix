@@ -40,7 +40,7 @@
 
     # NixOS configuration entrypoint
     nixosConfigurations = {
-      a15 = nixpkgs.lib.nixosSystem {
+      asus-a15 = nixpkgs.lib.nixosSystem {
         specialArgs = {inherit inputs outputs;};
         modules = [
           ./nixos/a15/configuration.nix

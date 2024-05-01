@@ -20,14 +20,10 @@
     outputs.nixosModules.kde
     outputs.nixosModules.tailscale
     outputs.nixosModules.asusd
+    outputs.nixosModules.i18n
+    outputs.nixosModules.auto-timezone
+    outputs.nixosModules.nh
   ];
-
-  nix.settings.auto-optimise-store = true;
-  nix.gc = {
-    automatic = true;
-    dates = "weekly";
-    options = "--delete-older-than 30d";
-  };
 
   # Nixpkgs config
   nixpkgs = {
@@ -79,28 +75,6 @@
   # Firewall
   networking.firewall.enable = true;
 
-  # Set your time zone.
-  time.timeZone = "Europe/Amsterdam";
-
-  # Select internationalisation properties.
-  i18n.supportedLocales = [
-    "en_US.UTF-8/UTF-8"
-    "nl_NL.UTF-8/UTF-8"
-    "tr_TR.UTF-8/UTF-8"
-  ];
-  i18n.defaultLocale = "en_US.UTF-8";
-  i18n.extraLocaleSettings = {
-    LC_ADDRESS = "nl_NL.UTF-8";
-    LC_IDENTIFICATION = "nl_NL.UTF-8";
-    LC_MEASUREMENT = "tr_TR.UTF-8";
-    LC_MONETARY = "nl_NL.UTF-8";
-    LC_NAME = "tr_TR.UTF-8";
-    LC_NUMERIC = "nl_NL.UTF-8";
-    LC_PAPER = "nl_NL.UTF-8";
-    LC_TELEPHONE = "nl_NL.UTF-8";
-    LC_TIME = "tr_TR.UTF-8";
-  };
-
   # Configure keymap in X11
   services.xserver.xkb = {
     layout = "us";
@@ -134,9 +108,6 @@
     };
   };
 
-  # Enable CUPS to print documents.
-  services.printing.enable = true;
-
   # Enable sound with pipewire.
   sound.enable = true;
   hardware.pulseaudio.enable = false;
@@ -158,19 +129,6 @@
     powerOnBoot = true;
   };
 
-  # Trim
-  services.fstrim.enable = true;
-
-  # XDG Stuff
-  environment = {
-    sessionVariables = {
-      XDG_CACHE_HOME = "$HOME/.cache";
-      XDG_CONFIG_HOME = "$HOME/.config";
-      XDG_DATA_HOME = "$HOME/.local/share";
-      XDG_BIN_HOME = "$HOME/.local/bin";
-    };
-  };
-
   # User
   users.users.emrecebi = {
     isNormalUser = true;
@@ -182,15 +140,10 @@
   environment.systemPackages = with pkgs; [
     neofetch
     htop
-    yubikey-agent
     man
     sl
     wget
     curl
-    ffmpeg
-    lshw
-    coreutils
-    binutils
     pciutils
     libtool
   ];
@@ -200,6 +153,9 @@
     enable = true;
     package = pkgs.emacs;
   };
+
+  programs.ssh.startAgent = true;
+
   nix.settings.experimental-features = ["nix-command" "flakes"];
   system.stateVersion = "23.11";
 }

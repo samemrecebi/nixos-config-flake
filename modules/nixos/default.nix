@@ -9,4 +9,7 @@
   kde = import ./kde.nix;
   tailscale = import ./tailscale.nix;
   zsh = import ./zsh.nix;
+  i18n = import ./i18n.nix;
+  auto-timezone = import ./auto-timezone.nix;
+  nh = import ./nh.nix;
 }
