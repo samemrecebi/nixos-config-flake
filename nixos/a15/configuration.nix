@@ -9,9 +9,6 @@
   imports = [
     ./hardware-configuration.nix
 
-    # Home Manager as module
-    inputs.home-manager.nixosModules.default
-
     # Modules
     outputs.nixosModules.nix-ld
     outputs.nixosModules.kvm
@@ -24,13 +21,6 @@
     outputs.nixosModules.auto-timezone
     outputs.nixosModules.nh
   ];
-
-  home-manager = {
-    extraSpecialArgs = { inherit inputs outputs; };
-    users.emrecebi = import ../home-manager/a15/home.nix;
-    useGlobalPkgs = true;
-    useUserPackages = true;
-  };
 
   # Nixpkgs config
   nixpkgs = {
