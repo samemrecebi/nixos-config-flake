@@ -1,6 +1,7 @@
 {pkgs, ...}: {
   home.packages = [
     pkgs.jetbrains.idea-ultimate
+    pkgs.jetbrains.clion
     pkgs.termius
   ];
 
@@ -14,4 +15,7 @@
     enable = true;
     package = pkgs.emacs;
   };
+
+  # Tools and programs
+  programs.java = { enable = true; package = pkgs.oraclejre8; };
 }
