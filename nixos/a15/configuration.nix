@@ -145,6 +145,9 @@
     extraGroups = ["networkmanager" "wheel" "docker" "libvirtd"];
   };
 
+  # Flatpak
+  services.flatpak.enable = true;
+
   # System packages
   environment.systemPackages = with pkgs; [
     neofetch
