@@ -11,6 +11,9 @@
     home-manager.inputs.nixpkgs.follows = "nixpkgs";
     # My Nix Hardware Fork
     nixos-hardware.url = "github:NixOS/nixos-hardware/master";
+    # Nix Darwin
+    nix-darwin.url = "github:lnl7/nix-darwin/master";
+    nix-darwin.inputs.nixpkgs.follows = "nixpkgs";
   };
 
   outputs = {
@@ -19,6 +22,7 @@
     nixpkgs-stable,
     home-manager,
     nixos-hardware,
+    nix-darwin,
     ...
   } @ inputs: let
     inherit (self) outputs;
@@ -58,6 +62,24 @@
         specialArgs = {inherit inputs outputs;};
         modules = [
           ./nixos/iso/configuration.nix
+        ];
+      };
+    };
+    darwinConfigurations = let
+      inherit (inputs.nix-darwin.lib) darwinSystem;
+    in {
+        mbp = nixpkgs.lib.nixosSystem {
+        system = "aarch64-darwin";
+        specialArgs = {inherit inputs outputs;};
+        modules = [
+          ./nixos/mbp/configuration.nix
+          home-manager.darwinModules.home-manager
+          {
+            home-manager.useGlobalPkgs = true;
+            home-manager.useUserPackages = true;
+            home-manager.users.emrecebi = import ./home-manager/mbp/home.nix;
+            home-manager.extraSpecialArgs = {inherit inputs outputs;};
+          }
         ];
       };
     };
