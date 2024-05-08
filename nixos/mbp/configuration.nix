@@ -5,9 +5,7 @@
   config,
   pkgs,
   ...
-}: {
-services.nix-daemon.enable = true;
- 
+}: { 
   users.users.emrecebi = {
     home = "/Users/emrecebi";
   };
@@ -17,4 +15,7 @@ services.nix-daemon.enable = true;
     experimental-features = nix-command flakes
     extra-platforms = x86_64-darwin aarch64-darwin
   '';
+
+  services.nix-daemon.enable = true;
+  nix.package = pkgs.nix;
 }

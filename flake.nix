@@ -65,10 +65,8 @@
         ];
       };
     };
-    darwinConfigurations = let
-      inherit (inputs.nix-darwin.lib) darwinSystem;
-    in {
-        mbp = nixpkgs.lib.nixosSystem {
+    darwinConfigurations."Emres-MacBook-Pro" = 
+      nix-darwin.lib.darwinSystem {
         system = "aarch64-darwin";
         specialArgs = {inherit inputs outputs;};
         modules = [
@@ -82,6 +80,5 @@
           }
         ];
       };
-    };
   };
 }
