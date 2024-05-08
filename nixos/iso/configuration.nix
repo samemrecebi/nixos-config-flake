@@ -4,8 +4,11 @@
   ...
 }: {
   imports = [
-    "${modulesPath}/installer/cd-dvd/installation-cd-graphical-plasma5-new-kernel.nix"
+    "${modulesPath}/installer/cd-dvd/installation-cd-graphical-gnome.nix"
   ];
+
+    boot.kernelPackages = pkgs.linuxPackages_latest;
+
   nixpkgs = {
     hostPlatform = "x86_64-linux";
     config = {

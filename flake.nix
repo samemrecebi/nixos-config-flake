@@ -54,7 +54,7 @@
           }
         ];
       };
-      installIso = nixpkgs.lib.nixosSystem {
+      installerIso = nixpkgs.lib.nixosSystem {
         specialArgs = {inherit inputs outputs;};
         modules = [
           ./nixos/iso/configuration.nix

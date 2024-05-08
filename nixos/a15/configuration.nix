@@ -103,12 +103,14 @@
   hardware.nvidia = {
     modesetting.enable = true;
     powerManagement.enable = true;
-    powerManagement.finegrained = false;
+    powerManagement.finegrained = true;
     open = false;
     nvidiaSettings = true;
     package = config.boot.kernelPackages.nvidiaPackages.production;
     prime = {
-      sync.enable = true;
+      sync.enable = false;
+      offload.enable = true;
+      offload.enableOffloadCmd = true;
       amdgpuBusId = "PCI:54:0:0";
       nvidiaBusId = "PCI:1:0:0";
     };
@@ -158,7 +160,14 @@
     curl
     pciutils
     libtool
+    mangohud
+    protonup-ng
   ];
+
+  # Gaming
+  programs.steam.enable = true;
+  programs.steam.gamescopeSession.enable = true;
+  programs.gamemode.enable = true;
 
   # Extra system services
   services.emacs = {
