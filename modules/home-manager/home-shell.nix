@@ -1,7 +1,6 @@
 {pkgs, ...}: {
   home.packages = [
     pkgs.alacritty
-    pkgs.stow
   ];
 
   programs.direnv = {

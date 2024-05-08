@@ -21,7 +21,6 @@
     overlays = [
       outputs.overlays.additions
       outputs.overlays.modifications
-      outputs.overlays.stable-packages
     ];
   };
 
@@ -48,6 +47,16 @@
     pkgs.hunspell
     pkgs.hunspellDicts.en_US
   ];
+
+  # Dotfiles
+  home.file = {
+     ".zshrc".source = config.lib.file.mkOutOfStoreSymlink "${config.home.homeDirectory}/.dotfiles/.zshrc";   
+    ".gitconfig".source = config.lib.file.mkOutOfStoreSymlink "${config.home.homeDirectory}/.dotfiles/.gitconfig";
+    ".config/starship.toml".source = config.lib.file.mkOutOfStoreSymlink "${config.home.homeDirectory}/.dotfiles/.config/starship.toml";
+    ".config/alacritty/alacritty.toml".source = config.lib.file.mkOutOfStoreSymlink "${config.home.homeDirectory}/.dotfiles/.config/alacritty/alacritty.toml";
+    ".emacs.d/init.el".source = config.lib.file.mkOutOfStoreSymlink "${config.home.homeDirectory}/.dotfiles/.emacs.d/init.el";
+    ".emacs.d/early-init.el".source = config.lib.file.mkOutOfStoreSymlink "${config.home.homeDirectory}/.dotfiles/.emacs.d/early-init.el";
+  };
 
   # GPG
   programs.gpg.enable = true;
