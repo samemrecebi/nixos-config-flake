@@ -1,25 +1,56 @@
-{ pkgs, ... }:
- 
 {
-  home.stateVersion = "23.11";
- 
-  home.packages = with pkgs; [
-
+  inputs,
+  outputs,
+  lib,
+  config,
+  pkgs,
+  ...
+}: {
+  imports = [
+    outputs.homeManagerModules.home-fonts
   ];
 
   programs.zsh = {
     enable = true;
     shellAliases = {
-      em="emacsclient -c -n -a ''";
-      updatesys="brew update && brew upgrade";
+      em = "emacsclient -c -n -a ''";
+      updatesys = "darwin-rebuild switch --flake ~/.nix-config";
     };
+    history.size = 10000;
+    history.path = "${config.xdg.dataHome}/zsh/history";
+    initExtra = ''
+      . ~/.dotfiles/.zshrc
+    '';
   };
   programs.starship.enable = true;
+  programs.direnv = {
+    enable = true;
+    enableZshIntegration = true;
+    nix-direnv.enable = true;
+  };
+  programs.zoxide = {
+    enable = true;
+    enableZshIntegration = true;
+  };
+  programs.fzf = {
+    enable = true;
+    enableZshIntegration = true;
+  };
 
-  home.file.".gitconfig".source = ../../dotfiles/.gitconfig;
-  home.file.".config/starship.toml".source = ../../dotfiles/.config/starship.toml;
-  home.file.".config/alacritty/alacritty.toml".source = ../../dotfiles/.config/alacritty/alacritty.toml;
-  home.file.".emacs.d/init.el".source = ../../dotfiles/.emacs.d/init.el;
-  home.file.".emacs.d/early-init.el".source = ../../dotfiles/.emacs.d/early-init.el;
+  programs.emacs = {
+    enable = true;
+    package = pkgs.emacs;
+  };
+
+  programs.git.enable = true;
+  home.file = {
+    ".gitconfig".source = config.lib.file.mkOutOfStoreSymlink "${config.home.homeDirectory}/.dotfiles/.gitconfig";
+    ".config/starship.toml".source = config.lib.file.mkOutOfStoreSymlink "${config.home.homeDirectory}/.dotfiles/.config/starship.toml";
+    ".config/alacritty/alacritty.toml".source = config.lib.file.mkOutOfStoreSymlink "${config.home.homeDirectory}/.dotfiles/.config/alacritty/alacritty.toml";
+    ".emacs.d/init.el".source = config.lib.file.mkOutOfStoreSymlink "${config.home.homeDirectory}/.dotfiles/.emacs.d/init.el";
+    ".emacs.d/early-init.el".source = config.lib.file.mkOutOfStoreSymlink "${config.home.homeDirectory}/.dotfiles/.emacs.d/early-init.el";
+  };
+
+  home.stateVersion = "23.11";
+  programs.home-manager.enable = true;
 }
- 

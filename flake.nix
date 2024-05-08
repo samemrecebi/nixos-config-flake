@@ -4,8 +4,6 @@
   inputs = {
     # Nixpkgs
     nixpkgs.url = "github:nixos/nixpkgs/nixos-unstable";
-    # Nixpkgs stable
-    nixpkgs-stable.url = "github:nixos/nixpkgs/nixos-23.11";
     # Home manager
     home-manager.url = "github:nix-community/home-manager";
     home-manager.inputs.nixpkgs.follows = "nixpkgs";
@@ -19,7 +17,6 @@
   outputs = {
     self,
     nixpkgs,
-    nixpkgs-stable,
     home-manager,
     nixos-hardware,
     nix-darwin,
@@ -45,6 +42,7 @@
     # NixOS configuration entrypoint
     nixosConfigurations = {
       asus-a15 = nixpkgs.lib.nixosSystem {
+        system = "x86_64-linux";
         specialArgs = {inherit inputs outputs;};
         modules = [
           ./nixos/a15/configuration.nix
@@ -59,26 +57,26 @@
         ];
       };
       installerIso = nixpkgs.lib.nixosSystem {
+        system = "x86_64-linux";
         specialArgs = {inherit inputs outputs;};
         modules = [
           ./nixos/iso/configuration.nix
         ];
       };
     };
-    darwinConfigurations."Emres-MacBook-Pro" = 
-      nix-darwin.lib.darwinSystem {
-        system = "aarch64-darwin";
-        specialArgs = {inherit inputs outputs;};
-        modules = [
-          ./nixos/mbp/configuration.nix
-          home-manager.darwinModules.home-manager
-          {
-            home-manager.useGlobalPkgs = true;
-            home-manager.useUserPackages = true;
-            home-manager.users.emrecebi = import ./home-manager/mbp/home.nix;
-            home-manager.extraSpecialArgs = {inherit inputs outputs;};
-          }
-        ];
-      };
+    darwinConfigurations."Emres-MacBook-Pro" = nix-darwin.lib.darwinSystem {
+      system = "aarch64-darwin";
+      specialArgs = {inherit inputs outputs;};
+      modules = [
+        ./nixos/mbp/configuration.nix
+        home-manager.darwinModules.home-manager
+        {
+          home-manager.useGlobalPkgs = true;
+          home-manager.useUserPackages = true;
+          home-manager.users.emrecebi = import ./home-manager/mbp/home.nix;
+          home-manager.extraSpecialArgs = {inherit inputs outputs;};
+        }
+      ];
+    };
   };
 }

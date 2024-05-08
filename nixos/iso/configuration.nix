@@ -7,7 +7,7 @@
     "${modulesPath}/installer/cd-dvd/installation-cd-graphical-gnome.nix"
   ];
 
-    boot.kernelPackages = pkgs.linuxPackages_latest;
+  boot.kernelPackages = pkgs.linuxPackages_latest;
 
   nixpkgs = {
     hostPlatform = "x86_64-linux";
