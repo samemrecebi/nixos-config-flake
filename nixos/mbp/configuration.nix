@@ -38,6 +38,12 @@
     pandoc
     pyenv
     yubikey-agent
+    coreutils
+    moreutils
+    gcc
+    python3
+    wget
+    gnupg
   ];
 
   homebrew = {
