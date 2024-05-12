@@ -12,6 +12,9 @@
 
   programs.zsh = {
     enable = true;
+    enableCompletion = true;
+    autosuggestion.enable = true;
+
     shellAliases = {
       em = "emacsclient -c -n -a ''";
       updatesys = "darwin-rebuild switch --flake ~/.nix-config";
@@ -41,8 +44,12 @@
     enable = true;
     package = pkgs.emacs;
   };
-
   programs.git.enable = true;
+
+  home.sessionVariables = {
+    EDITOR = "em";
+  };
+
   home.file = {
     ".gitconfig".source = config.lib.file.mkOutOfStoreSymlink "${config.home.homeDirectory}/.dotfiles/.gitconfig";
     ".config/starship.toml".source = config.lib.file.mkOutOfStoreSymlink "${config.home.homeDirectory}/.dotfiles/.config/starship.toml";
