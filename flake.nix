@@ -9,6 +9,9 @@
     home-manager.inputs.nixpkgs.follows = "nixpkgs";
     # My Nix Hardware Fork
     nixos-hardware.url = "github:NixOS/nixos-hardware/master";
+    # Formatter
+    alejandra.url = "github:kamadorueda/alejandra/3.0.0";
+    alejandra.inputs.nixpkgs.follows = "nixpkgs";
     # Nix Darwin
     nix-darwin.url = "github:lnl7/nix-darwin/master";
     nix-darwin.inputs.nixpkgs.follows = "nixpkgs";
@@ -38,6 +41,7 @@
     nixpkgs,
     home-manager,
     nixos-hardware,
+    alejandra,
     nix-darwin,
     nix-homebrew,
     homebrew-core,
@@ -66,7 +70,7 @@
 
     # NixOS configuration entrypoint
     nixosConfigurations = {
-      asus-a15 = nixpkgs.lib.nixosSystem {
+      asus-a15 = nixpkgs.lib.nixosSystem rec {
         system = "x86_64-linux";
         specialArgs = {inherit inputs outputs;};
         modules = [
@@ -79,9 +83,12 @@
             home-manager.users.emrecebi = import ./home-manager/a15/home.nix;
             home-manager.extraSpecialArgs = {inherit inputs outputs;};
           }
+          {
+            environment.systemPackages = [alejandra.defaultPackage.${system}];
+          }
         ];
       };
-      installerIso = nixpkgs.lib.nixosSystem {
+      installerIso = nixpkgs.lib.nixosSystem rec {
         system = "x86_64-linux";
         specialArgs = {inherit inputs outputs;};
         modules = [
@@ -89,7 +96,7 @@
         ];
       };
     };
-    darwinConfigurations."Emres-MacBook-Pro" = nix-darwin.lib.darwinSystem {
+    darwinConfigurations."Emres-MacBook-Pro" = nix-darwin.lib.darwinSystem rec {
       system = "aarch64-darwin";
       specialArgs = {inherit inputs outputs;};
       modules = [
@@ -115,6 +122,9 @@
             };
             mutableTaps = false;
           };
+        }
+        {
+          environment.systemPackages = [alejandra.defaultPackage.${system}];
         }
       ];
     };

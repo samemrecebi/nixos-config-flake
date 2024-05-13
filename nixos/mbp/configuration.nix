@@ -5,15 +5,15 @@
   config,
   pkgs,
   ...
-}: 
+}:
 # Universal python install (Im on a Mac I need it)
 let
-  python-with-global-packages = pkgs.python3.withPackages(ps: with ps; [
-    pip
-    botocore
-  ]);
-in
-{
+  python-with-global-packages = pkgs.python3.withPackages (ps:
+    with ps; [
+      pip
+      botocore
+    ]);
+in {
   # No imports yet no modules
   imports = [];
 
@@ -24,7 +24,7 @@ in
       allowAliases = false;
     };
   };
-  
+
   # User defined
   users.users.emrecebi = {
     home = "/Users/emrecebi";
@@ -101,6 +101,6 @@ in
   '';
   system.stateVersion = 4;
   services.nix-daemon.enable = true;
-  nix.settings.trusted-users = [ "emrecebi" ];
+  nix.settings.trusted-users = ["emrecebi"];
   security.pam.enableSudoTouchIdAuth = true;
 }

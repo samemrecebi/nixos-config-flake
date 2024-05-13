@@ -12,7 +12,6 @@
   xdg.enable = true;
 
   imports = [
-    outputs.homeManagerModules.developer
     outputs.homeManagerModules.home-fonts
     outputs.homeManagerModules.home-shell
   ];
@@ -31,16 +30,24 @@
     pkgs.bitwarden-desktop
     pkgs.protonmail-bridge-gui
     pkgs.thunderbird
-    pkgs.firefox
     pkgs.spotify
     pkgs.todoist-electron
     pkgs.qbittorrent
     pkgs.mpv
     pkgs.zoom-us
-    pkgs.ferdium
     pkgs.tailscale
     pkgs.texlive.combined.scheme-medium
     pkgs.imagemagick
+    pkgs.signal-desktop
+    pkgs.whatsapp-for-linux
+
+    # Developer Apps
+    pkgs.alacritty
+    pkgs.jetbrains.idea-ultimate
+    pkgs.jetbrains.clion
+    pkgs.termius
+    pkgs.nixpkgs-fmt
+    pkgs.nil
 
     # Office Program
     pkgs.libreoffice-qt
@@ -48,14 +55,30 @@
     pkgs.hunspellDicts.en_US
   ];
 
+  # Editors
+  programs.vscode = {
+    enable = true;
+    package = pkgs.vscode;
+  };
+
+  programs.emacs = {
+    enable = true;
+    package = pkgs.emacs;
+  };
+
+  # Tools and programs
+  programs.java.enable = true;
+
   # Dotfiles
   home.file = {
-    ".zshrc".source = config.lib.file.mkOutOfStoreSymlink "${config.home.homeDirectory}/.dotfiles/.zshrc";
-    ".gitconfig".source = config.lib.file.mkOutOfStoreSymlink "${config.home.homeDirectory}/.dotfiles/.gitconfig";
     ".config/starship.toml".source = config.lib.file.mkOutOfStoreSymlink "${config.home.homeDirectory}/.dotfiles/.config/starship.toml";
     ".config/alacritty/alacritty.toml".source = config.lib.file.mkOutOfStoreSymlink "${config.home.homeDirectory}/.dotfiles/.config/alacritty/alacritty.toml";
     ".emacs.d/init.el".source = config.lib.file.mkOutOfStoreSymlink "${config.home.homeDirectory}/.dotfiles/.emacs.d/init.el";
     ".emacs.d/early-init.el".source = config.lib.file.mkOutOfStoreSymlink "${config.home.homeDirectory}/.dotfiles/.emacs.d/early-init.el";
+  };
+
+  programs.zsh.sessionVariables = {
+    FLAKE = "/home/emrecebi/my-nixos-config";
   };
 
   # GPG

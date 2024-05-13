@@ -70,8 +70,12 @@
   networking.firewall.enable = true;
 
   #SSH
-  services.openssh.enable = true;
-  programs.ssh.startAgent = true;
+  programs.ssh = {
+    startAgent = true;
+  };
+  environment.shellInit = ''
+    export SSH_AUTH_SOCK=$XDG_RUNTIME_DIR/ssh-agent.socket
+  '';
 
   # Configure keymap in X11
   services.xserver.xkb = {
@@ -174,6 +178,23 @@
     package = pkgs.emacs;
   };
 
-  nix.settings.experimental-features = ["nix-command" "flakes"];
+  nix = let
+    flakeInputs = lib.filterAttrs (_: lib.isType "flake") inputs;
+  in {
+    settings = {
+      # Enable flakes and new 'nix' command
+      experimental-features = "nix-command flakes";
+      # Opinionated: disable global registry
+      flake-registry = "";
+      # Workaround for https://github.com/NixOS/nix/issues/9574
+      nix-path = config.nix.nixPath;
+    };
+    # Opinionated: disable channels
+    channel.enable = false;
+
+    # Opinionated: make flake registry and nix path match flake inputs
+    registry = lib.mapAttrs (_: flake: {inherit flake;}) flakeInputs;
+    nixPath = lib.mapAttrsToList (n: _: "${n}=flake:${n}") flakeInputs;
+  };
   system.stateVersion = "23.11";
 }
