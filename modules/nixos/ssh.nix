@@ -1,6 +1,7 @@
 {
   pkgs,
   options,
+  config,
   ...
 }: {
   #SSH

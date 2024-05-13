@@ -12,6 +12,10 @@
     # Formatter
     alejandra.url = "github:kamadorueda/alejandra/3.0.0";
     alejandra.inputs.nixpkgs.follows = "nixpkgs";
+    # Plasma manager
+    plasma-manager.url = "github:pjones/plasma-manager";
+    plasma-manager.inputs.nixpkgs.follows = "nixpkgs";
+    plasma-manager.inputs.home-manager.follows = "home-manager";
     # Nix Darwin
     nix-darwin.url = "github:lnl7/nix-darwin/master";
     nix-darwin.inputs.nixpkgs.follows = "nixpkgs";
@@ -42,6 +46,7 @@
     home-manager,
     nixos-hardware,
     alejandra,
+    plasma-manager,
     nix-darwin,
     nix-homebrew,
     homebrew-core,
@@ -80,11 +85,10 @@
           {
             home-manager.useGlobalPkgs = true;
             home-manager.useUserPackages = true;
-            home-manager.users.emrecebi = import ./home-manager/a15/home.nix;
             home-manager.extraSpecialArgs = {inherit inputs outputs;};
-          }
-          {
+            home-manager.users.emrecebi = import ./home-manager/a15/home.nix;
             environment.systemPackages = [alejandra.defaultPackage.${system}];
+            home-manager.sharedModules = [plasma-manager.homeManagerModules.plasma-manager];
           }
         ];
       };

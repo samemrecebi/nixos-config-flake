@@ -14,6 +14,7 @@
   imports = [
     outputs.homeManagerModules.home-fonts
     outputs.homeManagerModules.home-shell
+    outputs.homeManagerModules.plasma
   ];
 
   nixpkgs = {
@@ -48,6 +49,7 @@
     pkgs.termius
     pkgs.nixpkgs-fmt
     pkgs.nil
+    pkgs.clang-tools
 
     # Office Program
     pkgs.libreoffice-qt
