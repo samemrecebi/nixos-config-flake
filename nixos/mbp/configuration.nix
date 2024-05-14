@@ -5,17 +5,11 @@
   config,
   pkgs,
   ...
-}:
-# Universal python install (Im on a Mac I need it)
-let
-  python-with-global-packages = pkgs.python3.withPackages (ps:
-    with ps; [
-      pip
-      botocore
-    ]);
-in {
+}: {
   # No imports yet no modules
-  imports = [];
+  imports = [
+    outputs.darwinModules.python-global
+  ];
 
   # Pkgs settings
   nixpkgs = {
@@ -37,7 +31,6 @@ in {
     imagemagick
     docker
     docker-compose
-    git
     gnupg
     ispell
     pandoc
@@ -47,12 +40,11 @@ in {
     gcc
     wget
     gnupg
+    mas
 
     # Dev Packages
     nodejs
     nodePackages.npm
-    python-with-global-packages
-    pyenv
   ];
 
   # Mac homebrew (Nixpkgs gui apps wont work properly or missing)
@@ -64,6 +56,9 @@ in {
       cleanup = "zap";
     };
     taps = builtins.attrNames config.nix-homebrew.taps;
+    brews = [
+      # No brews rn
+    ];
     casks = [
       "keka"
       "discord"
@@ -80,6 +75,8 @@ in {
       "signal"
       "zulip"
       "termius"
+      "microsoft-word"
+      "microsoft-powerpoint"
     ];
     masApps = {
       Bitwarden = 1352778147;
