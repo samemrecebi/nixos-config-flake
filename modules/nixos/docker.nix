@@ -3,8 +3,12 @@
   self,
   ...
 }: {
-  virtualisation.docker.enable = true;
+  virtualisation.docker = {
+    enable = true;
+    enableOnBoot = true;
+  };
   environment.systemPackages = with pkgs; [
+    docker
     docker-compose
   ];
 }

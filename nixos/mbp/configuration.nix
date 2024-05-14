@@ -26,25 +26,11 @@
 
   # Apps
   environment.systemPackages = with pkgs; [
-    yt-dlp
-    hugo
-    imagemagick
     docker
     docker-compose
-    gnupg
-    ispell
-    pandoc
-    yubikey-agent
     coreutils
     moreutils
-    gcc
-    wget
-    gnupg
     mas
-
-    # Dev Packages
-    nodejs
-    nodePackages.npm
   ];
 
   # Mac homebrew (Nixpkgs gui apps wont work properly or missing)

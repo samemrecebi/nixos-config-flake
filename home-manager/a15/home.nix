@@ -15,6 +15,7 @@
     outputs.homeManagerModules.home-fonts
     outputs.homeManagerModules.home-shell
     outputs.homeManagerModules.plasma
+    outputs.homeManagerModules.common-programs
   ];
 
   nixpkgs = {
@@ -37,8 +38,6 @@
     pkgs.mpv
     pkgs.zoom-us
     pkgs.tailscale
-    pkgs.texlive.combined.scheme-medium
-    pkgs.imagemagick
     pkgs.signal-desktop
     pkgs.whatsapp-for-linux
 
@@ -47,9 +46,6 @@
     pkgs.jetbrains.idea-ultimate
     pkgs.jetbrains.clion
     pkgs.termius
-    pkgs.nixpkgs-fmt
-    pkgs.nil
-    pkgs.clang-tools
 
     # Office Program
     pkgs.libreoffice-qt
@@ -86,7 +82,7 @@
 
   # GPG
   programs.gpg.enable = true;
-  services.gpg-agent.enable = true;
+  services.gpg-agent.enable = false;
 
   # SSH
   services.ssh-agent.enable = true;

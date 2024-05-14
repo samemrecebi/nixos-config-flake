@@ -149,14 +149,6 @@
 
   # System packages
   environment.systemPackages = with pkgs; [
-    neofetch
-    htop
-    man
-    sl
-    wget
-    curl
-    pciutils
-    libtool
     mangohud
     protonup-ng
   ];

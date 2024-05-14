@@ -9,6 +9,7 @@
   imports = [
     outputs.homeManagerModules.home-fonts
     outputs.homeManagerModules.home-shell
+    outputs.homeManagerModules.common-programs
   ];
 
   programs.emacs = {
