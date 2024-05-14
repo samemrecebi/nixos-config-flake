@@ -54,8 +54,8 @@ in rec {
     src = fetchFromGitHub {
       owner = "tdd-ai";
       repo = "hunspell-tr";
-      rev = version;
-      sha256 = "0jma8mmrncyzd77kxliyngs4z6z4769g3nh0a7xn2pd4s5y2xdpy";
+      rev = "7302eca5f3652fe7ae3d3ec06c44697c97342b4e";
+      hash = "sha256-r/I5T/1e7gcp2XZ4UvnpFmWMTsNqLZSCbkqPcgC13PE=";
     };
 
     dictFileName = "tr_TR";

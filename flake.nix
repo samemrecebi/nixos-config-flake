@@ -16,6 +16,8 @@
     plasma-manager.url = "github:pjones/plasma-manager";
     plasma-manager.inputs.nixpkgs.follows = "nixpkgs";
     plasma-manager.inputs.home-manager.follows = "home-manager";
+    # Chaotic Nix
+    chaotic.url = "github:chaotic-cx/nyx/nyxpkgs-unstable";
     # Nix Darwin
     nix-darwin.url = "github:lnl7/nix-darwin/master";
     nix-darwin.inputs.nixpkgs.follows = "nixpkgs";
@@ -47,6 +49,7 @@
     nixos-hardware,
     alejandra,
     plasma-manager,
+    chaotic,
     nix-darwin,
     nix-homebrew,
     homebrew-core,
@@ -81,6 +84,7 @@
         modules = [
           ./nixos/a15/configuration.nix
           nixos-hardware.nixosModules.asus-fa507nv
+          chaotic.nixosModules.default
           home-manager.nixosModules.home-manager
           {
             home-manager.useGlobalPkgs = true;
