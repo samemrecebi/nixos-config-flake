@@ -74,10 +74,10 @@
 
   # Dotfiles
   home.file = {
-    ".config/starship.toml".source = config.lib.file.mkOutOfStoreSymlink "${config.home.homeDirectory}/.dotfiles/.config/starship.toml";
-    ".config/alacritty/alacritty.toml".source = config.lib.file.mkOutOfStoreSymlink "${config.home.homeDirectory}/.dotfiles/.config/alacritty/alacritty.toml";
-    ".emacs.d/init.el".source = config.lib.file.mkOutOfStoreSymlink "${config.home.homeDirectory}/.dotfiles/.emacs.d/init.el";
-    ".emacs.d/early-init.el".source = config.lib.file.mkOutOfStoreSymlink "${config.home.homeDirectory}/.dotfiles/.emacs.d/early-init.el";
+    ".config/starship.toml".source = ../../dotfiles/starship/starship.toml;
+    ".config/alacritty/alacritty.toml".source = ../../dotfiles/alacritty/alacritty.toml;
+    ".emacs.d/init.el".source = ../../dotfiles/emacs/init.el;
+    ".emacs.d/early-init.el".source = ../../dotfiles/emacs/early-init.el;
   };
 
   programs.zsh.sessionVariables = {

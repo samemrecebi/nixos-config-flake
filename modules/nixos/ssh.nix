@@ -8,6 +8,7 @@
   programs.ssh = {
     startAgent = true;
   };
+  security.pam.services.sddm.kwallet.enable = true;
   systemd.user.services.add-ssh-key = {
     inherit (config.systemd.user.services.ssh-agent) unitConfig wantedBy;
     bindsTo = [
