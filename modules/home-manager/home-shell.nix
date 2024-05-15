@@ -12,13 +12,13 @@
       em = "emacsclient -c -n -a ''";
       updatesys = "darwin-rebuild switch --flake ~/.nix";
     };
-    history.size = 10000;
-    history.path = "${config.xdg.dataHome}/zsh/history";
     sessionVariables = {
       DIRENV_LOG_FORMAT = ""; # silence direnv
       EDITOR = "code";
       NIXPKGS_ALLOW_UNFREE = "1";
     };
+    history.size = 10000;
+    history.path = "${config.xdg.dataHome}/zsh/history";
   };
 
   programs.starship.enable = true;
