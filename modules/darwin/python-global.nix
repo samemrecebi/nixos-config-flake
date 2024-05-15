@@ -17,5 +17,6 @@ in {
   environment.systemPackages = with pkgs; [
     python-with-global-packages
     pyenv
+    black
   ];
 }

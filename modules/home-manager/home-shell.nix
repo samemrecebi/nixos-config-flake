@@ -10,7 +10,7 @@
     syntaxHighlighting.enable = true;
     shellAliases = {
       em = "emacsclient -c -n -a ''";
-      updatesys = "darwin-rebuild switch --flake ~/.nix-config";
+      updatesys = "darwin-rebuild switch --flake ~/.nix";
     };
     history.size = 10000;
     history.path = "${config.xdg.dataHome}/zsh/history";
