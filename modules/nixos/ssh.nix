@@ -8,7 +8,21 @@
   programs.ssh = {
     startAgent = true;
   };
-  security.pam.services.sddm.kwallet.enable = true;
+  # security with polkit
+  security.polkit.enable = true;
+  # security with gnome-kering
+  services.gnome.gnome-keyring.enable = true;
+  security.pam.services.sddm.enableGnomeKeyring = true;
+  services.openssh = {
+    enable = true;
+    settings = {
+      X11Forwarding = true;
+      # root user is used for remote deployment, so we need to allow it
+      PermitRootLogin = "prohibit-password";
+      PasswordAuthentication = false; # disable password login
+    };
+    openFirewall = true;
+  };
   systemd.user.services.add-ssh-key = {
     inherit (config.systemd.user.services.ssh-agent) unitConfig wantedBy;
     bindsTo = [

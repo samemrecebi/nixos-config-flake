@@ -27,7 +27,6 @@
 
   home.packages = [
     # General packages
-    pkgs.firefox
     pkgs.discord
     pkgs.bitwarden-desktop
     pkgs.protonmail-bridge-gui
@@ -46,6 +45,8 @@
     pkgs.jetbrains.idea-ultimate
     pkgs.jetbrains.clion
     pkgs.termius
+    pkgs.python3Full
+    pkgs.black
 
     # Office Program
     pkgs.libreoffice-qt
@@ -53,6 +54,11 @@
     pkgs.hunspellDicts.en_US
     pkgs.hunspellDictTR.tr_TR
   ];
+
+  programs.firefox = {
+    enable = true;
+    nativeMessagingHosts = [ pkgs.kdePackages.plasma-browser-integration ];
+  };
 
   # Editors
   programs.vscode = {

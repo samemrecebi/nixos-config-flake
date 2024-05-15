@@ -9,13 +9,19 @@
 
   boot.kernelPackages = pkgs.linuxPackages_latest;
 
-  nixpkgs = {
-    hostPlatform = "x86_64-linux";
-    config = {
-      allowUnfree = true;
-      allowAliases = false;
-    };
+  boot.loader = {
+    grub.useOSProber = false;
+    systemd-boot.enable = true;
+    efi.canTouchEfiVariables = true;
   };
+
+  isoImage.squashfsCompression = "gzip -Xcompression-level 1";
+
+  services.xserver.displayManager.autoLogin = lib.mkForce {
+    enable = true;
+    user = "emrecebi";
+  };
+
   environment.systemPackages = with pkgs; [
     neofetch
     htop

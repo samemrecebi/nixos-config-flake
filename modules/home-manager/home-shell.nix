@@ -25,6 +25,9 @@
   programs.git = {
     enable = true;
     package = pkgs.gitFull;
+    extraConfig = {
+      pull.rebase = false;
+    };
     userName = "Emre Cebi";
     userEmail = "emre@cebi.io";
     extraConfig = {

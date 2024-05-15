@@ -21,7 +21,7 @@
 
     # LaTeX
     texliveMedium
-    
+
     # Dev Packages
     gcc
     clang-tools
@@ -29,5 +29,10 @@
     nil
     nodejs
     nodePackages.npm
+    rustfmt
+    rust-analyzer
+    nodePackages.prettier
+    nodePackages.typescript-language-server
+    gdb
   ];
 }
