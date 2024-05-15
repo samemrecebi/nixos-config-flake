@@ -40,7 +40,18 @@
   boot = {
     kernelPackages = pkgs.linuxPackages_latest;
     consoleLogLevel = 0;
-    kernelParams = ["quiet" "udev.log_level=0" "nvidia.NVreg_PreserveVideoMemoryAllocations=1"];
+    kernelParams = [
+      "quiet"
+      "udev.log_level=0"
+      "nvidia.NVreg_PreserveVideoMemoryAllocations=1"
+      "amd_pstate=guided"
+      "amdgpu"
+      "smd_prefcore=enable"
+      "iomem=relaxed"
+      "amdgpu.abmlevel=2"
+      "audit=0"
+      "nowatchdog"
+    ];
     plymouth = {
       enable = true;
       theme = "breeze";
@@ -63,6 +74,7 @@
     };
   };
   systemd.network.wait-online.enable = false;
+  zramSwap.enable = true;
 
   # Enable networking
   networking.networkmanager.enable = true;
