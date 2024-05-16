@@ -16,6 +16,9 @@
     outputs.homeManagerModules.home-shell
     outputs.homeManagerModules.plasma
     outputs.homeManagerModules.common-programs
+
+    # VSCode Server Fix
+    "${fetchTarball "https://github.com/msteen/nixos-vscode-server/tarball/master"}/modules/vscode-server/home.nix"
   ];
 
   nixpkgs = {
@@ -36,7 +39,6 @@
     pkgs.qbittorrent
     pkgs.mpv
     pkgs.zoom-us
-    pkgs.tailscale
     pkgs.signal-desktop
     pkgs.whatsapp-for-linux
 
@@ -58,7 +60,7 @@
 
   programs.firefox = {
     enable = true;
-    nativeMessagingHosts = [ pkgs.kdePackages.plasma-browser-integration ];
+    nativeMessagingHosts = [pkgs.kdePackages.plasma-browser-integration];
   };
 
   # Editors
@@ -66,14 +68,12 @@
     enable = true;
     package = pkgs.vscode;
   };
+  services.vscode-server.enable = true;
 
   programs.emacs = {
     enable = true;
     package = pkgs.emacs;
   };
-
-  # Tools and programs
-  programs.java.enable = true;
 
   # Dotfiles
   home.file = {
@@ -86,10 +86,6 @@
   programs.zsh.sessionVariables = {
     FLAKE = "/home/emrecebi/my-nixos-config";
   };
-
-  # GPG
-  programs.gpg.enable = true;
-  services.gpg-agent.enable = false;
 
   # SSH
   services.ssh-agent.enable = true;

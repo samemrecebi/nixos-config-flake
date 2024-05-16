@@ -1,9 +1,9 @@
-{
-  pkgs,
-  self,
-  ...
-}: {
-  services.tailscale.enable = true;
-  services.tailscale.useRoutingFeatures = "client";
+{pkgs, ...}: {
+  environment.systemPackages = with pkgs; [tailscale];
+  services.tailscale = {
+    enable = true;
+    useRoutingFeatures = "client";
+    openFirewall = true;
+  };
   networking.firewall.trustedInterfaces = ["tailscale0"];
 }

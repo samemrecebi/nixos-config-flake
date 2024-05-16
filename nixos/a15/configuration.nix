@@ -14,14 +14,14 @@
     outputs.nixosModules.nix-ld
     outputs.nixosModules.kvm
     outputs.nixosModules.zsh
-    outputs.nixosModules.docker
     outputs.nixosModules.kde
     outputs.nixosModules.tailscale
     outputs.nixosModules.asusd
     outputs.nixosModules.i18n
     outputs.nixosModules.auto-timezone
     outputs.nixosModules.nh
-    outputs.nixosModules.ssh
+    outputs.nixosModules.gaming
+    outputs.nixosModules.bootloader
   ];
 
   # Nixpkgs config
@@ -38,43 +38,25 @@
 
   # Bootloader.
   boot = {
-    kernelPackages = pkgs.linuxPackages_latest;
-    consoleLogLevel = 0;
+    extraModprobeConfig = "options kvm_amd nested=1";
     kernelParams = [
-      "quiet"
-      "udev.log_level=0"
       "nvidia.NVreg_PreserveVideoMemoryAllocations=1"
       "amd_pstate=guided"
       "amdgpu"
       "smd_prefcore=enable"
       "iomem=relaxed"
       "amdgpu.abmlevel=2"
-      "audit=0"
-      "nowatchdog"
     ];
-    plymouth = {
-      enable = true;
-      theme = "breeze";
-    };
-    loader = {
-      efi.canTouchEfiVariables = true;
-      grub = {
-        enable = true;
-        efiSupport = true;
-        configurationLimit = 10;
-        device = "nodev";
-        useOSProber = true;
-      };
-    };
     initrd = {
-      systemd.enable = true;
-      systemd.network.wait-online.enable = false;
-      verbose = false;
       luks.devices."luks-48e95629-d19a-4e8a-924e-53c660939c0c".device = "/dev/disk/by-uuid/48e95629-d19a-4e8a-924e-53c660939c0c";
     };
   };
-  systemd.network.wait-online.enable = false;
-  zramSwap.enable = true;
+  zramSwap = {
+    enable = true;
+    algorithm = "zstd";
+    priority = 5;
+    memoryPercent = 50;
+  };
 
   # Enable networking
   networking.networkmanager.enable = true;
@@ -89,11 +71,8 @@
     variant = "";
   };
 
-  fonts.fontconfig.antialias = true;
-  fonts.fontconfig.subpixel = {
-    rgba = "none";
-    lcdfilter = "none";
-  };
+  # Fonts TBD
+  fonts.fontDir.enable = true;
 
   # Nvidia setup
   hardware.opengl = {
@@ -104,26 +83,16 @@
     extraPackages = with pkgs; [
       vulkan-validation-layers
       intel-media-driver
-      vaapiVdpau
       libvdpau-va-gl
     ];
   };
-  services.xserver.videoDrivers = ["nvidia"];
   hardware.nvidia = {
-    modesetting.enable = true;
     powerManagement.enable = true;
     powerManagement.finegrained = true;
-    open = false;
-    nvidiaSettings = true;
     package = config.boot.kernelPackages.nvidiaPackages.production;
-    prime = {
-      sync.enable = false;
-      offload.enable = true;
-      offload.enableOffloadCmd = true;
-      amdgpuBusId = "PCI:54:0:0";
-      nvidiaBusId = "PCI:1:0:0";
-    };
   };
+  # Nvidia-Docker
+  virtualisation.docker.enableNvidia = true;
 
   # Enable sound with pipewire.
   sound.enable = true;
@@ -161,37 +130,7 @@
 
   # System packages
   environment.systemPackages = with pkgs; [
-    mangohud
-    protonup-ng
   ];
-
-  # Gaming
-  programs.steam = {
-    enable = true;
-    package = pkgs.steam.override {
-      extraPkgs = pkgs:
-        with pkgs; [
-          keyutils
-          libkrb5
-          libpng
-          libpulseaudio
-          libvorbis
-          stdenv.cc.cc.lib
-          xorg.libXcursor
-          xorg.libXi
-          xorg.libXinerama
-          xorg.libXScrnSaver
-
-          # fix CJK fonts
-          source-sans
-          source-serif
-          source-han-sans
-          source-han-serif
-        ];
-    };
-  };
-  programs.steam.gamescopeSession.enable = true;
-  programs.gamemode.enable = true;
 
   # Extra system services
   services.emacs = {

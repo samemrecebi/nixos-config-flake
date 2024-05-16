@@ -5,12 +5,12 @@
   nix-ld = import ./nix-ld.nix;
   kvm = import ./kvm.nix;
   asusd = import ./asusd.nix;
-  docker = import ./docker.nix;
   kde = import ./kde.nix;
   tailscale = import ./tailscale.nix;
   zsh = import ./zsh.nix;
   i18n = import ./i18n.nix;
   auto-timezone = import ./auto-timezone.nix;
   nh = import ./nh.nix;
-  ssh = import ./ssh.nix;
+  gaming = import ./gaming.nix;
+  bootloader = import ./bootloader.nix;
 }

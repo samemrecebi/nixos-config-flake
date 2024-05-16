@@ -1,28 +1,27 @@
-{
-  pkgs,
-  self,
-  ...
-}: {
-  virtualisation.libvirtd = {
-    enable = true;
-    qemu = {
-      package = pkgs.qemu_kvm;
-      runAsRoot = true;
-      swtpm.enable = true;
-      ovmf = {
-        enable = true;
-        packages = [
-          (pkgs.OVMF.override {
-            secureBoot = true;
-            tpmSupport = true;
-          })
-          .fd
-        ];
+# Stolen from ryan4yin
+{pkgs, ...}: {
+  boot.kernelModules = ["vfio-pci"];
+
+  virtualisation = {
+    docker = {
+      enable = true;
+      daemon.settings = {
+        "features" = {"containerd-snapshotter" = true;};
       };
+      enableOnBoot = true;
     };
+
+    libvirtd = {
+      enable = true;
+      qemu.runAsRoot = true;
+    };
+    waydroid.enable = true;
+    lxd.enable = true;
   };
-  programs.virt-manager.enable = true;
+
   environment.systemPackages = with pkgs; [
-    spice
+    virt-manager
+    qemu_kvm
+    qemu
   ];
 }
