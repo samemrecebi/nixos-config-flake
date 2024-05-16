@@ -61,6 +61,7 @@
       "signal"
       "zulip"
       "termius"
+      "telegram-desktop"
       "microsoft-word"
       "microsoft-powerpoint"
     ];

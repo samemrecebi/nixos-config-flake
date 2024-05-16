@@ -33,6 +33,5 @@
     rust-analyzer
     nodePackages.prettier
     nodePackages.typescript-language-server
-    gdb
   ];
 }

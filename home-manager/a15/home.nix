@@ -47,6 +47,7 @@
     pkgs.termius
     pkgs.python3Full
     pkgs.black
+    pkgs.gdb
 
     # Office Program
     pkgs.libreoffice-qt

@@ -25,13 +25,11 @@
   programs.git = {
     enable = true;
     package = pkgs.gitFull;
-    extraConfig = {
-      pull.rebase = false;
-    };
     userName = "Emre Cebi";
     userEmail = "emre@cebi.io";
     extraConfig = {
       commit.gpgsign = true;
+      pull.rebase = false;
       gpg.format = "ssh";
       user.signingkey = "~/.ssh/id_sign.pub";
     };
