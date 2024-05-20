@@ -1,4 +1,13 @@
-{pkgs, ...}: {
+{
+  outputs,
+  pkgs,
+  ...
+}: {
+  imports = [
+    outputs.homeManagerModules.home-fonts
+    outputs.homeManagerModules.home-shell
+  ];
+
   home.packages = with pkgs; [
     # General Packages
     neofetch

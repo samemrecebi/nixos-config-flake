@@ -14,7 +14,7 @@
     outputs.nixosModules.nix-ld
     outputs.nixosModules.kvm
     outputs.nixosModules.zsh
-    outputs.nixosModules.kde
+    outputs.nixosModules.hypr
     outputs.nixosModules.tailscale
     outputs.nixosModules.asusd
     outputs.nixosModules.i18n
@@ -38,15 +38,14 @@
 
   # Bootloader.
   boot = {
+    extraModulePackages = [config.boot.kernelPackages.nvidia_x11];
     extraModprobeConfig = "options kvm_amd nested=1";
     kernelParams = [
       "nvidia.NVreg_PreserveVideoMemoryAllocations=1"
-      "amdgpu"
       "smd_prefcore=enable"
       "iomem=relaxed"
       "pcie_aspm=force"
       "preempt=voluntary"
-      "rtc_cmos.use_acpi_alarm=1"
     ];
     initrd = {
       luks.devices."luks-48e95629-d19a-4e8a-924e-53c660939c0c".device = "/dev/disk/by-uuid/48e95629-d19a-4e8a-924e-53c660939c0c";
@@ -64,8 +63,7 @@
 
   # Configure keymap in X11
   services.xserver.xkb = {
-    layout = "us";
-    variant = "";
+    layout = "us,tr";
   };
 
   # Fonts TBD
@@ -74,18 +72,19 @@
   # Nvidia setup
   hardware.opengl = {
     enable = true;
-    setLdLibraryPath = true;
     driSupport = true;
     driSupport32Bit = true;
+    setLdLibraryPath = true;
     extraPackages = with pkgs; [
-      vulkan-validation-layers
-      intel-media-driver
+      vaapiVdpau
       libvdpau-va-gl
     ];
+    extraPackages32 = with pkgs.pkgsi686Linux; [libva];
   };
   hardware.nvidia = {
     powerManagement.enable = true;
-    powerManagement.finegrained = true;
+    prime.offload.enable = false;
+    prime.sync.enable = true;
     package = config.boot.kernelPackages.nvidiaPackages.production;
   };
   # Nvidia-Docker
@@ -112,18 +111,12 @@
     powerOnBoot = true;
   };
 
-  # Mouse
-  services.ratbagd.enable = true;
-
   # User
   users.users.emrecebi = {
     isNormalUser = true;
     description = "Emre Cebi";
     extraGroups = ["networkmanager" "wheel" "docker" "libvirtd"];
   };
-
-  # Flatpak
-  services.flatpak.enable = true;
 
   # System packages
   environment.systemPackages = with pkgs; [

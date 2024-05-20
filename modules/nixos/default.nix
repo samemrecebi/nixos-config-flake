@@ -5,7 +5,7 @@
   nix-ld = import ./nix-ld.nix;
   kvm = import ./kvm.nix;
   asusd = import ./asusd.nix;
-  kde = import ./kde.nix;
+  hypr = import ./hypr.nix;
   tailscale = import ./tailscale.nix;
   zsh = import ./zsh.nix;
   i18n = import ./i18n.nix;

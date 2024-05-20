@@ -4,5 +4,8 @@
   # List your module files here
   home-shell = import ./home-shell.nix;
   home-fonts = import ./home-fonts.nix;
-  common-programs = import ./common-programs.nix;
+  common = import ./common.nix;
+  theme = import ./theme.nix;
+  hypr = import ./hypr.nix;
+  waybar = import ./waybar.nix;
 }

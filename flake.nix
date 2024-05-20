@@ -83,6 +83,7 @@
             # Home Manager as a module
             home-manager.useGlobalPkgs = true;
             home-manager.useUserPackages = true;
+            home-manager.backupFileExtension = "backup";
             home-manager.extraSpecialArgs = {inherit inputs outputs;};
             home-manager.users.emrecebi = import ./home-manager/a15/home.nix;
           }

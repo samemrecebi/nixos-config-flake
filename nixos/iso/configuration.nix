@@ -13,14 +13,13 @@
   boot.loader = {
     grub.useOSProber = false;
     systemd-boot.enable = true;
-    efi.canTouchEfiVariables = true;
+    efi.canTouchEfiVariables = false;
   };
 
   isoImage.squashfsCompression = "gzip -Xcompression-level 1";
   boot.supportedFilesystems = lib.mkForce ["btrfs" "reiserfs" "vfat" "f2fs" "xfs" "ntfs" "cifs"];
   services.displayManager.autoLogin = lib.mkForce {
     enable = true;
-    user = "emrecebi";
   };
 
   environment.systemPackages = with pkgs; [
@@ -33,7 +32,17 @@
     pciutils
     libtool
     git
-    stow
+
+    # Editor
+    alejandra
+    nil
+    (vscode-with-extensions.override {
+      vscodeExtensions = with vscode-extensions; [
+        kamadorueda.alejandra
+        jnoortheen.nix-ide
+      ];
+    })
   ];
+  hardware.enableRedistributableFirmware = true;
   nix.settings.experimental-features = ["nix-command" "flakes"];
 }

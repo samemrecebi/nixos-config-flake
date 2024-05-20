@@ -7,10 +7,14 @@
       "udev.log_level=0"
       "audit=0"
       "nowatchdog"
+      "splash"
     ];
     plymouth = {
       enable = true;
-      theme = "breeze";
+      theme = "bgrt";
+      extraConfig = ''
+        DeviceScale=1.25
+      '';
     };
     loader = {
       efi.canTouchEfiVariables = true;
@@ -24,9 +28,7 @@
     };
     initrd = {
       systemd.enable = true;
-      systemd.network.wait-online.enable = false;
       verbose = false;
     };
   };
-  systemd.network.wait-online.enable = false;
 }

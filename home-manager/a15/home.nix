@@ -12,9 +12,8 @@
   xdg.enable = true;
 
   imports = [
-    outputs.homeManagerModules.home-fonts
-    outputs.homeManagerModules.home-shell
-    outputs.homeManagerModules.common-programs
+    outputs.homeManagerModules.common
+    outputs.homeManagerModules.hypr
   ];
 
   nixpkgs = {
@@ -26,7 +25,7 @@
 
   home.packages = [
     # General packages
-    pkgs.discord
+    pkgs.webcord
     pkgs.bitwarden-desktop
     pkgs.protonmail-bridge-gui
     pkgs.thunderbird
@@ -56,7 +55,6 @@
 
   programs.firefox = {
     enable = true;
-    nativeMessagingHosts = [pkgs.kdePackages.plasma-browser-integration];
   };
 
   # Editors
