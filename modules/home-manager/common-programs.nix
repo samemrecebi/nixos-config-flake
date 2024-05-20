@@ -25,7 +25,7 @@
     # Dev Packages
     gcc
     clang-tools
-    nixpkgs-fmt
+    alejandra
     nil
     nodejs
     nodePackages.npm

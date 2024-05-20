@@ -14,11 +14,7 @@
   imports = [
     outputs.homeManagerModules.home-fonts
     outputs.homeManagerModules.home-shell
-    outputs.homeManagerModules.plasma
     outputs.homeManagerModules.common-programs
-
-    # VSCode Server Fix
-    "${fetchTarball "https://github.com/msteen/nixos-vscode-server/tarball/master"}/modules/vscode-server/home.nix"
   ];
 
   nixpkgs = {
@@ -68,7 +64,6 @@
     enable = true;
     package = pkgs.vscode;
   };
-  services.vscode-server.enable = true;
 
   programs.emacs = {
     enable = true;
@@ -84,7 +79,7 @@
   };
 
   programs.zsh.sessionVariables = {
-    FLAKE = "/home/emrecebi/my-nixos-config";
+    FLAKE = "/home/emrecebi/.nix-config";
   };
 
   # SSH

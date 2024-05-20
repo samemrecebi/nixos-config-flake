@@ -8,14 +8,9 @@
     home-manager.url = "github:nix-community/home-manager";
     home-manager.inputs.nixpkgs.follows = "nixpkgs";
     # My Nix Hardware Fork
-    nixos-hardware.url = "github:samemrecebi/nixos-hardware/major-asus-revision";
-    # Formatter
-    alejandra.url = "github:kamadorueda/alejandra/3.0.0";
-    alejandra.inputs.nixpkgs.follows = "nixpkgs";
-    # Plasma manager
-    plasma-manager.url = "github:pjones/plasma-manager";
-    plasma-manager.inputs.nixpkgs.follows = "nixpkgs";
-    plasma-manager.inputs.home-manager.follows = "home-manager";
+    nixos-hardware.url = "github:nixos/nixos-hardware/master";
+    # VSCode Server
+    vscode-server.url = "github:nix-community/nixos-vscode-server";
     # Nix Darwin
     nix-darwin.url = "github:lnl7/nix-darwin/master";
     nix-darwin.inputs.nixpkgs.follows = "nixpkgs";
@@ -45,8 +40,7 @@
     nixpkgs,
     home-manager,
     nixos-hardware,
-    alejandra,
-    plasma-manager,
+    vscode-server,
     nix-darwin,
     nix-homebrew,
     homebrew-core,
@@ -75,24 +69,26 @@
 
     # NixOS configuration entrypoint
     nixosConfigurations = {
-      asus-a15 = nixpkgs.lib.nixosSystem rec {
-        system = "x86_64-linux";
+      asus-a15 = nixpkgs.lib.nixosSystem {
         specialArgs = {inherit inputs outputs;};
         modules = [
           ./nixos/a15/configuration.nix
           nixos-hardware.nixosModules.asus-fa507nv
+          vscode-server.nixosModules.default
           home-manager.nixosModules.home-manager
           {
+            #VSCode Server Enable
+            services.vscode-server.enable = true;
+
+            # Home Manager as a module
             home-manager.useGlobalPkgs = true;
             home-manager.useUserPackages = true;
             home-manager.extraSpecialArgs = {inherit inputs outputs;};
             home-manager.users.emrecebi = import ./home-manager/a15/home.nix;
-            environment.systemPackages = [alejandra.defaultPackage.${system}];
-            home-manager.sharedModules = [plasma-manager.homeManagerModules.plasma-manager];
           }
         ];
       };
-      installerIso = nixpkgs.lib.nixosSystem rec {
+      installerIso = nixpkgs.lib.nixosSystem {
         system = "x86_64-linux";
         specialArgs = {inherit inputs outputs;};
         modules = [
@@ -100,8 +96,7 @@
         ];
       };
     };
-    darwinConfigurations."Emres-MacBook-Pro" = nix-darwin.lib.darwinSystem rec {
-      system = "aarch64-darwin";
+    darwinConfigurations."Emres-MacBook-Pro" = nix-darwin.lib.darwinSystem {
       specialArgs = {inherit inputs outputs;};
       modules = [
         ./nixos/mbp/configuration.nix
@@ -109,8 +104,8 @@
         {
           home-manager.useGlobalPkgs = true;
           home-manager.useUserPackages = true;
-          home-manager.users.emrecebi = import ./home-manager/mbp/home.nix;
           home-manager.extraSpecialArgs = {inherit inputs outputs;};
+          home-manager.users.emrecebi = import ./home-manager/mbp/home.nix;
         }
         nix-homebrew.darwinModules.nix-homebrew
         {
@@ -126,9 +121,6 @@
             };
             mutableTaps = false;
           };
-        }
-        {
-          environment.systemPackages = [alejandra.defaultPackage.${system}];
         }
       ];
     };

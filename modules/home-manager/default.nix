@@ -4,6 +4,5 @@
   # List your module files here
   home-shell = import ./home-shell.nix;
   home-fonts = import ./home-fonts.nix;
-  plasma = import ./plasma.nix;
   common-programs = import ./common-programs.nix;
 }

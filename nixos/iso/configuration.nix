@@ -1,5 +1,6 @@
 {
   pkgs,
+  lib,
   modulesPath,
   ...
 }: {
@@ -16,8 +17,8 @@
   };
 
   isoImage.squashfsCompression = "gzip -Xcompression-level 1";
-
-  services.xserver.displayManager.autoLogin = lib.mkForce {
+  boot.supportedFilesystems = lib.mkForce ["btrfs" "reiserfs" "vfat" "f2fs" "xfs" "ntfs" "cifs"];
+  services.displayManager.autoLogin = lib.mkForce {
     enable = true;
     user = "emrecebi";
   };

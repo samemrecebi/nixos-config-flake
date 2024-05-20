@@ -41,22 +41,19 @@
     extraModprobeConfig = "options kvm_amd nested=1";
     kernelParams = [
       "nvidia.NVreg_PreserveVideoMemoryAllocations=1"
-      "amd_pstate=guided"
       "amdgpu"
       "smd_prefcore=enable"
       "iomem=relaxed"
-      "amdgpu.abmlevel=2"
+      "pcie_aspm=force"
+      "preempt=voluntary"
+      "rtc_cmos.use_acpi_alarm=1"
     ];
     initrd = {
       luks.devices."luks-48e95629-d19a-4e8a-924e-53c660939c0c".device = "/dev/disk/by-uuid/48e95629-d19a-4e8a-924e-53c660939c0c";
     };
   };
-  zramSwap = {
-    enable = true;
-    algorithm = "zstd";
-    priority = 5;
-    memoryPercent = 50;
-  };
+  hardware.enableRedistributableFirmware = true;
+  zramSwap.enable = true;
 
   # Enable networking
   networking.networkmanager.enable = true;
