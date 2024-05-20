@@ -99,6 +99,7 @@
     };
     darwinConfigurations."Emres-MacBook-Pro" = nix-darwin.lib.darwinSystem {
       specialArgs = {inherit inputs outputs;};
+      system = "aarch64-darwin";
       modules = [
         ./nixos/mbp/configuration.nix
         home-manager.darwinModules.home-manager

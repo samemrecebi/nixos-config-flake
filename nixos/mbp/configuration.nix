@@ -23,7 +23,7 @@
   users.users.emrecebi = {
     home = "/Users/emrecebi";
   };
-
+nixpkgs.config.allowBroken = true;
   # Apps
   environment.systemPackages = with pkgs; [
     docker
@@ -64,6 +64,7 @@
       "telegram-desktop"
       "microsoft-word"
       "microsoft-powerpoint"
+      "obsidian"
     ];
     masApps = {
       Bitwarden = 1352778147;
