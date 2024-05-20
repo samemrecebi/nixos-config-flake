@@ -80,8 +80,14 @@
     FLAKE = "/home/emrecebi/.nix-config";
   };
 
-  # SSH
-  services.ssh-agent.enable = true;
+  # GPG and SSH
+  services.gpg-agent = {
+    enable = true;
+    enableBashIntegration = true;
+    enableSshSupport = true;
+    pinentryPackage = pkgs.pinentry-qt;
+    enableScDaemon = true;
+  };
 
   # Reload system units when config is changed
   systemd.user.startServices = "sd-switch";
