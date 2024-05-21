@@ -8,7 +8,6 @@
 }: {
   # No imports yet no modules
   imports = [
-    outputs.darwinModules.python-global
   ];
 
   # Pkgs settings
@@ -23,7 +22,7 @@
   users.users.emrecebi = {
     home = "/Users/emrecebi";
   };
-nixpkgs.config.allowBroken = true;
+  nixpkgs.config.allowBroken = true;
   # Apps
   environment.systemPackages = with pkgs; [
     docker
@@ -41,12 +40,21 @@ nixpkgs.config.allowBroken = true;
       upgrade = true;
       cleanup = "zap";
     };
-    taps = builtins.attrNames config.nix-homebrew.taps;
+    global.brewfile = true;
+    taps = [
+      "homebrew/bundle"
+      "homebrew/services"
+    ];
     brews = [
-      # No brews rn
+      "yubikey-personalization"
+      "pinentry-mac"
+      "python"
+      "node"
+      "ykman"
     ];
     casks = [
       "keka"
+      "yubico-yubikey-manager"
       "discord"
       "visual-studio-code"
       "spotify"

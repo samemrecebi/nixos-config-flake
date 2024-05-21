@@ -24,9 +24,7 @@
     ispell
     gnupg
     pandoc
-    yubikey-agent
     wget
-    gnupg
 
     # LaTeX
     texliveMedium
