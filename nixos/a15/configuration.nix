@@ -11,17 +11,10 @@
     ./hardware-configuration.nix
 
     # Modules
-    outputs.nixosModules.nix-ld
-    outputs.nixosModules.kvm
-    outputs.nixosModules.zsh
-    outputs.nixosModules.hypr
+    outputs.nixosModules.common
+    outputs.nixosModules.kde
     outputs.nixosModules.tailscale
     outputs.nixosModules.asusd
-    outputs.nixosModules.i18n
-    outputs.nixosModules.auto-timezone
-    outputs.nixosModules.nh
-    outputs.nixosModules.gaming
-    outputs.nixosModules.bootloader
   ];
 
   # Nixpkgs config
@@ -66,9 +59,6 @@
     layout = "us,tr";
   };
 
-  # Fonts TBD
-  fonts.fontDir.enable = true;
-
   # Nvidia setup
   hardware.opengl = {
     enable = true;
@@ -83,8 +73,6 @@
   };
   hardware.nvidia = {
     powerManagement.enable = true;
-    prime.offload.enable = false;
-    prime.sync.enable = true;
     package = config.boot.kernelPackages.nvidiaPackages.production;
   };
   # Nvidia-Docker
@@ -132,17 +120,11 @@
     flakeInputs = lib.filterAttrs (_: lib.isType "flake") inputs;
   in {
     settings = {
-      # Enable flakes and new 'nix' command
       experimental-features = "nix-command flakes";
-      # Opinionated: disable global registry
       flake-registry = "";
-      # Workaround for https://github.com/NixOS/nix/issues/9574
       nix-path = config.nix.nixPath;
     };
-    # Opinionated: disable channels
     channel.enable = false;
-
-    # Opinionated: make flake registry and nix path match flake inputs
     registry = lib.mapAttrs (_: flake: {inherit flake;}) flakeInputs;
     nixPath = lib.mapAttrsToList (n: _: "${n}=flake:${n}") flakeInputs;
   };

@@ -13,7 +13,6 @@
 
   imports = [
     outputs.homeManagerModules.common
-    outputs.homeManagerModules.hypr
   ];
 
   nixpkgs = {
@@ -25,7 +24,7 @@
 
   home.packages = [
     # General packages
-    pkgs.webcord
+    pkgs.discord
     pkgs.bitwarden-desktop
     pkgs.protonmail-bridge-gui
     pkgs.thunderbird
