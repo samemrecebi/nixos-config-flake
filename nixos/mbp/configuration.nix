@@ -23,7 +23,7 @@
   users.users.emrecebi = {
     home = "/Users/emrecebi";
   };
-nixpkgs.config.allowBroken = true;
+  nixpkgs.config.allowBroken = true;
   # Apps
   environment.systemPackages = with pkgs; [
     docker

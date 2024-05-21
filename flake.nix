@@ -4,13 +4,13 @@
   inputs = {
     # Nixpkgs
     nixpkgs.url = "github:nixos/nixpkgs/nixos-unstable";
+    # Nixpkgs Stable 23.11
+    nixpkgs-stable.url = "github:nixos/nixpkgs/nixos-23.11";
     # Home manager
     home-manager.url = "github:nix-community/home-manager";
     home-manager.inputs.nixpkgs.follows = "nixpkgs";
     # My Nix Hardware Fork
     nixos-hardware.url = "github:nixos/nixos-hardware/master";
-    # VSCode Server
-    vscode-server.url = "github:nix-community/nixos-vscode-server";
     # Nix Darwin
     nix-darwin.url = "github:lnl7/nix-darwin/master";
     nix-darwin.inputs.nixpkgs.follows = "nixpkgs";
@@ -38,9 +38,9 @@
   outputs = {
     self,
     nixpkgs,
+    nixpkgs-stable,
     home-manager,
     nixos-hardware,
-    vscode-server,
     nix-darwin,
     nix-homebrew,
     homebrew-core,
@@ -70,16 +70,13 @@
     # NixOS configuration entrypoint
     nixosConfigurations = {
       asus-a15 = nixpkgs.lib.nixosSystem {
+        system = "x86_64-linux";
         specialArgs = {inherit inputs outputs;};
         modules = [
           ./nixos/a15/configuration.nix
           nixos-hardware.nixosModules.asus-fa507nv
-          vscode-server.nixosModules.default
           home-manager.nixosModules.home-manager
           {
-            #VSCode Server Enable
-            services.vscode-server.enable = true;
-
             # Home Manager as a module
             home-manager.useGlobalPkgs = true;
             home-manager.useUserPackages = true;

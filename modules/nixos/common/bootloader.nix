@@ -22,7 +22,7 @@
         enable = true;
         efiSupport = true;
         configurationLimit = 10;
-        device = "nodev";
+        devices = ["nodev"];
         useOSProber = true;
       };
     };
