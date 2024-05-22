@@ -15,6 +15,20 @@
     package = pkgs.emacs;
   };
 
+  programs.zsh = {
+    shellAliases = {
+      updatesys = "darwin-rebuild switch --flake ~/.nix";
+    };
+    sessionVariables = {
+      PYENV_ROOT = "$HOME/.pyenv";
+      PATH = "$PYENV_ROOT/bin:/opt/homebrew/bin:/opt/homebrew/sbin:$PATH";
+    };
+    initExtra = ''
+      eval "$(pyenv init --path)"
+      eval "$(pyenv init -)"
+    '';
+  };
+
   # Dotfiles
   home.file = {
     ".config/starship.toml".source = ../../dotfiles/starship/starship.toml;

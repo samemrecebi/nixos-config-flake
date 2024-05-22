@@ -12,7 +12,6 @@
     shellAliases = {
       em = "emacsclient -c -n -a ''";
       ls = "ls --color";
-      updatesys = "darwin-rebuild switch --flake ~/.nix";
     };
     sessionVariables = {
       DIRENV_LOG_FORMAT = ""; # silence direnv
