@@ -23,6 +23,12 @@
   };
 
   home.packages = [
+    # Terminal programs
+    pkgs.yt-dlp
+    pkgs.htop
+    pkgs.neofetch
+    pkgs.gh
+
     # General packages
     pkgs.discord
     pkgs.bitwarden-desktop
@@ -40,10 +46,7 @@
     pkgs.alacritty
     pkgs.jetbrains.idea-ultimate
     pkgs.jetbrains.clion
-    pkgs.termius
-    pkgs.python3Full
-    pkgs.black
-    pkgs.gdb
+    pkgs.jetbrains.webstorm
 
     # Office Program
     pkgs.libreoffice-qt

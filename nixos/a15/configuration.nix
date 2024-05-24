@@ -112,7 +112,7 @@
 
   # System packages
   environment.systemPackages = with pkgs; [
-    stable.etcher
+    
   ];
   
   # Extra system services

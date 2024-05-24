@@ -15,9 +15,6 @@
     stable = import inputs.nixpkgs-stable {
       system = "x86_64-linux";
       config.allowUnfree = true;
-      config.permittedInsecurePackages = [
-        "electron-19.1.9"
-      ];
     };
   };
 }
