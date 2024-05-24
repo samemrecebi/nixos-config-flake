@@ -9,8 +9,10 @@
     # Home manager
     home-manager.url = "github:nix-community/home-manager";
     home-manager.inputs.nixpkgs.follows = "nixpkgs";
-    # My Nix Hardware Fork
+    # Nix Hardware Fork
     nixos-hardware.url = "github:nixos/nixos-hardware/master";
+    # My Nix Hardware Fork
+    my-nixos-hardware.url = "github:samemrecebi/nixos-hardware/matebook-pro";
     # Nix Darwin
     nix-darwin.url = "github:lnl7/nix-darwin/master";
     nix-darwin.inputs.nixpkgs.follows = "nixpkgs";
@@ -41,6 +43,7 @@
     nixpkgs-stable,
     home-manager,
     nixos-hardware,
+    my-nixos-hardware,
     nix-darwin,
     nix-homebrew,
     homebrew-core,
@@ -83,6 +86,23 @@
             home-manager.backupFileExtension = "backup";
             home-manager.extraSpecialArgs = {inherit inputs outputs;};
             home-manager.users.emrecebi = import ./home-manager/a15/home.nix;
+          }
+        ];
+      };
+      matebook-pro = nixpkgs.lib.nixosSystem {
+        system = "x86_64-linux";
+        specialArgs = {inherit inputs outputs;};
+        modules = [
+          ./nixos/matebook-pro/configuration.nix
+          my-nixos-hardware.nixosModules.matebook-pro
+          home-manager.nixosModules.home-manager
+          {
+            # Home Manager as a module
+            home-manager.useGlobalPkgs = true;
+            home-manager.useUserPackages = true;
+            home-manager.backupFileExtension = "backup";
+            home-manager.extraSpecialArgs = {inherit inputs outputs;};
+            home-manager.users.emrecebi = import ./home-manager/matebook-pro/home.nix;
           }
         ];
       };

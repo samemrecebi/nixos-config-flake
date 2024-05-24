@@ -13,8 +13,11 @@
   };
   stable-packages = final: _prev: {
     stable = import inputs.nixpkgs-stable {
-      system = final.system;
+      system = "x86_64-linux";
       config.allowUnfree = true;
+      config.permittedInsecurePackages = [
+        "electron-19.1.9"
+      ];
     };
   };
 }

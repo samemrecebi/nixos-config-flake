@@ -8,13 +8,12 @@
   ...
 }: {
   imports = [
-    ./hardware-configuration.nix
+    # ./hardware-configuration.nix
 
     # Modules
     outputs.nixosModules.common
     outputs.nixosModules.kde
     outputs.nixosModules.tailscale
-    outputs.nixosModules.asusd
   ];
 
   # Nixpkgs config
@@ -33,21 +32,6 @@
   # Flatpack
   services.flatpak.enable = true;
 
-  # Bootloader.
-  boot = {
-    extraModulePackages = [config.boot.kernelPackages.nvidia_x11];
-    extraModprobeConfig = "options kvm_amd nested=1";
-    kernelParams = [
-      "nvidia.NVreg_PreserveVideoMemoryAllocations=1"
-      "smd_prefcore=enable"
-      "iomem=relaxed"
-      "pcie_aspm=force"
-      "preempt=voluntary"
-    ];
-    initrd = {
-      luks.devices."luks-48e95629-d19a-4e8a-924e-53c660939c0c".device = "/dev/disk/by-uuid/48e95629-d19a-4e8a-924e-53c660939c0c";
-    };
-  };
   hardware.enableRedistributableFirmware = true;
   zramSwap.enable = true;
 
@@ -69,18 +53,7 @@
     driSupport = true;
     driSupport32Bit = true;
     setLdLibraryPath = true;
-    extraPackages = with pkgs; [
-      vaapiVdpau
-      libvdpau-va-gl
-    ];
-    extraPackages32 = with pkgs.pkgsi686Linux; [libva];
   };
-  hardware.nvidia = {
-    powerManagement.enable = true;
-    package = config.boot.kernelPackages.nvidiaPackages.production;
-  };
-  # Nvidia-Docker
-  virtualisation.docker.enableNvidia = true;
 
   # Enable sound with pipewire.
   sound.enable = true;

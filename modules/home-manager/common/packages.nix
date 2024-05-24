@@ -16,6 +16,8 @@
     gnupg
     pandoc
     yubikey-agent
+    yubikey-manager
+    yubikey-personalization
     wget
     gnupg
 
