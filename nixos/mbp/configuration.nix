@@ -8,7 +8,7 @@
 }: {
   # No imports yet no modules
   imports = [
-    outputs.darwinModules.python-global
+    
   ];
 
   # Pkgs settings
@@ -23,17 +23,9 @@
   users.users.emrecebi = {
     home = "/Users/emrecebi";
   };
-  nixpkgs.config.allowBroken = true;
-  # Apps
-  environment.systemPackages = with pkgs; [
-    docker
-    docker-compose
-    coreutils
-    moreutils
-    mas
-  ];
 
-  # Mac homebrew (Nixpkgs gui apps wont work properly or missing)
+  nixpkgs.config.allowBroken = true;
+  # Mac homebrew
   homebrew = {
     enable = true;
     onActivation = {
@@ -41,11 +33,39 @@
       upgrade = true;
       cleanup = "zap";
     };
-    taps = builtins.attrNames config.nix-homebrew.taps;
+    global.brewfile = true;
+    taps = [
+      "homebrew/bundle"
+      "homebrew/services"
+    ];
     brews = [
-      # No brews rn
+      "docker"
+      "docker-compose"
+      "moreutils"
+      "htop"
+      "coreutils"
+      "pandoc"
+      "hugo"
+      "yt-dlp"
+      "sl"
+      "neofetch"
+      "wget"
+      "pinentry-mac"
+      "yubikey-personalization"
+      "gnupg"
+      "python"
+      "pyenv"
+      "node"
+      "ykman"
+      "llvm"
+      "gcc"
     ];
     casks = [
+      "gpg-suite"
+      "temurin"
+      "temurin@8"
+      "jetbrains-toolbox"
+      "docker"
       "keka"
       "discord"
       "visual-studio-code"
@@ -62,12 +82,11 @@
       "zulip"
       "termius"
       "telegram-desktop"
-      "microsoft-word"
-      "microsoft-powerpoint"
-      "obsidian"
     ];
     masApps = {
       Bitwarden = 1352778147;
+      "Microsoft Word" = 462054704;
+      "Microsoft PowerPoint" = 462062816;
     };
   };
 

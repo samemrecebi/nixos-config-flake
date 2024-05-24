@@ -16,25 +16,6 @@
     # Nix Darwin
     nix-darwin.url = "github:lnl7/nix-darwin/master";
     nix-darwin.inputs.nixpkgs.follows = "nixpkgs";
-    # Nix Homebrew
-    nix-homebrew.url = "github:zhaofengli-wip/nix-homebrew";
-    # Homebrew taps
-    homebrew-core = {
-      url = "github:homebrew/homebrew-core";
-      flake = false;
-    };
-    homebrew-cask = {
-      url = "github:homebrew/homebrew-cask";
-      flake = false;
-    };
-    homebrew-bundle = {
-      url = "github:homebrew/homebrew-bundle";
-      flake = false;
-    };
-    homebrew-services = {
-      url = "github:homebrew/homebrew-services";
-      flake = false;
-    };
   };
 
   outputs = {
@@ -45,11 +26,6 @@
     nixos-hardware,
     my-nixos-hardware,
     nix-darwin,
-    nix-homebrew,
-    homebrew-core,
-    homebrew-cask,
-    homebrew-bundle,
-    homebrew-services,
     ...
   } @ inputs: let
     inherit (self) outputs;
@@ -68,7 +44,6 @@
     overlays = import ./overlays {inherit inputs;};
     nixosModules = import ./modules/nixos;
     homeManagerModules = import ./modules/home-manager;
-    darwinModules = import ./modules/darwin;
 
     # NixOS configuration entrypoint
     nixosConfigurations = {
@@ -125,21 +100,6 @@
           home-manager.useUserPackages = true;
           home-manager.extraSpecialArgs = {inherit inputs outputs;};
           home-manager.users.emrecebi = import ./home-manager/mbp/home.nix;
-        }
-        nix-homebrew.darwinModules.nix-homebrew
-        {
-          nix-homebrew = {
-            enable = true;
-            enableRosetta = true;
-            user = "emrecebi";
-            taps = {
-              "homebrew/homebrew-core" = homebrew-core;
-              "homebrew/homebrew-cask" = homebrew-cask;
-              "homebrew/homebrew-bundle" = homebrew-bundle;
-              "homebrew/homebrew-services" = homebrew-services;
-            };
-            mutableTaps = false;
-          };
         }
       ];
     };
