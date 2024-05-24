@@ -8,7 +8,7 @@
   ...
 }: {
   imports = [
-    # ./hardware-configuration.nix
+    ./hardware-configuration.nix
 
     # Modules
     outputs.nixosModules.common
@@ -29,6 +29,8 @@
     };
   };
 
+  boot.initrd.luks.devices."luks-282b478b-e75f-4ee5-a625-471a1e621e65".device = "/dev/disk/by-uuid/282b478b-e75f-4ee5-a625-471a1e621e65";
+
   # Flatpack
   services.flatpak.enable = true;
 
@@ -37,7 +39,7 @@
 
   # Enable networking
   networking.networkmanager.enable = true;
-  networking.hostName = "asus-a15";
+  networking.hostName = "matebook-pro";
 
   # Firewall
   networking.firewall.enable = true;
@@ -47,7 +49,6 @@
     layout = "us,tr";
   };
 
-  # Nvidia setup
   hardware.opengl = {
     enable = true;
     driSupport = true;
@@ -85,7 +86,7 @@
 
   # System packages
   environment.systemPackages = with pkgs; [
-    stable.etcher
+
   ];
   
   # Extra system services
