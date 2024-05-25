@@ -6,8 +6,6 @@
 }: {
   imports = [
     "${modulesPath}/installer/cd-dvd/installation-cd-graphical-gnome.nix"
-    outputs.nixosModules.nix-ld
-    outputs.nixosModules.auto-timezone
   ];
 
   boot.kernelPackages = pkgs.linuxPackages_latest;

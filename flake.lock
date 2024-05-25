@@ -20,6 +20,22 @@
         "type": "github"
       }
     },
+    "my-nixos-hardware": {
+      "locked": {
+        "lastModified": 1716584380,
+        "narHash": "sha256-Un8m8bLZ6prcT0NWod+ztLVoPD6Zq9bDyxnQI/ULkw4=",
+        "owner": "samemrecebi",
+        "repo": "nixos-hardware",
+        "rev": "d136d4e1b2973971ac7911086dec0bb59fd1ff54",
+        "type": "github"
+      },
+      "original": {
+        "owner": "samemrecebi",
+        "ref": "matebook-pro",
+        "repo": "nixos-hardware",
+        "type": "github"
+      }
+    },
     "nix-darwin": {
       "inputs": {
         "nixpkgs": [
@@ -92,6 +108,7 @@
     "root": {
       "inputs": {
         "home-manager": "home-manager",
+        "my-nixos-hardware": "my-nixos-hardware",
         "nix-darwin": "nix-darwin",
         "nixos-hardware": "nixos-hardware",
         "nixpkgs": "nixpkgs",
