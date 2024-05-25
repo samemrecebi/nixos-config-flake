@@ -13,7 +13,6 @@
     # Modules
     outputs.nixosModules.common
     outputs.nixosModules.kde
-    outputs.nixosModules.tailscale
     outputs.nixosModules.lanzaboote
   ];
 
@@ -90,7 +89,6 @@
 
   # System packages
   environment.systemPackages = with pkgs; [
-
   ];
 
   nix = let

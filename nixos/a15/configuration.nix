@@ -13,9 +13,9 @@
     # Modules
     outputs.nixosModules.common
     outputs.nixosModules.kde
-    outputs.nixosModules.tailscale
     outputs.nixosModules.asusd
   ];
+  grub.enable = true;
 
   # Nixpkgs config
   nixpkgs = {
@@ -112,9 +112,8 @@
 
   # System packages
   environment.systemPackages = with pkgs; [
-    
   ];
-  
+
   # Extra system services
   services.emacs = {
     enable = true;

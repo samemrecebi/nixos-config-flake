@@ -8,7 +8,6 @@
 }: {
   # No imports yet no modules
   imports = [
-    
   ];
 
   # Pkgs settings

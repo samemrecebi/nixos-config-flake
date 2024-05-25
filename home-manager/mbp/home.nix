@@ -21,13 +21,17 @@
     };
     sessionVariables = {
       PYENV_ROOT = "$HOME/.pyenv";
-      PATH = "$PYENV_ROOT/bin:/opt/homebrew/bin:/opt/homebrew/sbin:$PATH";
+      PATH = "$PYENV_ROOT/bin:/opt/homebrew/bin:/opt/homebrew/sbin:/etc/profiles/per-user/emrecebi/bin/fzf:$PATH";
     };
     initExtra = ''
       eval "$(pyenv init --path)"
       eval "$(pyenv init -)"
     '';
   };
+
+  # Enable Packages
+  common-packages.enable = true;
+  nixos-packages.enable = true;
 
   # Dotfiles
   home.file = {

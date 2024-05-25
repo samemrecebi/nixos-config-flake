@@ -15,7 +15,6 @@
     my-nixos-hardware.url = "github:samemrecebi/nixos-hardware/matebook-pro";
     # Lanzaboote
     lanzaboote.url = "github:nix-community/lanzaboote/v0.3.0";
-    # Optional but recommended to limit the size of your system closure.
     lanzaboote.inputs.nixpkgs.follows = "nixpkgs";
     # Nix Darwin
     nix-darwin.url = "github:lnl7/nix-darwin/master";
@@ -104,6 +103,7 @@
         {
           home-manager.useGlobalPkgs = true;
           home-manager.useUserPackages = true;
+          home-manager.backupFileExtension = "backup";
           home-manager.extraSpecialArgs = {inherit inputs outputs;};
           home-manager.users.emrecebi = import ./home-manager/mbp/home.nix;
         }

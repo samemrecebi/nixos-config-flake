@@ -1,7 +1,8 @@
 {
   imports = [
     ./fonts.nix
-    ./packages.nix
+    ./common-packages.nix
+    ./nixos-packages.nix
     ./shell.nix
   ];
 }

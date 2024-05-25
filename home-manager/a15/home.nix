@@ -22,34 +22,13 @@
     ];
   };
 
+  # Enable Packages
+  common-packages.enable = true;
+  nixos-packages.enable = true;
+
+  # Per System packages
   home.packages = [
-    # General packages
-    pkgs.discord
-    pkgs.bitwarden-desktop
-    pkgs.protonmail-bridge-gui
-    pkgs.thunderbird
-    pkgs.spotify
-    pkgs.todoist-electron
-    pkgs.qbittorrent
-    pkgs.mpv
-    pkgs.zoom-us
-    pkgs.signal-desktop
-    pkgs.whatsapp-for-linux
-
-    # Developer Apps
-    pkgs.alacritty
-    pkgs.jetbrains.idea-ultimate
-    pkgs.jetbrains.clion
-    pkgs.termius
-    pkgs.python3Full
-    pkgs.black
-    pkgs.gdb
-
-    # Office Program
-    pkgs.libreoffice-qt
-    pkgs.hunspell
-    pkgs.hunspellDicts.en_US
-    pkgs.hunspellDictTR.tr_TR
+    # Empty for now
   ];
 
   programs.firefox = {
