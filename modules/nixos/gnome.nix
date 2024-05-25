@@ -3,6 +3,16 @@
   services.xserver.displayManager.gdm.enable = true;
   services.xserver.desktopManager.gnome.enable = true;
 
+xdg = {
+  portal = {
+    enable = true;
+    extraPortals = with pkgs; [
+      xdg-desktop-portal-wlr
+      xdg-desktop-portal-gtk
+    ];
+  };
+};
+
   # Tripple buffering
   nixpkgs.overlays = [
     (final: prev: {

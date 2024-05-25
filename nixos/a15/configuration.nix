@@ -12,11 +12,9 @@
 
     # Modules
     outputs.nixosModules.common
-    outputs.nixosModules.kde
+    outputs.nixosModules.gnome
     outputs.nixosModules.asusd
   ];
-  grub.enable = true;
-  fileSystems."/".options = [ "discard" "noatime" "nodiratime" ];
 
   # Nixpkgs config
   nixpkgs = {
@@ -33,7 +31,6 @@
 
   # Bootloader.
   boot = {
-    extraModulePackages = [config.boot.kernelPackages.nvidia_x11];
     extraModprobeConfig = "options kvm_amd nested=1";
     kernelParams = [
       "nvidia.NVreg_PreserveVideoMemoryAllocations=1"
@@ -46,6 +43,10 @@
       luks.devices."luks-48e95629-d19a-4e8a-924e-53c660939c0c".device = "/dev/disk/by-uuid/48e95629-d19a-4e8a-924e-53c660939c0c";
     };
   };
+  grub.enable = true;
+  fileSystems."/".options = [ "discard" "noatime" "nodiratime" ];
+
+  # System Modules
   hardware.enableRedistributableFirmware = true;
   zramSwap.enable = true;
 
@@ -73,6 +74,7 @@
     ];
     extraPackages32 = with pkgs.pkgsi686Linux; [libva];
   };
+  environment.sessionVariables.NIXOS_OZONE_WL = "1";
   hardware.nvidia = {
     powerManagement.enable = true;
     package = config.boot.kernelPackages.nvidiaPackages.production;

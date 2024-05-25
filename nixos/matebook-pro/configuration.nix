@@ -12,7 +12,7 @@
 
     # Modules
     outputs.nixosModules.common
-    outputs.nixosModules.kde
+    outputs.nixosModules.gnome
     outputs.nixosModules.lanzaboote
   ];
 
@@ -31,12 +31,9 @@
 
   # Boot
   systemd-boot.enable = true;
-
   boot.initrd.luks.devices."luks-282b478b-e75f-4ee5-a625-471a1e621e65".device = "/dev/disk/by-uuid/282b478b-e75f-4ee5-a625-471a1e621e65";
 
-  # Flatpack
-  services.flatpak.enable = true;
-
+  # System Modules
   hardware.enableRedistributableFirmware = true;
   zramSwap.enable = true;
 
@@ -57,7 +54,15 @@
     driSupport = true;
     driSupport32Bit = true;
     setLdLibraryPath = true;
+    extraPackages = with pkgs; [
+      vaapiVdpau
+      libvdpau-va-gl
+    ];
+    extraPackages32 = with pkgs.pkgsi686Linux; [libva];
   };
+  # Nvidia-Docker
+  virtualisation.docker.enableNvidia = true;
+  environment.sessionVariables.NIXOS_OZONE_WL = "1";
 
   # Enable sound with pipewire.
   sound.enable = true;

@@ -29,17 +29,35 @@
     '';
   };
 
+# Dock
+  home.dock = {
+    enable = true;
+    entries = [
+      { path = "/System/Library/CoreServices/Finder.app/"; }
+      { path = "/Applications/Todoist.app/"; }
+      { path = "/Applications/Firefox.app/"; }
+      { path = "/Applications/Calendar.app/"; }
+      { path = "/Applications/Mail.app/"; }
+      { path = "/Applications/Facetime.app"; }
+      { path = "/Applications/System Settings.app/"; }
+      { path = "/Applications/WhatsApp.app/"; }
+      { path = "/Applications/Signal.app/"; }
+      { path = "/Applications/Discord.app/"; }
+      { path = "/Applications/Alacritty.app/"; }
+      { path = "/Applications/Visual Studio Code.app/"; }
+      { path = "/Applications/Emacs.app/"; }
+      { path = "/Applications/Spotify.app/"; }
+      {
+        path = "${config.home.homeDirectory}/Downloads/";
+        section = "others";
+        options = "--sort dateadded --view grid --display folder";
+      }
+    ];
+  };
+
   # Enable Packages
   common-packages.enable = true;
   nixos-packages.enable = false;
-
-  # Dotfiles
-  home.file = {
-    ".config/starship.toml".source = ../../dotfiles/starship/starship.toml;
-    ".config/alacritty/alacritty.toml".source = ../../dotfiles/alacritty/alacritty.toml;
-    ".emacs.d/init.el".source = ../../dotfiles/emacs/init.el;
-    ".emacs.d/early-init.el".source = ../../dotfiles/emacs/early-init.el;
-  };
 
   home.stateVersion = "23.11";
   programs.home-manager.enable = true;

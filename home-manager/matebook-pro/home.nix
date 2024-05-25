@@ -13,6 +13,7 @@
 
   imports = [
     outputs.homeManagerModules.common
+    outputs.homeManagerModules.qt
   ];
 
   nixpkgs = {
@@ -30,9 +31,8 @@
     # Empty for now
   ];
 
-  programs.firefox = {
-    enable = true;
-  };
+  # Enable Firefox
+  firefox.enable = true;
 
   # Editors
   programs.vscode = {
@@ -62,7 +62,7 @@
     enable = true;
     enableBashIntegration = true;
     enableSshSupport = true;
-    pinentryPackage = pkgs.pinentry-qt;
+    pinentryPackage = pkgs.pinentry-gnome3;
     enableScDaemon = true;
   };
 

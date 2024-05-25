@@ -24,6 +24,7 @@
   };
 
   nixpkgs.config.allowBroken = true;
+
   # Mac homebrew
   homebrew = {
     enable = true;

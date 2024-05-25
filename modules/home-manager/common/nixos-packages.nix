@@ -10,6 +10,8 @@
   };
 
   config = lib.mkIf config.nixos-packages.enable {
+xdg.portal.enable = true;
+
     home.packages = [
       # Terminal programs
       pkgs.yt-dlp

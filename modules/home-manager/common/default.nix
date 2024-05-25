@@ -4,5 +4,6 @@
     ./common-packages.nix
     ./nixos-packages.nix
     ./shell.nix
+    ./dotfiles.nix
   ];
 }
