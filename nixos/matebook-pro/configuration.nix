@@ -29,6 +29,9 @@
     };
   };
 
+  # Boot
+  systemd-boot.enable = true;
+
   boot.initrd.luks.devices."luks-282b478b-e75f-4ee5-a625-471a1e621e65".device = "/dev/disk/by-uuid/282b478b-e75f-4ee5-a625-471a1e621e65";
 
   # Flatpack
@@ -88,12 +91,6 @@
   environment.systemPackages = with pkgs; [
 
   ];
-  
-  # Extra system services
-  services.emacs = {
-    enable = true;
-    package = pkgs.emacs;
-  };
 
   nix = let
     flakeInputs = lib.filterAttrs (_: lib.isType "flake") inputs;
