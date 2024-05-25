@@ -9,7 +9,7 @@
       lib.mkEnableOption "Enable Systemd-Boot bootloader";
   };
 
-  config = lib.mkIf config.grub.enable {
+  config = lib.mkIf config.systemd-boot.enable {
     boot = {
       kernelPackages = pkgs.linuxPackages_latest;
       consoleLogLevel = 0;
@@ -30,6 +30,7 @@
       loader = {
         efi.canTouchEfiVariables = true;
         systemd-boot.enable = true;
+        systemd-boot.configurationLimit = 3;
       };
       initrd = {
         systemd.enable = true;

@@ -13,6 +13,10 @@
     nixos-hardware.url = "github:nixos/nixos-hardware/master";
     # My Nix Hardware Fork
     my-nixos-hardware.url = "github:samemrecebi/nixos-hardware/matebook-pro";
+    # Lanzaboote
+    lanzaboote.url = "github:nix-community/lanzaboote/v0.3.0";
+    # Optional but recommended to limit the size of your system closure.
+    lanzaboote.inputs.nixpkgs.follows = "nixpkgs";
     # Nix Darwin
     nix-darwin.url = "github:lnl7/nix-darwin/master";
     nix-darwin.inputs.nixpkgs.follows = "nixpkgs";
@@ -25,6 +29,7 @@
     home-manager,
     nixos-hardware,
     my-nixos-hardware,
+    lanzaboote,
     nix-darwin,
     ...
   } @ inputs: let
@@ -70,6 +75,7 @@
         modules = [
           ./nixos/matebook-pro/configuration.nix
           inputs.my-nixos-hardware.nixosModules.huawei-matebookpro
+          lanzaboote.nixosModules.lanzaboote
           home-manager.nixosModules.home-manager
           {
             # Home Manager as a module
