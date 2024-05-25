@@ -44,7 +44,7 @@
     };
   };
   grub.enable = true;
-  fileSystems."/".options = [ "discard" "noatime" "nodiratime" ];
+  fileSystems."/".options = ["discard" "noatime" "nodiratime"];
 
   # System Modules
   hardware.enableRedistributableFirmware = true;

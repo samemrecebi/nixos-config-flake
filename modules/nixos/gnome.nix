@@ -3,15 +3,11 @@
   services.xserver.displayManager.gdm.enable = true;
   services.xserver.desktopManager.gnome.enable = true;
 
-xdg = {
-  portal = {
-    enable = true;
-    extraPortals = with pkgs; [
-      xdg-desktop-portal-wlr
-      xdg-desktop-portal-gtk
-    ];
+  xdg = {
+    portal = {
+      enable = true;
+    };
   };
-};
 
   # Tripple buffering
   nixpkgs.overlays = [
@@ -36,7 +32,7 @@ xdg = {
       # for packages that are pkgs.***
       gnome-tour
       gnome-connections
-            gedit # text editor
+      gedit # text editor
     ])
     ++ (with pkgs.gnome; [
       # for packages that are pkgs.gnome.***

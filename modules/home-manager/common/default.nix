@@ -5,5 +5,6 @@
     ./nixos-packages.nix
     ./shell.nix
     ./dotfiles.nix
+    ./firefox.nix
   ];
 }

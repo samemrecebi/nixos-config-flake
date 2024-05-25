@@ -1,4 +1,4 @@
 {
   common = import ./common;
-  qt = import ./qt;
+  qt = import ./qt.nix;
 }
