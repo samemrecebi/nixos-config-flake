@@ -65,4 +65,10 @@
     enable = true;
     enableZshIntegration = true;
   };
+  programs.bat = {
+    enable = true;
+  };
+  programs.ripgrep = {
+    enable = true;
+  };
 }
