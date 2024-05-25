@@ -98,6 +98,27 @@
 
   programs.zsh.enable = true;
 
+  system.defaults.dock = {
+    orientation = "left";
+    autohide = true;
+    show-recents = false;
+    persistent-apps = [
+      "/Applications/Todoist.app"
+      "/Applications/Firefox.app"
+      "/System/Applications/Calendar.app"
+      "/System/Applications/Mail.app"
+      "/System/Applications/FaceTime.app"
+      "/System/Applications/System Settings.app"
+      "/Applications/WhatsApp.app"
+      "/Applications/Signal.app"
+      "/Applications/Discord.app"
+      "/Applications/Alacritty.app"
+      "/Applications/Visual Studio Code.app"
+      "/Applications/Emacs.app"
+      "/Applications/Spotify.app"
+    ];
+  };
+
   # Nix relates settings
   nix.extraOptions = ''
     auto-optimise-store = true
