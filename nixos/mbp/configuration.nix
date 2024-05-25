@@ -58,6 +58,7 @@
       "ykman"
       "llvm"
       "gcc"
+      "ExifTool"
     ];
     casks = [
       "gpg-suite"

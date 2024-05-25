@@ -15,11 +15,12 @@
       pkgs.yt-dlp
       pkgs.htop
       pkgs.neofetch
-      pkgs.gh
       pkgs.sl
+      pkgs.exiftool
 
       # General packages
       pkgs.discord
+      pkgs.element-desktop
       pkgs.bitwarden-desktop
       pkgs.protonmail-bridge-gui
       pkgs.thunderbird
