@@ -3,7 +3,7 @@
 
   inputs = {
     # Nixpkgs
-    nixpkgs.url = "github:nixos/nixpkgs/nixos-unstable";
+    nixpkgs.url = "github:nixos/nixpkgs/nixos-24.05";
     # Nixpkgs Stable 23.11
     nixpkgs-stable.url = "github:nixos/nixpkgs/nixos-23.11";
     # Home manager
@@ -57,6 +57,7 @@
         modules = [
           ./nixos/a15/configuration.nix
           nixos-hardware.nixosModules.asus-fa507nv
+          nixos-hardware.nixosModules.common-pc
           home-manager.nixosModules.home-manager
           {
             # Home Manager as a module

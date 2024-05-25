@@ -16,6 +16,7 @@
     outputs.nixosModules.asusd
   ];
   grub.enable = true;
+  fileSystems."/".options = [ "discard" "noatime" "nodiratime" ];
 
   # Nixpkgs config
   nixpkgs = {
@@ -29,9 +30,6 @@
       allowAliases = false;
     };
   };
-
-  # Flatpack
-  services.flatpak.enable = true;
 
   # Bootloader.
   boot = {

@@ -17,6 +17,14 @@
       pkgs.neofetch
       pkgs.sl
       pkgs.exiftool
+      pkgs.hugo
+      pkgs.wget
+      pkgs.curl
+
+      # Yubikey
+      pkgs.yubikey-manager
+      pkgs.yubikey-agent
+      pkgs.yubikey-personalization
 
       # General packages
       pkgs.discord
@@ -31,6 +39,7 @@
       pkgs.zoom-us
       pkgs.signal-desktop
       pkgs.whatsapp-for-linux
+      pkgs.gparted
 
       # Developer Apps
       pkgs.alacritty
