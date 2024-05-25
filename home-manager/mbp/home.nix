@@ -31,7 +31,7 @@
 
   # Enable Packages
   common-packages.enable = true;
-  nixos-packages.enable = true;
+  nixos-packages.enable = false;
 
   # Dotfiles
   home.file = {
