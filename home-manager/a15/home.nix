@@ -22,6 +22,11 @@
     ];
   };
 
+  dconf = {
+    enable = true;
+    settings."org/gnome/desktop/interface".color-scheme = "prefer-dark";
+  };
+
   # Enable Packages
   common-packages.enable = true;
   nixos-packages.enable = true;
