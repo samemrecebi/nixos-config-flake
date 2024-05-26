@@ -28,8 +28,43 @@
 
   # Per System packages
   home.packages = [
+    pkgs.gnomeExtensions.user-themes
     # Empty for now
   ];
+
+  gtk = {
+    enable = true;
+    iconTheme = {
+      name = "Papirus-Dark";
+      package = pkgs.papirus-icon-theme;
+    };
+    gtk3.extraConfig = {
+      Settings = ''
+        gtk-application-prefer-dark-theme=1
+      '';
+    };
+    gtk4.extraConfig = {
+      Settings = ''
+        gtk-application-prefer-dark-theme=1
+      '';
+    };
+  };
+
+  home.sessionVariables.GTK_THEME = "Paper";
+
+  dconf = {
+    enable = true;
+    settings."org/gnome/desktop/interface".color-scheme = "prefer-dark";
+    settings."org/gnome/mutter" = {
+      experimental-features = ["scale-monitor-framebuffer"];
+    };
+    settings."org/gnome/shell" = {
+      disable-user-extensions = false;
+      enabled-extensions = [
+        "user-theme@gnome-shell-extensions.gcampax.github.com"
+      ];
+    };
+  };
 
   # Enable Firefox
   firefox.enable = true;
@@ -43,14 +78,6 @@
   programs.emacs = {
     enable = true;
     package = pkgs.emacs;
-  };
-
-  # Dotfiles
-  home.file = {
-    ".config/starship.toml".source = ../../dotfiles/starship/starship.toml;
-    ".config/alacritty/alacritty.toml".source = ../../dotfiles/alacritty/alacritty.toml;
-    ".emacs.d/init.el".source = ../../dotfiles/emacs/init.el;
-    ".emacs.d/early-init.el".source = ../../dotfiles/emacs/early-init.el;
   };
 
   programs.zsh.sessionVariables = {

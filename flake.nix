@@ -74,7 +74,7 @@
         specialArgs = {inherit inputs outputs;};
         modules = [
           ./nixos/matebook-pro/configuration.nix
-          inputs.my-nixos-hardware.nixosModules.huawei-matebookpro
+          inputs.my-nixos-hardware.nixosModules.huawei-machc-wa
           lanzaboote.nixosModules.lanzaboote
           home-manager.nixosModules.home-manager
           {
