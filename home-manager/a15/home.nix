@@ -14,6 +14,7 @@
   imports = [
     outputs.homeManagerModules.common
     outputs.homeManagerModules.qt
+    outputs.homeManagerModules.gnome-gtk
   ];
 
   nixpkgs = {
@@ -21,11 +22,6 @@
       outputs.overlays.additions
       outputs.overlays.modifications
     ];
-  };
-
-  dconf = {
-    enable = true;
-    settings."org/gnome/desktop/interface".color-scheme = "prefer-dark";
   };
 
   # Enable Packages

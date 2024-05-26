@@ -1,5 +1,5 @@
 {
-  description = "samemrecebi's NixOS Config";
+  description = "samemrecebi's Nix configuration flake";
 
   inputs = {
     # Nixpkgs
@@ -16,6 +16,8 @@
     # Lanzaboote
     lanzaboote.url = "github:nix-community/lanzaboote/v0.3.0";
     lanzaboote.inputs.nixpkgs.follows = "nixpkgs";
+    # Firefox addons
+    firefox-addons.url = "gitlab:rycee/nur-expressions?dir=pkgs/firefox-addons";
     # Nix Darwin
     nix-darwin.url = "github:lnl7/nix-darwin/master";
     nix-darwin.inputs.nixpkgs.follows = "nixpkgs";
@@ -74,7 +76,7 @@
         specialArgs = {inherit inputs outputs;};
         modules = [
           ./nixos/matebook-pro/configuration.nix
-          inputs.my-nixos-hardware.nixosModules.huawei-machc-wa
+          nixos-hardware.nixosModules.huawei-machc-wa
           lanzaboote.nixosModules.lanzaboote
           home-manager.nixosModules.home-manager
           {

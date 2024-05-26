@@ -6,5 +6,6 @@
     ./shell.nix
     ./dotfiles.nix
     ./firefox.nix
+    ./xdg.nix
   ];
 }
