@@ -3,11 +3,7 @@
   services.xserver.displayManager.gdm.enable = true;
   services.xserver.desktopManager.gnome.enable = true;
 
-  xdg = {
-    portal = {
-      enable = true;
-    };
-  };
+  xdg.portal.enable = true;
 
   # Tripple buffering
   nixpkgs.overlays = [
@@ -24,6 +20,7 @@
     })
   ];
 
+  environment.sessionVariables.NIXOS_OZONE_WL = "1";
   environment.systemPackages = with pkgs; [gnomeExtensions.appindicator];
   services.udev.packages = with pkgs; [gnome.gnome-settings-daemon];
 

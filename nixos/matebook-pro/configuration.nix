@@ -31,6 +31,7 @@
 
   # Boot
   systemd-boot.enable = true;
+  fileSystems."/".options = ["discard" "noatime" "nodiratime"];
   boot.initrd.luks.devices."luks-282b478b-e75f-4ee5-a625-471a1e621e65".device = "/dev/disk/by-uuid/282b478b-e75f-4ee5-a625-471a1e621e65";
 
   # System Modules
@@ -49,6 +50,7 @@
     layout = "us,tr";
   };
 
+  # OpenGL
   hardware.opengl = {
     enable = true;
     driSupport = true;
@@ -60,9 +62,9 @@
     ];
     extraPackages32 = with pkgs.pkgsi686Linux; [libva];
   };
+
   # Nvidia-Docker
   virtualisation.docker.enableNvidia = true;
-  environment.sessionVariables.NIXOS_OZONE_WL = "1";
 
   # Enable sound with pipewire.
   sound.enable = true;
@@ -94,7 +96,14 @@
 
   # System packages
   environment.systemPackages = with pkgs; [
+    # Empty for now
   ];
+
+  # Extra system services
+  services.emacs = {
+    enable = true;
+    package = pkgs.emacs;
+  };
 
   nix = let
     flakeInputs = lib.filterAttrs (_: lib.isType "flake") inputs;

@@ -1,9 +1,6 @@
 {
-  inputs,
-  outputs,
-  lib,
-  config,
   pkgs,
+  outputs,
   ...
 }: {
   home.username = "emrecebi";
@@ -13,50 +10,54 @@
 
   imports = [
     outputs.homeManagerModules.common
-    outputs.homeManagerModules.qt
-    outputs.homeManagerModules.gnome-gtk
+    outputs.homeManagerModules.nixos
   ];
 
+  # Nixpkgs overlays
   nixpkgs = {
     overlays = [
       outputs.overlays.additions
       outputs.overlays.modifications
+      outputs.overlays.stable-packages
     ];
   };
 
-  # Enable Packages
-  common-packages.enable = true;
-  nixos-packages.enable = true;
-
-  # Per System packages
+  # Packages
+  ## Per user packages
   home.packages = [
     # Empty for now
   ];
 
-  # Enable Firefox
+  ## Packages from modules
+  common-packages.enable = true;
+  nixos-packages.enable = true;
   firefox.enable = true;
 
-  # Editors
+  # Programs
+  ## VSCode
   programs.vscode = {
     enable = true;
     package = pkgs.vscode;
   };
 
+  ## Emacs
   programs.emacs = {
     enable = true;
     package = pkgs.emacs;
   };
 
+  # Nixos specific zsh configurations
   programs.zsh.sessionVariables = {
     FLAKE = "/home/emrecebi/.nix-config";
   };
 
-dconf.settings = {
-  "org/virt-manager/virt-manager/connections" = {
-    autoconnect = ["qemu:///system"];
-    uris = ["qemu:///system"];
+  # dconf settings
+  dconf.settings = {
+    "org/virt-manager/virt-manager/connections" = {
+      autoconnect = ["qemu:///system"];
+      uris = ["qemu:///system"];
+    };
   };
-};
 
   # GPG and SSH
   services.gpg-agent = {
@@ -69,6 +70,5 @@ dconf.settings = {
 
   # Reload system units when config is changed
   systemd.user.startServices = "sd-switch";
-
   programs.home-manager.enable = true;
 }

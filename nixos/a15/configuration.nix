@@ -62,7 +62,7 @@
     layout = "us,tr";
   };
 
-  # Nvidia setup
+  # OpenGL
   hardware.opengl = {
     enable = true;
     driSupport = true;
@@ -74,11 +74,13 @@
     ];
     extraPackages32 = with pkgs.pkgsi686Linux; [libva];
   };
-  environment.sessionVariables.NIXOS_OZONE_WL = "1";
+
+  # Nvidia extra settings (The actual setup is in nixos-hardware repo)
   hardware.nvidia = {
     powerManagement.enable = true;
     package = config.boot.kernelPackages.nvidiaPackages.production;
   };
+
   # Nvidia-Docker
   virtualisation.docker.enableNvidia = true;
 
@@ -112,6 +114,7 @@
 
   # System packages
   environment.systemPackages = with pkgs; [
+    # Empty for now
   ];
 
   # Extra system services
@@ -120,6 +123,7 @@
     package = pkgs.emacs;
   };
 
+  # Nix settings
   nix = let
     flakeInputs = lib.filterAttrs (_: lib.isType "flake") inputs;
   in {

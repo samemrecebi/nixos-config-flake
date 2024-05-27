@@ -49,6 +49,7 @@
     formatter = forAllSystems (system: nixpkgs.legacyPackages.${system}.alejandra);
     overlays = import ./overlays {inherit inputs;};
     nixosModules = import ./modules/nixos;
+    darwinModules = import ./modules/darwin;
     homeManagerModules = import ./modules/home-manager;
 
     # NixOS configuration entrypoint
