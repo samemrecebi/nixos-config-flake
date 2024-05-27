@@ -109,7 +109,7 @@
   users.users.emrecebi = {
     isNormalUser = true;
     description = "Emre Cebi";
-    extraGroups = ["networkmanager" "wheel" "docker" "libvirtd"];
+    extraGroups = ["networkmanager" "wheel"];
   };
 
   # System packages
