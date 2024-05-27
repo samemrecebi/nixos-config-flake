@@ -28,7 +28,7 @@
         '';
       };
       loader = {
-        efi.canTouchEfiVariables = true;
+        efi.canTouchEfiVariables = false;
         systemd-boot.enable = true;
         systemd-boot.configurationLimit = 3;
       };
