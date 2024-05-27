@@ -51,6 +51,13 @@
     FLAKE = "/home/emrecebi/.nix-config";
   };
 
+dconf.settings = {
+  "org/virt-manager/virt-manager/connections" = {
+    autoconnect = ["qemu:///system"];
+    uris = ["qemu:///system"];
+  };
+};
+
   # GPG and SSH
   services.gpg-agent = {
     enable = true;

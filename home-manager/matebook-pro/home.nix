@@ -60,6 +60,13 @@
     enableScDaemon = true;
   };
 
+dconf.settings = {
+  "org/virt-manager/virt-manager/connections" = {
+    autoconnect = ["qemu:///system"];
+    uris = ["qemu:///system"];
+  };
+};
+
   # Reload system units when config is changed
   systemd.user.startServices = "sd-switch";
 

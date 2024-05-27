@@ -34,5 +34,7 @@
       qemu_kvm
       qemu
     ];
+    users.users.emrecebi.extraGroups = [ "libvirtd" ];
+    environment.sessionVariables.GDK_BACKEND = "x11 virt-manager`";
   };
 }
