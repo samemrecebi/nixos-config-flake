@@ -1,3 +1,3 @@
 {
-  # Nothing yet
+  dock = import ./dock.nix;
 }

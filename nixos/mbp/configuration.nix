@@ -8,6 +8,7 @@
 }: {
   # No imports yet no modules
   imports = [
+    outputs.darwinModules.dock
   ];
 
   # Pkgs settings
@@ -25,6 +26,10 @@
 
   nixpkgs.config.allowBroken = true;
 
+  system.activationScripts.postUserActivation.text = ''
+    /System/Library/PrivateFrameworks/SystemAdministration.framework/Resources/activateSettings -u
+  '';
+
   # Mac homebrew
   homebrew = {
     enable = true;
@@ -39,6 +44,7 @@
       "homebrew/services"
     ];
     brews = [
+      "neofetch"
       "docker"
       "docker-compose"
       "moreutils"
@@ -102,20 +108,29 @@
     orientation = "left";
     autohide = true;
     show-recents = false;
-    persistent-apps = [
-      "/Applications/Todoist.app"
-      "/Applications/Firefox.app"
-      "/System/Applications/Calendar.app"
-      "/System/Applications/Mail.app"
-      "/System/Applications/FaceTime.app"
-      "/System/Applications/System Settings.app"
-      "/Applications/WhatsApp.app"
-      "/Applications/Signal.app"
-      "/Applications/Discord.app"
-      "/Applications/Alacritty.app"
-      "/Applications/Visual Studio Code.app"
-      "/Applications/Emacs.app"
-      "/Applications/Spotify.app"
+  };
+
+  local = {
+    dock.enable = true;
+    dock.entries = [
+      { path = "/Applications/Todoist.app/"; }
+      { path = "/System/Applications/Calendar.app/"; }
+      { path = "/Applications/Firefox.app/"; }
+      { path = "/System/Applications/Mail.app/"; }
+      { path = "/System/Applications/FaceTime.app/"; }
+      { path = "/System/Applications/System Settings.app/"; }
+      { path = "/Applications/WhatsApp.app/"; }
+      { path = "/Applications/Signal.app/"; }
+      { path = "/Applications/Discord.app/"; }
+      { path = "/Applications/Alacritty.app"; }
+      { path = "/Applications/Visual Studio Code.app/"; }
+      { path = "/Applications/Emacs.app/"; }
+      { path = "/Applications/Spotify.app/"; }
+      {
+        path = "${config.users.users.emrecebi.home}/Downloads";
+        section = "others";
+        options = "--sort name --view grid --display stack";
+      }
     ];
   };
 
