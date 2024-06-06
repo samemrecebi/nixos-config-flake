@@ -13,7 +13,7 @@
     # Modules
     outputs.nixosModules.common
     outputs.nixosModules.gnome
-    outputs.nixosModules.lanzaboote
+    outputs.nixosModules.grub
   ];
 
   # Nixpkgs config
@@ -30,7 +30,7 @@
   };
 
   # Boot
-  systemd-boot.enable = true;
+  grub.enable = true;
   fileSystems."/".options = ["discard" "noatime" "nodiratime"];
   boot.initrd.luks.devices."luks-282b478b-e75f-4ee5-a625-471a1e621e65".device = "/dev/disk/by-uuid/282b478b-e75f-4ee5-a625-471a1e621e65";
 
