@@ -5,7 +5,7 @@
   ...
 }: {
   imports = [
-    "${modulesPath}/installer/cd-dvd/installation-cd-graphical-gnome.nix"
+    "${modulesPath}/installer/cd-dvd/installation-cd-graphical-calamares-plasma5.nix"
   ];
 
   boot.kernelPackages = pkgs.linuxPackages_latest;
@@ -18,9 +18,6 @@
 
   isoImage.squashfsCompression = "gzip -Xcompression-level 1";
   boot.supportedFilesystems = lib.mkForce ["btrfs" "reiserfs" "vfat" "f2fs" "xfs" "ntfs" "cifs"];
-  services.displayManager.autoLogin = lib.mkForce {
-    enable = true;
-  };
 
   environment.systemPackages = with pkgs; [
     neofetch
@@ -36,12 +33,6 @@
     # Editor
     alejandra
     nil
-    (vscode-with-extensions.override {
-      vscodeExtensions = with vscode-extensions; [
-        kamadorueda.alejandra
-        jnoortheen.nix-ide
-      ];
-    })
   ];
   hardware.enableRedistributableFirmware = true;
   nix.settings.experimental-features = ["nix-command" "flakes"];
