@@ -97,6 +97,10 @@
     };
   };
 
+  # Temp fix for nix-darwin
+  nix.configureBuildUsers = true;
+  ids.uids.nixbld = lib.mkForce 30000;
+
   services.emacs = {
     enable = true;
     package = pkgs.emacs;
