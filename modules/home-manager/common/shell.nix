@@ -40,7 +40,7 @@
   programs.starship.enable = true;
   programs.git = {
     enable = true;
-    package = pkgs.gitFull;
+    package = pkgs.git;
     userName = "Emre Cebi";
     userEmail = "emre@cebi.io";
     extraConfig = {

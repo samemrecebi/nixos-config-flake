@@ -24,8 +24,6 @@
     home = "/Users/emrecebi";
   };
 
-  nixpkgs.config.allowBroken = true;
-
   system.activationScripts.postUserActivation.text = ''
     /System/Library/PrivateFrameworks/SystemAdministration.framework/Resources/activateSettings -u
   '';
