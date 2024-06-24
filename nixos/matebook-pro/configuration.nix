@@ -13,7 +13,6 @@
     # Modules
     outputs.nixosModules.common
     outputs.nixosModules.gnome
-    outputs.nixosModules.grub
   ];
 
   # Nixpkgs config
