@@ -66,6 +66,7 @@
       "ExifTool"
     ];
     casks = [
+      "microsoft-teams"
       "gpg-suite"
       "temurin"
       "temurin@8"
