@@ -66,7 +66,9 @@
       "ExifTool"
     ];
     casks = [
+      "zoom"
       "microsoft-teams"
+      "yacreader"
       "gpg-suite"
       "temurin"
       "temurin@8"
@@ -88,9 +90,10 @@
       "zulip"
       "termius"
       "telegram-desktop"
+      "mullvadvpn"
     ];
     masApps = {
-      Bitwarden = 1352778147;
+      "Bitwarden" = 1352778147;
       "Microsoft Word" = 462054704;
       "Microsoft PowerPoint" = 462062816;
     };
