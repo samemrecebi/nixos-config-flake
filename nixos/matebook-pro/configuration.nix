@@ -52,9 +52,7 @@
   # OpenGL
   hardware.opengl = {
     enable = true;
-    driSupport = true;
     driSupport32Bit = true;
-    setLdLibraryPath = true;
     extraPackages = with pkgs; [
       vaapiVdpau
       libvdpau-va-gl
