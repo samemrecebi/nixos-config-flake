@@ -15,7 +15,6 @@
 
     # Optional NixOS modules
     ./grub.nix
-    ./gaming.nix
   ];
 
   auto-timezone.enable = lib.mkDefault true;
