@@ -28,6 +28,10 @@
       enable-hot-corners = true;
       edge-tiling = true;
     };
+    settings."org/virt-manager/virt-manager/connections" = {
+      autoconnect = ["qemu:///system"];
+      uris = ["qemu:///system"];
+    };
     settings."org/gnome/mutter" = {
       experimental-features = ["scale-monitor-framebuffer"];
     };

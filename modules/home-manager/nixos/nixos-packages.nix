@@ -39,19 +39,27 @@
       pkgs.zoom-us
       pkgs.signal-desktop
       pkgs.whatsapp-for-linux
-      pkgs.gparted
 
       # Developer Apps
       pkgs.alacritty
-      pkgs.jetbrains.idea-ultimate
-      pkgs.jetbrains.clion
-      pkgs.jetbrains.webstorm
 
       # Office Program
       pkgs.libreoffice-qt
       pkgs.hunspell
       pkgs.hunspellDicts.en_US
-      pkgs.hunspellDictTR.tr_TR
+      pkgs.hunspellDicts.tr_TR
     ];
+
+    ## VSCode
+    programs.vscode = {
+      enable = true;
+      package = pkgs.vscode;
+    };
+
+    ## Emacs
+    programs.emacs = {
+      enable = true;
+      package = pkgs.emacs;
+    };
   };
 }

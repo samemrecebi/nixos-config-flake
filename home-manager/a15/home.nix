@@ -23,41 +23,20 @@
   };
 
   # Packages
-  ## Per user packages
+  ## Device spesific user packages
   home.packages = [
-    # Empty for now
+    pkgs.slack
+    pkgs.teams-for-linux
+    pkgs.jetbrains.idea-ultimate
+    pkgs.jetbrains.clion
+    pkgs.jetbrains.webstorm
+    pkgs.zed-editor
   ];
 
   ## Packages from modules
   common-packages.enable = true;
   nixos-packages.enable = true;
   firefox.enable = true;
-
-  # Programs
-  ## VSCode
-  programs.vscode = {
-    enable = true;
-    package = pkgs.vscode;
-  };
-
-  ## Emacs
-  programs.emacs = {
-    enable = true;
-    package = pkgs.emacs;
-  };
-
-  # Nixos specific zsh configurations
-  programs.zsh.sessionVariables = {
-    FLAKE = "/home/emrecebi/.nix-config";
-  };
-
-  # dconf settings
-  dconf.settings = {
-    "org/virt-manager/virt-manager/connections" = {
-      autoconnect = ["qemu:///system"];
-      uris = ["qemu:///system"];
-    };
-  };
 
   # GPG and SSH
   services.gpg-agent = {

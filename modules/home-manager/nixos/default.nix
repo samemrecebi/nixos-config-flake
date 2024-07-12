@@ -4,6 +4,6 @@
     ./firefox.nix
     ./xdg.nix
     ./gnome-gtk.nix
-    ./qt.nix
+    ./env-variables.nix
   ];
 }

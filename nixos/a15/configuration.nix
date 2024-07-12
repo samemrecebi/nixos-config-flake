@@ -31,24 +31,26 @@
 
   # Bootloader.
   boot = {
-    extraModprobeConfig = "options kvm_amd nested=1";
+    kernelModules = ["kvm-amd"];
+    blacklistedKernelModules = [ "nouveau" ];
     kernelParams = [
       "nvidia.NVreg_PreserveVideoMemoryAllocations=1"
       "smd_prefcore=enable"
-      "iomem=relaxed"
-      "pcie_aspm=force"
-      "preempt=voluntary"
+      "mem_sleep_default=deep"
+      "pcie_aspm.policy=powersupersave"
     ];
     initrd = {
       luks.devices."luks-48e95629-d19a-4e8a-924e-53c660939c0c".device = "/dev/disk/by-uuid/48e95629-d19a-4e8a-924e-53c660939c0c";
     };
   };
   grub.enable = true;
-  fileSystems."/".options = ["discard" "noatime" "nodiratime"];
 
   # System Modules
   hardware.enableRedistributableFirmware = true;
   zramSwap.enable = true;
+
+  # Firmware update
+  services.fwupd.enable = true;
 
   # Enable networking
   networking.networkmanager.enable = true;
@@ -66,15 +68,13 @@
   hardware.opengl = {
     enable = true;
     driSupport32Bit = true;
-    extraPackages = with pkgs; [
-      libvdpau-va-gl
-    ];
-    extraPackages32 = with pkgs.pkgsi686Linux; [libva];
   };
+
+  # Testing
+  hardware.amdgpu.initrd.enable = true;
 
   # Nvidia extra settings (The actual setup is in nixos-hardware repo)
   hardware.nvidia = {
-    powerManagement.enable = true;
     package = config.boot.kernelPackages.nvidiaPackages.production;
   };
 

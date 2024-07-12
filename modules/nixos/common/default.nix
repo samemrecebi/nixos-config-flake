@@ -15,7 +15,6 @@
 
     # Optional NixOS modules
     ./grub.nix
-    ./systemd-boot.nix
     ./gaming.nix
   ];
 
