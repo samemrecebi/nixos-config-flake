@@ -45,8 +45,6 @@
       "neofetch"
       "docker"
       "docker-compose"
-      "moreutils"
-      "htop"
       "coreutils"
       "pandoc"
       "hugo"
@@ -57,19 +55,19 @@
       "pinentry-mac"
       "yubikey-personalization"
       "gnupg"
+      "ykman"
+      "ExifTool"
       "python"
       "pyenv"
       "node"
-      "ykman"
-      "llvm"
-      "gcc"
-      "ExifTool"
     ];
     casks = [
+      "slack"
+      "utm"
+      "zoom"
       "microsoft-teams"
+      "yacreader"
       "gpg-suite"
-      "temurin"
-      "temurin@8"
       "jetbrains-toolbox"
       "docker"
       "keka"
@@ -85,12 +83,13 @@
       "mac-mouse-fix"
       "whatsapp"
       "signal"
-      "zulip"
       "termius"
       "telegram-desktop"
+      "mullvadvpn"
+      "zed"
     ];
     masApps = {
-      Bitwarden = 1352778147;
+      "Bitwarden" = 1352778147;
       "Microsoft Word" = 462054704;
       "Microsoft PowerPoint" = 462062816;
     };
