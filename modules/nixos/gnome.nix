@@ -30,19 +30,5 @@
       gnome-tour
       gnome-connections
       gedit # text editor
-    ])
-    ++ (with pkgs.gnome; [
-      # for packages that are pkgs.gnome.***
-      epiphany # web browser
-      geary # email reader
-      cheese # webcam tool
-      gnome-music
-      gnome-terminal
-
-      totem # video player
-      tali # poker game
-      iagno # go game
-      hitori # sudoku game
-      atomix # puzzle game
     ]);
 }
