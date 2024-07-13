@@ -23,9 +23,6 @@
       plymouth = {
         enable = true;
         theme = "bgrt";
-        extraConfig = ''
-          DeviceScale=1.25
-        '';
       };
       loader = {
         efi.canTouchEfiVariables = true;

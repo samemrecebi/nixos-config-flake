@@ -38,6 +38,7 @@
       pkgs.mpv
       pkgs.zoom-us
       pkgs.signal-desktop
+      pkgs.telegram-desktop
       pkgs.whatsapp-for-linux
 
       # Developer Apps

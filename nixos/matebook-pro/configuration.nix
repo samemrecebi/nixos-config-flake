@@ -29,7 +29,6 @@
   };
 
   # Boot
-  grub.enable = true;
   fileSystems."/".options = ["discard" "noatime" "nodiratime"];
   boot.initrd.luks.devices."luks-282b478b-e75f-4ee5-a625-471a1e621e65".device = "/dev/disk/by-uuid/282b478b-e75f-4ee5-a625-471a1e621e65";
 

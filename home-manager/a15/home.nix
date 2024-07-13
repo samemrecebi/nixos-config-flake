@@ -27,10 +27,8 @@
   home.packages = [
     pkgs.slack
     pkgs.teams-for-linux
-    pkgs.jetbrains.idea-ultimate
-    pkgs.jetbrains.clion
-    pkgs.jetbrains.webstorm
     pkgs.zed-editor
+    pkgs.nodejs
   ];
 
   ## Packages from modules

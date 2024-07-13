@@ -1,5 +1,13 @@
 {
-  programs.zsh.sessionVariables = {
-    FLAKE = "/home/emrecebi/.nix-config";
+  programs.zsh = {
+    shellAliases = {
+      # Empty for now
+    };
+    sessionVariables = {
+      FLAKE = "/home/emrecebi/.nix-config";
+    };
+    initExtra = ''
+
+    '';
   };
 }

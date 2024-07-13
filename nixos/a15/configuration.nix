@@ -32,7 +32,7 @@
   # Bootloader.
   boot = {
     kernelModules = ["kvm-amd"];
-    blacklistedKernelModules = [ "nouveau" ];
+    blacklistedKernelModules = ["nouveau"];
     kernelParams = [
       "nvidia.NVreg_PreserveVideoMemoryAllocations=1"
       "smd_prefcore=enable"
@@ -43,7 +43,6 @@
       luks.devices."luks-48e95629-d19a-4e8a-924e-53c660939c0c".device = "/dev/disk/by-uuid/48e95629-d19a-4e8a-924e-53c660939c0c";
     };
   };
-  grub.enable = true;
 
   # System Modules
   hardware.enableRedistributableFirmware = true;
@@ -51,6 +50,16 @@
 
   # Firmware update
   services.fwupd.enable = true;
+
+  # Timezone
+  services.automatic-timezoned.enable = true;
+
+  # Asus stuff
+  services.supergfxd.enable = true;
+  services.asusd = {
+    enable = true;
+    enableUserService = true;
+  };
 
   # Enable networking
   networking.networkmanager.enable = true;
@@ -70,13 +79,11 @@
     driSupport32Bit = true;
   };
 
-  # Testing
+  # Initial amdgpu firmware
   hardware.amdgpu.initrd.enable = true;
 
   # Nvidia extra settings (The actual setup is in nixos-hardware repo)
-  hardware.nvidia = {
-    package = config.boot.kernelPackages.nvidiaPackages.production;
-  };
+  hardware.nvidia.package = config.boot.kernelPackages.nvidiaPackages.production;
 
   # Nvidia-Docker
   virtualisation.docker.enableNvidia = true;

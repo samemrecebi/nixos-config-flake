@@ -13,9 +13,6 @@
     nixos-hardware.url = "github:nixos/nixos-hardware/master";
     # My Nix Hardware Fork
     my-nixos-hardware.url = "github:samemrecebi/nixos-hardware/matebook-pro";
-    # Lanzaboote
-    lanzaboote.url = "github:nix-community/lanzaboote/v0.3.0";
-    lanzaboote.inputs.nixpkgs.follows = "nixpkgs";
     # Firefox addons
     firefox-addons.url = "gitlab:rycee/nur-expressions?dir=pkgs/firefox-addons";
     # Nix Darwin
@@ -78,7 +75,6 @@
         modules = [
           ./nixos/matebook-pro/configuration.nix
           nixos-hardware.nixosModules.huawei-machc-wa
-          lanzaboote.nixosModules.lanzaboote
           home-manager.nixosModules.home-manager
           {
             # Home Manager as a module
