@@ -1,4 +1,4 @@
-import = ["./github_dark.toml"]
+import = ["./ayu-dark.toml"]
 live_config_reload = true
 
 [bell]
