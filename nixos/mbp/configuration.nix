@@ -87,6 +87,7 @@
       "telegram-desktop"
       "mullvadvpn"
       "zed"
+      "chatgpt"
     ];
     masApps = {
       "Bitwarden" = 1352778147;
@@ -126,7 +127,7 @@
       { path = "/Applications/Discord.app/"; }
       { path = "/Applications/Alacritty.app"; }
       { path = "/Applications/Visual Studio Code.app/"; }
-      { path = "/Applications/Emacs.app/"; }
+      { path = "/Applications/Zed.app/"; }
       { path = "/Applications/Spotify.app/"; }
       {
         path = "${config.users.users.emrecebi.home}/Downloads";
