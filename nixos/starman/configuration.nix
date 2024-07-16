@@ -13,7 +13,6 @@
     # Modules
     outputs.nixosModules.common
     outputs.nixosModules.gnome
-    outputs.nixosModules.asusd
   ];
 
   # Nixpkgs config
@@ -33,12 +32,6 @@
   boot = {
     kernelModules = ["kvm-amd"];
     blacklistedKernelModules = ["nouveau"];
-    kernelParams = [
-      "nvidia.NVreg_PreserveVideoMemoryAllocations=1"
-      "smd_prefcore=enable"
-      "mem_sleep_default=deep"
-      "pcie_aspm.policy=powersupersave"
-    ];
     initrd = {
       luks.devices."luks-48e95629-d19a-4e8a-924e-53c660939c0c".device = "/dev/disk/by-uuid/48e95629-d19a-4e8a-924e-53c660939c0c";
     };
@@ -63,7 +56,7 @@
 
   # Enable networking
   networking.networkmanager.enable = true;
-  networking.hostName = "asus-a15";
+  networking.hostName = "starman";
 
   # Firewall
   networking.firewall.enable = true;
@@ -74,9 +67,9 @@
   };
 
   # OpenGL
-  hardware.opengl = {
+  hardware.graphics = {
     enable = true;
-    driSupport32Bit = true;
+    enable32Bit = true;
   };
 
   # Initial amdgpu firmware

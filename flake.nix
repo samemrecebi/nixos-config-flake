@@ -51,13 +51,12 @@
 
     # NixOS configuration entrypoint
     nixosConfigurations = {
-      asus-a15 = nixpkgs.lib.nixosSystem {
+      starman = nixpkgs.lib.nixosSystem {
         system = "x86_64-linux";
         specialArgs = {inherit inputs outputs;};
         modules = [
-          ./nixos/a15/configuration.nix
+          ./nixos/starman/configuration.nix
           nixos-hardware.nixosModules.asus-fa507nv
-          nixos-hardware.nixosModules.common-pc
           home-manager.nixosModules.home-manager
           {
             # Home Manager as a module
@@ -65,7 +64,7 @@
             home-manager.useUserPackages = true;
             home-manager.backupFileExtension = "backup";
             home-manager.extraSpecialArgs = {inherit inputs outputs;};
-            home-manager.users.emrecebi = import ./home-manager/a15/home.nix;
+            home-manager.users.emrecebi = import ./home-manager/starman/home.nix;
           }
         ];
       };

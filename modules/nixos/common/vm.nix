@@ -10,28 +10,36 @@
       lib.mkEnableOption "Enable virtualization support and Docker";
   };
   config = lib.mkIf config.vm.enable {
-    boot.kernelModules = ["vfio-pci"];
 
-    virtualisation = {
-      docker = {
-        enable = true;
-        daemon.settings."features"."containerd-snapshotter" = true;
-        enableOnBoot = true;
+    # KVM
+    virtualisation.libvirtd = {
+      enable = true;
+      qemu = {
+        package = pkgs.qemu_kvm;
+        runAsRoot = true;
+        swtpm.enable = true;
+        ovmf = {
+          enable = true;
+          packages = [
+            (pkgs.OVMF.override {
+              secureBoot = true;
+              tpmSupport = true;
+            })
+            .fd
+          ];
+        };
       };
-
-      libvirtd = {
-        enable = true;
-        qemu.runAsRoot = true;
-      };
-      waydroid.enable = true;
-      lxd.enable = true;
     };
+
+    # Docker
+    virtualisation.docker.enable = true;
 
     environment.systemPackages = with pkgs; [
       virt-manager
       qemu_kvm
       qemu
     ];
+
     users.users.emrecebi.extraGroups = ["docker" "libvirtd"];
   };
 }
