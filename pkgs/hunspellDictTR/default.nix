@@ -48,7 +48,7 @@ in rec {
   */
   tr_TR = tr_tr;
   tr_tr = mkDict rec {
-    pname = "hunspell-dict-tr-tr";
+    pname = "";
     version = "1.1.1";
 
     src = fetchFromGitHub {
