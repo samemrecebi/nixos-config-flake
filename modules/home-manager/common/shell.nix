@@ -71,4 +71,8 @@
   programs.ripgrep = {
     enable = true;
   };
+  programs.zellij = {
+    enable = true;
+    enableZshIntegration = true;
+  };
 }

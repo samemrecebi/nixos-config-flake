@@ -27,7 +27,6 @@
     home-manager,
     nixos-hardware,
     my-nixos-hardware,
-    lanzaboote,
     nix-darwin,
     ...
   } @ inputs: let
@@ -55,7 +54,7 @@
         system = "x86_64-linux";
         specialArgs = {inherit inputs outputs;};
         modules = [
-          ./nixos/starman/configuration.nix
+          ./hosts/starman/configuration.nix
           nixos-hardware.nixosModules.asus-fa507nv
           home-manager.nixosModules.home-manager
           {
@@ -68,11 +67,11 @@
           }
         ];
       };
-      matebook-pro = nixpkgs.lib.nixosSystem {
+      medcezir = nixpkgs.lib.nixosSystem {
         system = "x86_64-linux";
         specialArgs = {inherit inputs outputs;};
         modules = [
-          ./nixos/matebook-pro/configuration.nix
+          ./hosts/medcezir/configuration.nix
           nixos-hardware.nixosModules.huawei-machc-wa
           home-manager.nixosModules.home-manager
           {
@@ -81,7 +80,7 @@
             home-manager.useUserPackages = true;
             home-manager.backupFileExtension = "backup";
             home-manager.extraSpecialArgs = {inherit inputs outputs;};
-            home-manager.users.emrecebi = import ./home-manager/matebook-pro/home.nix;
+            home-manager.users.emrecebi = import ./home-manager/medcezir/home.nix;
           }
         ];
       };
@@ -89,7 +88,7 @@
         system = "x86_64-linux";
         specialArgs = {inherit inputs outputs;};
         modules = [
-          ./nixos/iso/configuration.nix
+          ./hosts/iso/configuration.nix
         ];
       };
     };
@@ -97,14 +96,14 @@
       specialArgs = {inherit inputs outputs;};
       system = "aarch64-darwin";
       modules = [
-        ./nixos/mbp/configuration.nix
+        ./hosts/bomonti/configuration.nix
         home-manager.darwinModules.home-manager
         {
           home-manager.useGlobalPkgs = true;
           home-manager.useUserPackages = true;
           home-manager.backupFileExtension = "backup";
           home-manager.extraSpecialArgs = {inherit inputs outputs;};
-          home-manager.users.emrecebi = import ./home-manager/mbp/home.nix;
+          home-manager.users.emrecebi = import ./home-manager/bomonti/home.nix;
         }
       ];
     };

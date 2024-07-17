@@ -38,7 +38,7 @@
 
   # Enable networking
   networking.networkmanager.enable = true;
-  networking.hostName = "matebook-pro";
+  networking.hostName = "medcezir";
 
   # Firewall
   networking.firewall.enable = true;
