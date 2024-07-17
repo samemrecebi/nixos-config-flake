@@ -17,6 +17,18 @@
     ".config/zed/settings.json".source = ../../dotfiles/zed/settings.json;
   };
 
+  nixpkgs = {
+    overlays = [
+      outputs.overlays.additions
+      outputs.overlays.modifications
+      outputs.overlays.stable-packages
+    ];
+  };
+
+  home.packages = [
+    pkgs.ObjectsRotator
+  ];
+
   # Emacs
   programs.emacs = {
     enable = true;
