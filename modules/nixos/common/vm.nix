@@ -10,7 +10,6 @@
       lib.mkEnableOption "Enable virtualization support and Docker";
   };
   config = lib.mkIf config.vm.enable {
-
     # KVM
     virtualisation.libvirtd = {
       enable = true;
