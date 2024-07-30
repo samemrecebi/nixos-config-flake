@@ -26,7 +26,7 @@
   };
 
   home.packages = [
-    pkgs.ObjectsRotator
+    
   ];
 
   # Emacs
