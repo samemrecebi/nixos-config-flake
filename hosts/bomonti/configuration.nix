@@ -62,11 +62,8 @@
       "node"
     ];
     casks = [
-      "slack"
       "utm"
       "zoom"
-      "microsoft-teams"
-      "yacreader"
       "gpg-suite"
       "jetbrains-toolbox"
       "docker"
@@ -87,6 +84,7 @@
       "telegram-desktop"
       "mullvadvpn"
       "zed"
+      "qbittorrent"
     ];
     masApps = {
       "Bitwarden" = 1352778147;
