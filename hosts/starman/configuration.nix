@@ -78,11 +78,7 @@
   # Nvidia extra settings (The actual setup is in nixos-hardware repo)
   hardware.nvidia.package = config.boot.kernelPackages.nvidiaPackages.production;
 
-  # Nvidia-Docker
-  virtualisation.docker.enableNvidia = true;
-
   # Enable sound with pipewire.
-  sound.enable = true;
   hardware.pulseaudio.enable = false;
   security.rtkit.enable = true;
   services.pipewire = {

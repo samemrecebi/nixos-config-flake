@@ -34,10 +34,8 @@
   # Packages
   ## Device spesific user packages
   home.packages = [
-    pkgs.slack
-    pkgs.teams-for-linux
-    pkgs.zed-editor
     pkgs.nodejs
+    pkgs.brave
   ];
 
   ## Packages from modules
