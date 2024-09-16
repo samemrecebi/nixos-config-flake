@@ -11,7 +11,6 @@
   config = lib.mkIf config.nix-ld.enable {
     # Enable nix ld
     programs.nix-ld.enable = true;
-    programs.nix-ld.package = pkgs.nix-ld-rs;
 
     programs.nix-ld.libraries = with pkgs; [
       stdenv.cc.cc
