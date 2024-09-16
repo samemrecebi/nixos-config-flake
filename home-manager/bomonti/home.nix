@@ -26,7 +26,6 @@
   };
 
   home.packages = [
-    
   ];
 
   # Emacs
