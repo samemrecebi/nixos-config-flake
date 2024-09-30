@@ -1,6 +1,7 @@
 {pkgs, ...}: {
   home.packages = with pkgs; [
     gnomeExtensions.tailscale-status
+    gnomeExtensions.disable-unredirect-fullscreen-windows
   ];
 
   gtk = {
@@ -43,7 +44,7 @@
       disable-user-extensions = false;
       enabled-extensions = [
         "tailscale-status@maxgallup.github.com"
-        "apps-menu@gnome-shell-extensions.gcampax.github.com"
+        pkgs.gnomeExtensions.disable-unredirect-fullscreen-windows.extensionUuid
       ];
       favorite-apps = [
         "org.gnome.Nautilus.desktop"

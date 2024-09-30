@@ -34,8 +34,6 @@
   # Packages
   ## Device spesific user packages
   home.packages = [
-    pkgs.nodejs
-    pkgs.brave
   ];
 
   ## Packages from modules

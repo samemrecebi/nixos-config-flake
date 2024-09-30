@@ -41,9 +41,6 @@
   hardware.enableRedistributableFirmware = true;
   zramSwap.enable = true;
 
-  # Firmware update
-  services.fwupd.enable = true;
-
   # Timezone
   services.automatic-timezoned.enable = true;
 
@@ -79,14 +76,24 @@
   hardware.nvidia.package = config.boot.kernelPackages.nvidiaPackages.production;
 
   # Enable sound with pipewire.
-  hardware.pulseaudio.enable = false;
   security.rtkit.enable = true;
+  hardware.pulseaudio.enable = false;
   services.pipewire = {
     enable = true;
     alsa.enable = true;
     alsa.support32Bit = true;
     pulse.enable = true;
     jack.enable = true;
+  };
+
+  # System Fonts
+  fonts.enableDefaultPackages = true;
+  fonts.packages = with pkgs; [
+    liberation_ttf
+    mplus-outline-fonts.githubRelease
+  ];
+  environment.sessionVariables = {
+    FREETYPE_PROPERTIES = "cff:no-stem-darkening=0 autofitter:no-stem-darkening=0";
   };
 
   # Laptop power managment
@@ -105,9 +112,12 @@
     extraGroups = ["networkmanager" "wheel"];
   };
 
+  # Microcode
+  hardware.cpu.amd.updateMicrocode = true;
+
   # System packages
   environment.systemPackages = with pkgs; [
-    # Empty for now
+    pavucontrol
   ];
 
   # Extra system services

@@ -15,7 +15,7 @@
       consoleLogLevel = 0;
       kernelParams = [
         "quiet"
-        "udev.log_level=0"
+        "log_level=3"
         "audit=0"
         "nowatchdog"
         "splash"
