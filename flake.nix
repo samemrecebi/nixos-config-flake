@@ -67,23 +67,6 @@
           }
         ];
       };
-      medcezir = nixpkgs.lib.nixosSystem {
-        system = "x86_64-linux";
-        specialArgs = {inherit inputs outputs;};
-        modules = [
-          ./hosts/medcezir/configuration.nix
-          nixos-hardware.nixosModules.huawei-machc-wa
-          home-manager.nixosModules.home-manager
-          {
-            # Home Manager as a module
-            home-manager.useGlobalPkgs = true;
-            home-manager.useUserPackages = true;
-            home-manager.backupFileExtension = "backup";
-            home-manager.extraSpecialArgs = {inherit inputs outputs;};
-            home-manager.users.emrecebi = import ./home-manager/medcezir/home.nix;
-          }
-        ];
-      };
       installerIso = nixpkgs.lib.nixosSystem {
         system = "x86_64-linux";
         specialArgs = {inherit inputs outputs;};

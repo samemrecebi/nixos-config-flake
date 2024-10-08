@@ -14,7 +14,6 @@
       # Terminal programs
       pkgs.yt-dlp
       pkgs.htop
-      pkgs.neofetch
       pkgs.sl
       pkgs.exiftool
       pkgs.hugo
