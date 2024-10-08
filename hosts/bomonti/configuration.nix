@@ -42,9 +42,6 @@
       "homebrew/services"
     ];
     brews = [
-      "neofetch"
-      "docker"
-      "docker-compose"
       "coreutils"
       "pandoc"
       "hugo"
@@ -62,7 +59,6 @@
       "node"
     ];
     casks = [
-      "utm"
       "zoom"
       "gpg-suite"
       "jetbrains-toolbox"
@@ -74,6 +70,7 @@
       "alacritty"
       "iina"
       "firefox"
+      "arc"
       "tailscale"
       "todoist"
       "protonmail-bridge"
