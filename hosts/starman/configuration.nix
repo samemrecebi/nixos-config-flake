@@ -30,7 +30,6 @@
 
   # Bootloader.
   boot = {
-    kernelModules = ["kvm-amd"];
     blacklistedKernelModules = ["nouveau"];
     initrd = {
       luks.devices."luks-48e95629-d19a-4e8a-924e-53c660939c0c".device = "/dev/disk/by-uuid/48e95629-d19a-4e8a-924e-53c660939c0c";
@@ -73,7 +72,10 @@
   hardware.amdgpu.initrd.enable = true;
 
   # Nvidia extra settings (The actual setup is in nixos-hardware repo)
-  hardware.nvidia.package = config.boot.kernelPackages.nvidiaPackages.production;
+  hardware.nvidia = {
+    open = true;
+    package = config.boot.kernelPackages.nvidiaPackages.production;
+  };
 
   # Enable sound with pipewire.
   security.rtkit.enable = true;
