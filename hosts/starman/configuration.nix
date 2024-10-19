@@ -122,12 +122,6 @@
     pavucontrol
   ];
 
-  # Extra system services
-  services.emacs = {
-    enable = true;
-    package = pkgs.emacs;
-  };
-
   # Nix settings
   nix = let
     flakeInputs = lib.filterAttrs (_: lib.isType "flake") inputs;

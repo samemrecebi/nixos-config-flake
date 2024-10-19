@@ -42,12 +42,10 @@
       "homebrew/services"
     ];
     brews = [
-      "coreutils"
       "pandoc"
       "hugo"
       "yt-dlp"
       "sl"
-      "neofetch"
       "wget"
       "pinentry-mac"
       "yubikey-personalization"
@@ -79,24 +77,17 @@
       "signal"
       "termius"
       "telegram-desktop"
+      "slack"
       "mullvadvpn"
       "zed"
       "qbittorrent"
+      "obsidian"
     ];
     masApps = {
       "Bitwarden" = 1352778147;
       "Microsoft Word" = 462054704;
       "Microsoft PowerPoint" = 462062816;
     };
-  };
-
-  # Temp fix for nix-darwin
-  nix.configureBuildUsers = true;
-  ids.uids.nixbld = lib.mkForce 30000;
-
-  services.emacs = {
-    enable = true;
-    package = pkgs.emacs;
   };
 
   programs.zsh.enable = true;
@@ -121,7 +112,6 @@
       {path = "/Applications/Discord.app/";}
       {path = "/Applications/Alacritty.app";}
       {path = "/Applications/Visual Studio Code.app/";}
-      {path = "/Applications/Emacs.app/";}
       {path = "/Applications/Spotify.app/";}
       {
         path = "${config.users.users.emrecebi.home}/Downloads";

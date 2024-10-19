@@ -13,6 +13,7 @@
     home.packages = [
       # Terminal programs
       pkgs.yt-dlp
+      pkgs.pandoc
       pkgs.htop
       pkgs.sl
       pkgs.exiftool
@@ -26,6 +27,7 @@
       pkgs.yubikey-personalization
 
       # General packages
+      pkgs.librewolf-bin
       pkgs.discord
       pkgs.element-desktop
       pkgs.bitwarden-desktop
@@ -54,12 +56,6 @@
     programs.vscode = {
       enable = true;
       package = pkgs.vscode;
-    };
-
-    ## Emacs
-    programs.emacs = {
-      enable = true;
-      package = pkgs.emacs;
     };
   };
 }
