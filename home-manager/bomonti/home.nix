@@ -19,18 +19,17 @@
     overlays = [
       outputs.overlays.additions
       outputs.overlays.modifications
-      outputs.overlays.stable-packages
     ];
   };
 
   home.packages = [
-  ];
+    # Communication
 
-  # Emacs
-  programs.emacs = {
-    enable = true;
-    package = pkgs.emacs;
-  };
+    # Development
+    pkgs.utm
+
+    # Misc
+  ];
 
   # Darwin specific zsh configuration
   programs.zsh = {

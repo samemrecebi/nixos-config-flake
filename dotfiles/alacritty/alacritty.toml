@@ -1,5 +1,5 @@
-import = ["./github_dark.toml"]
 live_config_reload = true
+import = ["./github_dark.toml"]
 
 [bell]
 animation = "EaseOutExpo"

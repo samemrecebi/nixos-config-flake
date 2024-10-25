@@ -6,7 +6,6 @@
   pkgs,
   ...
 }: {
-  # No imports yet no modules
   imports = [
     outputs.darwinModules.dock
   ];
@@ -24,97 +23,139 @@
     home = "/Users/emrecebi";
   };
 
-  system.activationScripts.postUserActivation.text = ''
-    /System/Library/PrivateFrameworks/SystemAdministration.framework/Resources/activateSettings -u
-  '';
-
   # Mac homebrew
   homebrew = {
     enable = true;
-    onActivation = {
-      autoUpdate = true;
-      upgrade = true;
-      cleanup = "zap";
-    };
-    global.brewfile = true;
+    onActivation.cleanup = "zap";
     taps = [
       "homebrew/bundle"
       "homebrew/services"
     ];
     brews = [
-      "pandoc"
-      "hugo"
-      "yt-dlp"
-      "sl"
-      "wget"
-      "pinentry-mac"
-      "yubikey-personalization"
-      "gnupg"
-      "ykman"
-      "ExifTool"
+      # Development
       "python"
       "pyenv"
       "node"
+
+      # Tools
+      "pinentry-mac"
+      "gnupg"
+      "fileicon"
     ];
     casks = [
-      "zoom"
-      "gpg-suite"
-      "jetbrains-toolbox"
-      "docker"
-      "keka"
-      "discord"
-      "visual-studio-code"
+      # Media
       "spotify"
-      "alacritty"
-      "iina"
-      "firefox"
-      "arc"
-      "tailscale"
-      "todoist"
-      "protonmail-bridge"
-      "mac-mouse-fix"
-      "whatsapp"
-      "signal"
-      "termius"
-      "telegram-desktop"
-      "slack"
-      "mullvadvpn"
-      "zed"
-      "qbittorrent"
+      "vlc"
+
+      # Notes
       "obsidian"
+      "todoist"
+
+      # Browsers
+      {
+        name = "librewolf";
+        args = {no_quarantine = true;};
+      }
+      "arc"
+
+      # System
+      "mac-mouse-fix"
+      "gpg-suite"
+
+      # Communication
+      "element"
+      "signal"
+      "telegram-desktop"
+      "whatsapp"
+
+      # Development
+      "docker"
+
+      # Games
+      "zwift"
+
+      # Misc
+      "protonmail-bridge"
+      "mullvadvpn"
+      "appcleaner"
     ];
     masApps = {
       "Bitwarden" = 1352778147;
       "Microsoft Word" = 462054704;
       "Microsoft PowerPoint" = 462062816;
+      "Microsoft Excel" = 462058435;
+      "GoodNotes" = 1444383602;
     };
+  };
+
+  services.tailscale = {
+    enable = true;
   };
 
   programs.zsh.enable = true;
 
-  system.defaults.dock = {
-    orientation = "left";
-    autohide = true;
-    show-recents = false;
+  # System Configuration
+  system.defaults = {
+    alf.globalstate = 1;
+    dock = {
+      orientation = "left";
+      autohide = true;
+      show-recents = false;
+      wvous-bl-corner = 1;
+      wvous-br-corner = 1;
+      wvous-tl-corner = 1;
+      wvous-tr-corner = 1;
+    };
+    finder = {
+      FXPreferredViewStyle = "Nlsv";
+      ShowPathbar = true;
+    };
+    CustomUserPreferences = {
+      "com.apple.AdLib" = {
+        allowApplePersonalizedAdvertising = false;
+      };
+      "com.apple.controlcenter" = {
+        BatteryShowPercentage = true;
+      };
+      "com.apple.screencapture" = {
+        location = "~/Desktop/Screenshots";
+        type = "png";
+      };
+    };
   };
 
-  local = {
-    dock.enable = true;
-    dock.entries = [
-      {path = "/Applications/Todoist.app/";}
+  # Icons customization
+  system = {
+    activationScripts.userScript.text = ''
+      echo >&2 "Setting up the custom icons..."
+      fileicon set "$/Users/emrecebi/Applications/Home Manager Apps/Alacritty.app" "${config.users.users.emrecebi.home}/Icons/Alacritty.icns"
+    '';
+    activationScripts.postUserActivation.text = ''
+      /System/Library/PrivateFrameworks/SystemAdministration.framework/Resources/activateSettings -u
+    '';
+  };
+
+  # Dock layout
+  local.dock = {
+    enable = true;
+    entries = [
       {path = "/System/Applications/Calendar.app/";}
-      {path = "/Applications/Firefox.app/";}
+      {path = "/Applications/Arc.app/";}
+      {path = "/Applications/Librewolf.app/";}
       {path = "/System/Applications/Mail.app/";}
-      {path = "/System/Applications/FaceTime.app/";}
-      {path = "/System/Applications/System Settings.app/";}
       {path = "/Applications/WhatsApp.app/";}
       {path = "/Applications/Signal.app/";}
-      {path = "/Applications/Discord.app/";}
-      {path = "/Applications/Alacritty.app";}
-      {path = "/Applications/Visual Studio Code.app/";}
-      {path = "/Applications/Spotify.app/";}
+      {path = "/Users/emrecebi/Applications/Home Manager Apps/Alacritty.app";}
+      {path = "/Users/emrecebi/Applications/Home Manager Apps/Visual Studio Code.app/";}
+      {path = "/Users/emrecebi/Applications/Home Manager Apps/Spotify.app/";}
+      {path = "/System/Applications/System Settings.app/";}
       {
         path = "${config.users.users.emrecebi.home}/Downloads";
+        section = "others";
+        options = "--sort name --view grid --display stack";
+      }
+      {
+        path = "${config.users.users.emrecebi.home}/Documents/Course\ Documents";
         section = "others";
         options = "--sort name --view grid --display stack";
       }
@@ -122,13 +163,21 @@
   };
 
   # Nix relates settings
-  nix.extraOptions = ''
-    auto-optimise-store = true
-    experimental-features = nix-command flakes
-    extra-platforms = x86_64-darwin aarch64-darwin
-  '';
+  nix = {
+    settings.trusted-users = ["emrecebi"];
+    extraOptions = ''
+      auto-optimise-store = true
+      experimental-features = nix-command flakes
+      extra-platforms = x86_64-darwin aarch64-darwin
+    '';
+    gc = {
+      automatic = true;
+      interval.Day = 7; #Hours, minutes
+      options = "--delete-older-than 7d";
+    };
+  };
+
   system.stateVersion = 4;
   services.nix-daemon.enable = true;
-  nix.settings.trusted-users = ["emrecebi"];
   security.pam.enableSudoTouchIdAuth = true;
 }

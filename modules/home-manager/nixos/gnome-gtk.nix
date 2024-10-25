@@ -48,8 +48,7 @@
       ];
       favorite-apps = [
         "org.gnome.Nautilus.desktop"
-        "todoist.desktop"
-        "firefox.desktop"
+        "librewolf.desktop"
         "thunderbird.desktop"
         "com.github.eneshecan.WhatsAppForLinux.desktop"
         "signal-desktop.desktop"

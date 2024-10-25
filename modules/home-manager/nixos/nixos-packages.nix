@@ -11,20 +11,8 @@
 
   config = lib.mkIf config.nixos-packages.enable {
     home.packages = [
-      # Terminal programs
-      pkgs.yt-dlp
-      pkgs.pandoc
-      pkgs.htop
-      pkgs.sl
-      pkgs.exiftool
-      pkgs.hugo
-      pkgs.wget
-      pkgs.curl
-
       # Yubikey
-      pkgs.yubikey-manager
       pkgs.yubikey-agent
-      pkgs.yubikey-personalization
 
       # General packages
       pkgs.librewolf-bin
@@ -33,17 +21,9 @@
       pkgs.bitwarden-desktop
       pkgs.protonmail-bridge-gui
       pkgs.thunderbird
-      pkgs.spotify
-      pkgs.todoist-electron
-      pkgs.qbittorrent
-      pkgs.mpv
-      pkgs.zoom-us
       pkgs.signal-desktop
       pkgs.telegram-desktop
       pkgs.whatsapp-for-linux
-
-      # Developer Apps
-      pkgs.alacritty
 
       # Office Program
       pkgs.libreoffice-qt

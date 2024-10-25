@@ -12,6 +12,7 @@
       multirow
       moderncv
       beamer
+      minted
       ;
   };
 in {
@@ -21,11 +22,43 @@ in {
   };
   config = lib.mkIf config.common-packages.enable {
     home.packages = with pkgs; [
-      tex
+      # Media Packages
+      spotify
+
+      # Communication Packages
+      slack
+      zoom-us
+      discord
+
+      # Apps
+      qbittorrent
+
+      # Development Packages
+      alacritty
+      zed
+
+      # Shell Packackes
+      pandoc
+      yt-dlp
+      htop
+      exiftool
+      hugo
+      wget
+      curl
+      yubikey-manager
+      yubikey-personalization
 
       # Nix Related Packages
       alejandra
       nil
+      nixd
+
+      # Misc Packages
+      tex
     ];
+
+    programs.vscode = {
+      enable = true;
+    };
   };
 }
