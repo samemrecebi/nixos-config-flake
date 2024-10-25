@@ -29,6 +29,7 @@ in {
       slack
       zoom-us
       discord
+      signal-desktop
 
       # Apps
       qbittorrent
@@ -38,6 +39,7 @@ in {
       zed
 
       # Shell Packackes
+      tex
       pandoc
       yt-dlp
       htop
@@ -45,16 +47,16 @@ in {
       hugo
       wget
       curl
+
+      # Security Packages
       yubikey-manager
       yubikey-personalization
+      yubikey-agent
 
       # Nix Related Packages
       alejandra
       nil
-      nixd
-
-      # Misc Packages
-      tex
+      nixd 
     ];
 
     programs.vscode = {

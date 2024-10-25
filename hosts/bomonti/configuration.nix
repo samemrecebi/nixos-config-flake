@@ -44,12 +44,10 @@
     ];
     casks = [
       # Media
-      "spotify"
       "vlc"
 
       # Notes
       "obsidian"
-      "todoist"
 
       # Browsers
       {
@@ -64,8 +62,6 @@
 
       # Communication
       "element"
-      "signal"
-      "telegram-desktop"
       "whatsapp"
 
       # Development
@@ -75,6 +71,7 @@
       "zwift"
 
       # Misc
+      "tailscale"
       "protonmail-bridge"
       "mullvadvpn"
       "appcleaner"
@@ -86,10 +83,6 @@
       "Microsoft Excel" = 462058435;
       "GoodNotes" = 1444383602;
     };
-  };
-
-  services.tailscale = {
-    enable = true;
   };
 
   programs.zsh.enable = true;
@@ -144,7 +137,7 @@
       {path = "/Applications/Librewolf.app/";}
       {path = "/System/Applications/Mail.app/";}
       {path = "/Applications/WhatsApp.app/";}
-      {path = "/Applications/Signal.app/";}
+      {path = "/Users/emrecebi/Applications/Home Manager Apps/Signal.app/";}
       {path = "/Users/emrecebi/Applications/Home Manager Apps/Alacritty.app";}
       {path = "/Users/emrecebi/Applications/Home Manager Apps/Visual Studio Code.app/";}
       {path = "/Users/emrecebi/Applications/Home Manager Apps/Spotify.app/";}

@@ -11,18 +11,16 @@
 
   config = lib.mkIf config.nixos-packages.enable {
     home.packages = [
-      # Yubikey
-      pkgs.yubikey-agent
-
       # General packages
-      pkgs.librewolf-bin
-      pkgs.discord
-      pkgs.element-desktop
       pkgs.bitwarden-desktop
-      pkgs.protonmail-bridge-gui
+
+      # Browsers
+      pkgs.librewolf-bin
+      pkgs.google-chrome
+
+      # Communication
       pkgs.thunderbird
-      pkgs.signal-desktop
-      pkgs.telegram-desktop
+      pkgs.element-desktop
       pkgs.whatsapp-for-linux
 
       # Office Program
@@ -30,12 +28,10 @@
       pkgs.hunspell
       pkgs.hunspellDicts.en_US
       pkgs.hunspellDicts.tr_TR
-    ];
 
-    ## VSCode
-    programs.vscode = {
-      enable = true;
-      package = pkgs.vscode;
-    };
+      # Misc
+      pkgs.protonmail-bridge-gui
+      pkgs.mullvad-vpn
+    ];
   };
 }
