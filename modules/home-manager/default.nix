@@ -1,5 +1,3 @@
 {
-  common = import ./common;
-  nixos = import ./nixos;
-  darwin = import ./darwin;
+  # Empty for now
 }

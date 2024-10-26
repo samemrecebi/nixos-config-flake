@@ -1,5 +1,0 @@
-{
-  imports = [
-    # Nothing yet
-  ];
-}

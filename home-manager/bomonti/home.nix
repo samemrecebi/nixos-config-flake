@@ -1,11 +1,13 @@
 {
   pkgs,
   outputs,
+  inputs,
   ...
 }: {
   imports = [
-    outputs.homeManagerModules.common
-    outputs.homeManagerModules.darwin
+    ../common/shell.nix
+    ../common/fonts.nix
+    ../common/common-packages.nix
   ];
 
   # Dotfiles
@@ -22,11 +24,17 @@
     ];
   };
 
-  home.packages = [
+  # Enable Packages
+  common-packages.enable = true;
+
+  # Machine packages
+  home.packages = with pkgs; [
     # Communication
+    whatsapp-for-mac
 
     # Development
-    pkgs.utm
+    docker
+    utm
 
     # Misc
   ];
@@ -37,17 +45,9 @@
       updatesys = "darwin-rebuild switch --flake ~/.nix";
     };
     sessionVariables = {
-      PYENV_ROOT = "$HOME/.pyenv";
-      PATH = "$PYENV_ROOT/bin:/opt/homebrew/bin:/opt/homebrew/sbin:/etc/profiles/per-user/emrecebi/bin/fzf:$PATH";
+      PATH = "/opt/homebrew/sbin:/etc/profiles/per-user/emrecebi/bin/fzf:$PATH";
     };
-    initExtra = ''
-      eval "$(pyenv init --path)"
-      eval "$(pyenv init -)"
-    '';
   };
-
-  # Enable Packages
-  common-packages.enable = true;
 
   home.stateVersion = "23.11";
   programs.home-manager.enable = true;

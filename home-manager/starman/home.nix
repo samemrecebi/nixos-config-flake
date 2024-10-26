@@ -9,8 +9,12 @@
   xdg.enable = true;
 
   imports = [
-    outputs.homeManagerModules.common
-    outputs.homeManagerModules.nixos
+    ../common/shell.nix
+    ../common/fonts.nix
+    ../common/common-packages.nix
+    ../common/xdg.nix
+    ../common/nixos-packages.nix
+    ../common/gnome-gtk.nix
   ];
 
   # Dotfiles

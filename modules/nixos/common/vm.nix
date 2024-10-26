@@ -29,15 +29,14 @@
         };
       };
     };
-
-    # Docker
-    virtualisation.docker.enable = true;
-
     environment.systemPackages = with pkgs; [
       virt-manager
       qemu_kvm
       qemu
     ];
+
+    #Docker
+    virtualisation.docker.enable = true;
 
     users.users.emrecebi.extraGroups = ["docker" "libvirtd"];
   };

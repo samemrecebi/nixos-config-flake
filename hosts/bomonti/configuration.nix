@@ -34,7 +34,6 @@
     brews = [
       # Development
       "python"
-      "pyenv"
       "node"
 
       # Tools
@@ -43,9 +42,6 @@
       "fileicon"
     ];
     casks = [
-      # Media
-      "vlc"
-
       # Notes
       "obsidian"
 
@@ -58,14 +54,6 @@
 
       # System
       "mac-mouse-fix"
-      "gpg-suite"
-
-      # Communication
-      "element"
-      "whatsapp"
-
-      # Development
-      "docker"
 
       # Games
       "zwift"
@@ -74,15 +62,18 @@
       "tailscale"
       "protonmail-bridge"
       "mullvadvpn"
-      "appcleaner"
     ];
     masApps = {
-      "Bitwarden" = 1352778147;
       "Microsoft Word" = 462054704;
       "Microsoft PowerPoint" = 462062816;
-      "Microsoft Excel" = 462058435;
       "GoodNotes" = 1444383602;
     };
+  };  
+
+  # Editors
+  services.emacs = {
+    enable = true;
+    package = pkgs.emacs;
   };
 
   programs.zsh.enable = true;
@@ -121,7 +112,7 @@
   system = {
     activationScripts.userScript.text = ''
       echo >&2 "Setting up the custom icons..."
-      fileicon set "$/Users/emrecebi/Applications/Home Manager Apps/Alacritty.app" "${config.users.users.emrecebi.home}/Icons/Alacritty.icns"
+      fileicon set "${config.users.users.emrecebi.home}/Applications/Home Manager Apps/Alacritty.app" "${config.users.users.emrecebi.home}/Icons/Alacritty.icns"
     '';
     activationScripts.postUserActivation.text = ''
       /System/Library/PrivateFrameworks/SystemAdministration.framework/Resources/activateSettings -u

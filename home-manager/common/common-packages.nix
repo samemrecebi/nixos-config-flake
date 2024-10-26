@@ -24,9 +24,11 @@ in {
     home.packages = with pkgs; [
       # Media Packages
       spotify
+      vlc-bin
 
       # Communication Packages
       slack
+      cinny
       zoom-us
       discord
       signal-desktop
@@ -56,11 +58,17 @@ in {
       # Nix Related Packages
       alejandra
       nil
-      nixd 
+      nixd
     ];
 
+    # Editors
     programs.vscode = {
       enable = true;
+    };
+
+    programs.emacs = {
+      enable = true;
+      package = pkgs.emacs;
     };
   };
 }
