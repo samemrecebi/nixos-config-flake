@@ -28,7 +28,6 @@ in {
 
       # Communication Packages
       slack
-      cinny
       zoom-us
       discord
       signal-desktop

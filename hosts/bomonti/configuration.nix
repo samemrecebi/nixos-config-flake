@@ -42,6 +42,9 @@
       "fileicon"
     ];
     casks = [
+      # Communication
+      "whatsapp"
+      
       # Notes
       "obsidian"
 
@@ -68,7 +71,7 @@
       "Microsoft PowerPoint" = 462062816;
       "GoodNotes" = 1444383602;
     };
-  };  
+  };
 
   # Editors
   services.emacs = {

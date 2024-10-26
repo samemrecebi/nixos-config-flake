@@ -29,14 +29,9 @@
 
   # Machine packages
   home.packages = with pkgs; [
-    # Communication
-    whatsapp-for-mac
-
     # Development
     docker
     utm
-
-    # Misc
   ];
 
   # Darwin specific zsh configuration
