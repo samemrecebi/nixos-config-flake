@@ -32,21 +32,21 @@
       "homebrew/services"
     ];
     brews = [
+      # Packages for emacs
+      "libvterm"
+      
       # Development
       "python"
+      "pyenv"
       "node"
 
       # Tools
       "pinentry-mac"
       "gnupg"
-      "fileicon"
     ];
     casks = [
       # Communication
       "whatsapp"
-      
-      # Notes
-      "obsidian"
 
       # Browsers
       {
@@ -54,6 +54,9 @@
         args = {no_quarantine = true;};
       }
       "arc"
+
+      # Developer
+      "docker"
 
       # System
       "mac-mouse-fix"
@@ -113,10 +116,6 @@
 
   # Icons customization
   system = {
-    activationScripts.userScript.text = ''
-      echo >&2 "Setting up the custom icons..."
-      fileicon set "${config.users.users.emrecebi.home}/Applications/Home Manager Apps/Alacritty.app" "${config.users.users.emrecebi.home}/Icons/Alacritty.icns"
-    '';
     activationScripts.postUserActivation.text = ''
       /System/Library/PrivateFrameworks/SystemAdministration.framework/Resources/activateSettings -u
     '';
@@ -138,11 +137,6 @@
       {path = "/System/Applications/System Settings.app/";}
       {
         path = "${config.users.users.emrecebi.home}/Downloads";
-        section = "others";
-        options = "--sort name --view grid --display stack";
-      }
-      {
-        path = "${config.users.users.emrecebi.home}/Documents/Course\ Documents";
         section = "others";
         options = "--sort name --view grid --display stack";
       }

@@ -11,9 +11,6 @@
 
   config = lib.mkIf config.nixos-packages.enable {
     home.packages = [
-      # General packages
-      pkgs.bitwarden-desktop
-
       # Browsers
       pkgs.librewolf-bin
       pkgs.google-chrome

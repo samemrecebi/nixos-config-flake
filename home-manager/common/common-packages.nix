@@ -37,7 +37,8 @@ in {
 
       # Development Packages
       alacritty
-      zed
+      cmake
+      libtool
 
       # Shell Packackes
       tex
