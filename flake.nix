@@ -10,7 +10,9 @@
     # Nix Hardware Fork
     nixos-hardware.url = "github:nixos/nixos-hardware/master";
     # My Nix Hardware Fork
-    my-nixos-hardware.url = "github:samemrecebi/nixos-hardware/matebook-pro";
+    my-nixos-hardware.url = "github:samemrecebi/nixos-hardware/asus-tuf15-2023-simplify";
+    # Hyprland
+    hyprland.url = "github:hyprwm/Hyprland";
     # Nix Darwin
     nix-darwin.url = "github:lnl7/nix-darwin/master";
     nix-darwin.inputs.nixpkgs.follows = "nixpkgs";
@@ -25,6 +27,7 @@
     home-manager,
     nixos-hardware,
     my-nixos-hardware,
+    hyprland,
     nix-darwin,
     mac-app-util,
     ...
@@ -54,7 +57,7 @@
         specialArgs = {inherit inputs outputs;};
         modules = [
           ./hosts/starman/configuration.nix
-          nixos-hardware.nixosModules.asus-fa507nv
+          my-nixos-hardware.nixosModules.asus-fa507nv
           home-manager.nixosModules.home-manager
           {
             # Home Manager as a module

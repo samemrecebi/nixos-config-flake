@@ -1,4 +1,3 @@
 {
-  common = import ./common;
-  gnome = import ./gnome.nix;
+  # Empty for now
 }

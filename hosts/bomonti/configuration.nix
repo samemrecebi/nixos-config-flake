@@ -32,17 +32,14 @@
       "homebrew/services"
     ];
     brews = [
-      # Packages for emacs
-      "libvterm"
-      
+      # Emacs Native Comp
+      "libgccjit"
+      "gmp"
+
       # Development
       "python"
       "pyenv"
       "node"
-
-      # Tools
-      "pinentry-mac"
-      "gnupg"
     ];
     casks = [
       # Communication

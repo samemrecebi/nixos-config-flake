@@ -10,18 +10,17 @@
   imports = [
     ./hardware-configuration.nix
 
-    # Modules
-    outputs.nixosModules.common
-    outputs.nixosModules.gnome
+    # Common Components
+    ../common/grub.nix
+    ../common/i18n.nix
+    ../common/hyprland.nix
+    ../common/nh.nix
+    ../common/nix-ld.nix
+    ../common/tailscale.nix
   ];
 
   # Nixpkgs config
   nixpkgs = {
-    overlays = [
-      outputs.overlays.additions
-      outputs.overlays.modifications
-      outputs.overlays.stable-packages
-    ];
     config = {
       allowUnfree = true;
       allowAliases = false;
@@ -30,6 +29,19 @@
 
   # Bootloader.
   boot = {
+    kernelPackages = pkgs.linuxPackages_latest;
+    consoleLogLevel = 0;
+    kernelParams = [
+      "quiet"
+      "log_level=3"
+      "audit=0"
+      "nowatchdog"
+      "splash"
+    ];
+    plymouth = {
+      enable = true;
+      theme = "bgrt";
+    };
     blacklistedKernelModules = ["nouveau"];
     initrd = {
       luks.devices."luks-48e95629-d19a-4e8a-924e-53c660939c0c".device = "/dev/disk/by-uuid/48e95629-d19a-4e8a-924e-53c660939c0c";
@@ -42,13 +54,6 @@
 
   # Timezone
   services.automatic-timezoned.enable = true;
-
-  # Asus stuff
-  services.supergfxd.enable = true;
-  services.asusd = {
-    enable = true;
-    enableUserService = true;
-  };
 
   # Enable networking
   networking.networkmanager.enable = true;
@@ -114,12 +119,15 @@
     extraGroups = ["networkmanager" "wheel"];
   };
 
+  programs.zsh.enable = true;
+  users.defaultUserShell = pkgs.zsh;
+
   # Microcode
   hardware.cpu.amd.updateMicrocode = true;
 
   # System packages
   environment.systemPackages = with pkgs; [
-    pavucontrol
+    # Empty for now
   ];
 
   # Nix settings
@@ -130,6 +138,8 @@
       experimental-features = "nix-command flakes";
       flake-registry = "";
       nix-path = config.nix.nixPath;
+      substituters = ["https://hyprland.cachix.org"];
+      trusted-public-keys = ["hyprland.cachix.org-1:a7pgxzMz7+chwVL3/pzj6jIBMioiJM7ypFP8PwtkuGc="];
     };
     channel.enable = false;
     registry = lib.mapAttrs (_: flake: {inherit flake;}) flakeInputs;

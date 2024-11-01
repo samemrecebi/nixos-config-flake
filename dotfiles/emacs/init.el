@@ -270,6 +270,17 @@
 (use-package yaml-mode)
 (use-package json-mode)
 (use-package nix-mode :mode "\\.nix\\'")
+(use-package nix-mode
+  :mode ("\\.nix\\'" "\\.nix.in\\'"))
+(use-package nix-drv-mode
+  :ensure nix-mode
+  :mode "\\.drv\\'")
+(use-package nix-shell
+  :ensure nix-mode
+  :commands (nix-shell-unpack nix-shell-configure nix-shell-build))
+(use-package nix-repl
+  :ensure nix-mode
+  :commands (nix-repl))
 (use-package docker
   :ensure t
   :bind ("C-c d" . docker))
@@ -299,6 +310,14 @@
   ("C-c c o" . eglot-code-actions-organize-imports)
   ("C-c c r" . eglot-rename)
   ("C-c c f" . eglot-format)))
+
+(add-hook 'prog-mode-hook
+          (lambda ()
+            (add-hook 'before-save-hook 'eglot-format nil t)))
+ 
+(with-eval-after-load 'eglot
+  (dolist (mode '((nix-mode . ("nixd"))))
+    (add-to-list 'eglot-server-programs mode)))
 
 ;; Completion
 (use-package

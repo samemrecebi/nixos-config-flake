@@ -23,15 +23,7 @@
     ".config/alacritty/alacritty.toml".source = ../../dotfiles/alacritty/alacritty.toml;
     ".emacs.d/init.el".source = ../../dotfiles/emacs/init.el;
     ".emacs.d/early-init.el".source = ../../dotfiles/emacs/early-init.el;
-  };
-
-  # Nixpkgs overlays
-  nixpkgs = {
-    overlays = [
-      outputs.overlays.additions
-      outputs.overlays.modifications
-      outputs.overlays.stable-packages
-    ];
+    ".hypr/hyprland.conf".source = ../../dotfiles/hypr/hyprland.conf;
   };
 
   # Packages

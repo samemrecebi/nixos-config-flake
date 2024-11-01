@@ -29,9 +29,12 @@
   common-packages.enable = true;
 
   # Machine packages
-  home.packages = with pkgs; [
+  home.packages = [
+    # File Sync
+    pkgs.syncthing
+
     # Development
-    utm
+    pkgs.utm
   ];
 
   # Darwin specific zsh configuration
