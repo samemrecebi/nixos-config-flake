@@ -32,7 +32,7 @@
   home.packages = [
     # Media
     pkgs.vlc-bin
-    
+
     # File Sync
     pkgs.syncthing
 

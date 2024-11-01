@@ -1,28 +1,25 @@
-{
-  pkgs,
-  ...
-}: {
-    home.packages = [
-      # Media
-      pkgs.vlc
-      
-      # Browsers
-      pkgs.librewolf-bin
-      pkgs.google-chrome
+{pkgs, ...}: {
+  home.packages = [
+    # Media
+    pkgs.vlc
 
-      # Communication
-      pkgs.thunderbird
-      pkgs.element-desktop
-      pkgs.whatsapp-for-linux
+    # Browsers
+    pkgs.librewolf-bin
+    pkgs.google-chrome
 
-      # Office Program
-      pkgs.libreoffice-qt
-      pkgs.hunspell
-      pkgs.hunspellDicts.en_US
-      pkgs.hunspellDicts.tr_TR
+    # Communication
+    pkgs.thunderbird
+    pkgs.element-desktop
+    pkgs.whatsapp-for-linux
 
-      # Misc
-      pkgs.protonmail-bridge-gui
-      pkgs.mullvad-vpn
-    ];
+    # Office Program
+    pkgs.libreoffice-qt
+    pkgs.hunspell
+    pkgs.hunspellDicts.en_US
+    pkgs.hunspellDicts.tr_TR
+
+    # Misc
+    pkgs.protonmail-bridge-gui
+    pkgs.mullvad-vpn
+  ];
 }
