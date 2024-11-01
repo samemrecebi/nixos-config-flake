@@ -1,16 +1,11 @@
 {
-  config,
-  lib,
   pkgs,
   ...
 }: {
-  options = {
-    nixos-packages.enable =
-      lib.mkEnableOption "Enable NixOS packages";
-  };
-
-  config = lib.mkIf config.nixos-packages.enable {
     home.packages = [
+      # Media
+      pkgs.vlc
+      
       # Browsers
       pkgs.librewolf-bin
       pkgs.google-chrome
@@ -30,5 +25,4 @@
       pkgs.protonmail-bridge-gui
       pkgs.mullvad-vpn
     ];
-  };
 }

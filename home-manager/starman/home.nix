@@ -33,7 +33,6 @@
 
   ## Packages from modules
   common-packages.enable = true;
-  nixos-packages.enable = true;
 
   # Shell settings
   programs.zsh = {

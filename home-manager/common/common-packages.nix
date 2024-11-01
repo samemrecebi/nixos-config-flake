@@ -24,7 +24,6 @@ in {
     home.packages = with pkgs; [
       # Media Packages
       spotify
-      vlc-bin
 
       # Communication Packages
       slack
