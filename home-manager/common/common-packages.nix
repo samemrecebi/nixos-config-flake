@@ -50,7 +50,7 @@ in {
       curl
 
       # Security Packages
-      yubikey-manager
+      # yubikey-manager Currently broken
       yubikey-personalization
       yubikey-agent
 

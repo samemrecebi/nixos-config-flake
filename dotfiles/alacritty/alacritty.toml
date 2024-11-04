@@ -1,6 +1,5 @@
 [general]
 live_config_reload = true
-import = ["./github_dark.toml"]
 
 [bell]
 animation = "EaseOutExpo"
@@ -96,6 +95,7 @@ blue = '#37aff6'
 magenta = '#d38faf'
 cyan = '#6fc5ef'
 white = '#cfdfd5'
+
 [colors.bright]
 black = '#505250'
 red = '#ff778f'
@@ -105,12 +105,15 @@ blue = '#32cfef'
 magenta = '#af9fff'
 cyan = '#5dc0aa'
 white = '#808f80'
+
 [colors.cursor]
 cursor = '#35f038'
 text = '#111111'
+
 [colors.primary]
 background = '#111111'
 foreground = '#cfdfd5'
+
 [colors.selection]
 background = '#3a3027'
 text = '#cfdfd5'
