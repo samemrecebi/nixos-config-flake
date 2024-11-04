@@ -14,8 +14,10 @@
     ../common/common-packages.nix
     ../common/xdg.nix
     ../common/nixos-packages.nix
-    ../common/gnome-gtk.nix
+    ../common/hyprland.nix
   ];
+
+  programs.waybar.enable = true;
 
   # Dotfiles
   home.file = {
@@ -23,7 +25,6 @@
     ".config/alacritty/alacritty.toml".source = ../../dotfiles/alacritty/alacritty.toml;
     ".emacs.d/init.el".source = ../../dotfiles/emacs/init.el;
     ".emacs.d/early-init.el".source = ../../dotfiles/emacs/early-init.el;
-    ".hypr/hyprland.conf".source = ../../dotfiles/hypr/hyprland.conf;
   };
 
   # Packages

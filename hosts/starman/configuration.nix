@@ -19,6 +19,19 @@
     ../common/tailscale.nix
   ];
 
+  stylix = {
+    enable = true;
+    autoEnable = false;
+    base16Scheme = "${pkgs.base16-schemes}/share/themes/atelier-seaside.yaml";
+    image = ../../test.jpg;
+    fonts = {
+      emoji = {
+        package = pkgs.noto-fonts-color-emoji;
+        name = "Noto Color Emoji";
+      };
+    };
+  };
+
   # Nixpkgs config
   nixpkgs = {
     config = {

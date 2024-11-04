@@ -13,6 +13,8 @@
     my-nixos-hardware.url = "github:samemrecebi/nixos-hardware/asus-tuf15-2023-simplify";
     # Hyprland
     hyprland.url = "github:hyprwm/Hyprland";
+    # Stylix
+    stylix.url = "github:danth/stylix";
     # Nix Darwin
     nix-darwin.url = "github:lnl7/nix-darwin/master";
     nix-darwin.inputs.nixpkgs.follows = "nixpkgs";
@@ -28,6 +30,7 @@
     nixos-hardware,
     my-nixos-hardware,
     hyprland,
+    stylix,
     nix-darwin,
     mac-app-util,
     ...
@@ -58,6 +61,7 @@
         modules = [
           ./hosts/starman/configuration.nix
           my-nixos-hardware.nixosModules.asus-fa507nv
+          stylix.nixosModules.stylix
           home-manager.nixosModules.home-manager
           {
             # Home Manager as a module
@@ -66,6 +70,14 @@
             home-manager.backupFileExtension = "backup";
             home-manager.extraSpecialArgs = {inherit inputs outputs;};
             home-manager.users.emrecebi = import ./home-manager/starman/home.nix;
+            home-manager.sharedModules = [
+              {
+                stylix.targets = {
+                  hyprland.enable = true;
+                  waybar.enable = true;
+                };
+              }
+            ];
           }
         ];
       };
