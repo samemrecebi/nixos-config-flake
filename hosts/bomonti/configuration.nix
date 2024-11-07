@@ -36,6 +36,12 @@
       "libgccjit"
       "gmp"
 
+      # PDF Tools dependencies
+      "pkg-config"
+      "poppler"
+      "autoconf"
+      "automake"
+
       # Development
       "python"
       "pyenv"

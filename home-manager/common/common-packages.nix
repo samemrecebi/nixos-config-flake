@@ -54,10 +54,13 @@ in {
       yubikey-personalization
       yubikey-agent
 
-      # Nix Related Packages
-      alejandra
+      # LSP Packages
+      texlab
       nil
       nixd
+
+      # Nix Related Packages
+      alejandra
     ];
 
     # Editors

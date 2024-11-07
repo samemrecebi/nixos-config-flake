@@ -355,6 +355,29 @@
  :commands (elisp-autofmt-mode elisp-autofmt-buffer)
  :hook (emacs-lisp-mode . elisp-autofmt-mode))
 
+;; Latex
+(use-package auctex)
+(setq TeX-auto-save t)
+(setq TeX-parse-self t)
+(setq-default TeX-master nil)
+
+(use-package auctex-latexmk)
+
+(use-package pdf-tools)
+(use-package cdlatex)
+
+(unless (assoc "PDF Tools" TeX-view-program-list
+  (add-to-list 'TeX-view-program-list
+           '("PDF Tools" TeX-pdf-tools-sync-view)))
+(add-to-list 'TeX-view-program-selection
+          '(output-pdf "PDF Tools")))
+
+(setq TeX-view-program-selection '((output-pdf "PDF Tools")))
+
+;; Update PDF buffers after successful LaTeX runs
+(add-hook 'TeX-after-TeX-LaTeX-command-finished-hook
+         'TeX-revert-document-buffer)
+
 ;; Org Mode
 (use-package
  org
@@ -374,6 +397,9 @@
    '(org-level-3 ((t (:inherit outline-3 :height 1.15))))
    '(org-level-4 ((t (:inherit outline-4 :height 1.10))))
    '(org-level-5 ((t (:inherit outline-5 :height 1.05))))))
+
+(setq org-preview-latex-default-process 'dvisvgm)
+(setq org-format-latex-options (plist-put org-format-latex-options :scale 2))
 
 ;; Org Roam
 (use-package
