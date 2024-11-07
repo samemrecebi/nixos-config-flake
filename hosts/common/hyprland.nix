@@ -60,6 +60,9 @@
     hyprpaper
     wofi
     networkmanagerapplet
-    kdePackages.dolphin
+    hyprpolkitagent
+    nautilus
+    clipman
+    udiskie
   ];
 }

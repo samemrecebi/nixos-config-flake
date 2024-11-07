@@ -18,6 +18,9 @@
     pkgs.hunspellDicts.en_US
     pkgs.hunspellDicts.tr_TR
 
+    # Document Viewer
+    pkgs.zathura
+
     # Misc
     pkgs.protonmail-bridge-gui
     pkgs.mullvad-vpn

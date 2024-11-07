@@ -42,6 +42,18 @@
     };
     image = ../../test.jpg;
     fonts = {
+      monospace = {
+        package = (pkgs.nerdfonts.override {fonts = ["Hack"];});
+        name = "Hack Nerd Font Mono";
+      };
+      serif = {
+        package = (pkgs.nerdfonts.override {fonts = ["Noto"];});
+        name = "Noto Nerd Font";
+      };
+      sansSerif = {
+        package = (pkgs.nerdfonts.override {fonts = ["Noto"];});
+        name = "Noto Nerd Font";
+      };
       emoji = {
         package = pkgs.noto-fonts-color-emoji;
         name = "Noto Color Emoji";
@@ -60,6 +72,9 @@
   # Bootloader.
   boot = {
     kernelPackages = pkgs.linuxPackages_latest;
+    extraModulePackages = with config.boot.kernelPackages; [
+      cpupower
+    ];
     consoleLogLevel = 0;
     kernelParams = [
       "quiet"
@@ -67,6 +82,8 @@
       "audit=0"
       "nowatchdog"
       "splash"
+      "amd_pstate.shared_mem=1"
+      "amd_pstate=passive"
     ];
     plymouth = {
       enable = true;
@@ -109,7 +126,7 @@
   # Nvidia extra settings (The actual setup is in nixos-hardware repo)
   hardware.nvidia = {
     open = true;
-    package = config.boot.kernelPackages.nvidiaPackages.production;
+    package = config.boot.kernelPackages.nvidiaPackages.beta;
   };
 
   # Enable sound with pipewire.
@@ -157,23 +174,20 @@
 
   # System packages
   environment.systemPackages = with pkgs; [
-    # Empty for now
+    # Wayland Nvidia Hyprland Compatibility Apps
+    egl-wayland
   ];
 
   # Nix settings
-  nix = let
-    flakeInputs = lib.filterAttrs (_: lib.isType "flake") inputs;
-  in {
+  nix = {
     settings = {
+      auto-optimise-store = true;
       experimental-features = "nix-command flakes";
-      flake-registry = "";
       nix-path = config.nix.nixPath;
       substituters = ["https://hyprland.cachix.org"];
       trusted-public-keys = ["hyprland.cachix.org-1:a7pgxzMz7+chwVL3/pzj6jIBMioiJM7ypFP8PwtkuGc="];
     };
-    channel.enable = false;
-    registry = lib.mapAttrs (_: flake: {inherit flake;}) flakeInputs;
-    nixPath = lib.mapAttrsToList (n: _: "${n}=flake:${n}") flakeInputs;
+    channel.enable = true;
   };
   system.stateVersion = "23.11";
 }
