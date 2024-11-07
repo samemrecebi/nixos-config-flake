@@ -42,6 +42,9 @@
       "node"
     ];
     casks = [
+      # Development
+      "figma"
+
       # Communication
       "whatsapp"
 
@@ -62,6 +65,7 @@
       "zwift"
 
       # Misc
+      "todoist"
       "tailscale"
       "protonmail-bridge"
       "mullvadvpn"
