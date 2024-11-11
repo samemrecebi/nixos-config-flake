@@ -75,6 +75,7 @@
                 stylix.targets = {
                   hyprland.enable = true;
                   waybar.enable = true;
+                  wofi.enable = true;
                 };
               }
             ];

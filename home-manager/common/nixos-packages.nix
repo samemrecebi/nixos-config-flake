@@ -25,4 +25,9 @@
     pkgs.protonmail-bridge-gui
     pkgs.mullvad-vpn
   ];
+
+  # Syncthing
+  services.syncthing = {
+    enable = true;
+  };
 }

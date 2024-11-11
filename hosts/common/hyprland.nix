@@ -57,8 +57,6 @@
   # Packages related to hyprland
   environment.systemPackages = with pkgs; [
     dunst
-    hyprpaper
-    wofi
     networkmanagerapplet
     hyprpolkitagent
     nautilus
