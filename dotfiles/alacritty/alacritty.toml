@@ -18,15 +18,15 @@ shape = "Block"
 size = 14.0
 
 [font.italic]
-family = "Hack Nerd Font"
+family = "BerkeleyMono Nerd Font"
 style = "Italic"
 
 [font.normal]
-family = "Hack Nerd Font"
+family = "BerkeleyMono Nerd Font"
 style = "Regular"
 
 [font.bold]
-family = "Hack Nerd Font"
+family = "BerkeleyMono Nerd Font"
 style = "Bold"
 
 [font.glyph_offset]

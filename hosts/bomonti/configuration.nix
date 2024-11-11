@@ -46,6 +46,9 @@
       "python"
       "pyenv"
       "node"
+
+      # Misc
+      "syncthing"
     ];
     casks = [
       # Development
