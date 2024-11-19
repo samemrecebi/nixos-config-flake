@@ -11,6 +11,7 @@
     pkgs.thunderbird
     pkgs.element-desktop
     pkgs.whatsapp-for-linux
+    pkgs.signal-desktop
 
     # Office Program
     pkgs.libreoffice-qt

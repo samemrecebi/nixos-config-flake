@@ -29,7 +29,6 @@ in {
       slack
       zoom-us
       discord
-      signal-desktop
 
       # Apps
       qbittorrent

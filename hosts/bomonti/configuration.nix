@@ -46,6 +46,8 @@
       "python"
       "pyenv"
       "node"
+      "opentofu"
+      "azure-cli"
 
       # Misc
       "syncthing"
@@ -56,6 +58,7 @@
 
       # Communication
       "whatsapp"
+      "signal"
 
       # Browsers
       {
@@ -140,7 +143,7 @@
       {path = "/Applications/Librewolf.app/";}
       {path = "/System/Applications/Mail.app/";}
       {path = "/Applications/WhatsApp.app/";}
-      {path = "/Users/emrecebi/Applications/Home Manager Apps/Signal.app/";}
+      {path = "/Applications/Signal.app/";}
       {path = "/Users/emrecebi/Applications/Home Manager Apps/Alacritty.app";}
       {path = "/Users/emrecebi/Applications/Home Manager Apps/Visual Studio Code.app/";}
       {path = "/Users/emrecebi/Applications/Home Manager Apps/Spotify.app/";}
