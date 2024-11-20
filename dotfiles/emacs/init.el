@@ -70,7 +70,7 @@
 
 ;;Font
 (set-face-attribute 'default nil
-                    :font "BerkeleyMono Nerd Font"
+                    :font "Berkeley Mono"
                     :weight 'light
                     :height 160)
 
@@ -165,7 +165,7 @@
 ;; Nerd Icons
 (use-package
   nerd-icons
-  :custom (nerd-icons-font-family "Hack Nerd Font Mono"))
+  :custom (nerd-icons-font-family "Symbols Nerd Font"))
 
 ;; Parantesis
 (use-package
@@ -230,6 +230,12 @@
   :config
   ;; read input from a minibuffer not a child frame.
   (setq treemacs-read-string-input 'from-minibuffer))
+
+(use-package treemacs-projectile
+  :after (treemacs projectile))
+
+(use-package treemacs-magit
+  :after (treemacs magit))
 
 ;; Popper
 (use-package
@@ -455,7 +461,7 @@
       (let (result)
 	(dolist (element
                  (list
-                  (cape-super-capf #'cape-ispell #'cape-dabbrev)
+                  (cape-wrap-super #'cape-dict #'cape-dabbrev)
                   (cape-company-to-capf
                    #'company-yasnippet)
                   '(cape-tex cape-file))
