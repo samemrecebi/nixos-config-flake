@@ -32,6 +32,7 @@
       "homebrew/services"
     ];
     brews = [
+      "htop"
       # Emacs Native Comp
       "libgccjit"
       "gmp"
@@ -76,17 +77,17 @@
       # Games
       "zwift"
 
+      # Office Suite
+      "microsoft-excel"
+      "microsoft-powerpoint"
+      "microsoft-excel"
+
       # Misc
       "todoist"
       "tailscale"
       "protonmail-bridge"
       "mullvadvpn"
     ];
-    masApps = {
-      "Microsoft Word" = 462054704;
-      "Microsoft PowerPoint" = 462062816;
-      "GoodNotes" = 1444383602;
-    };
   };
 
   # Emacs deamon

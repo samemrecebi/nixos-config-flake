@@ -20,19 +20,12 @@
   boot.supportedFilesystems = lib.mkForce ["btrfs" "reiserfs" "vfat" "f2fs" "xfs" "ntfs" "cifs"];
 
   environment.systemPackages = with pkgs; [
-    neofetch
-    htop
     man
-    sl
     wget
     curl
     pciutils
     libtool
     git
-
-    # Editor
-    alejandra
-    nil
   ];
   hardware.enableRedistributableFirmware = true;
   nix.settings.experimental-features = ["nix-command" "flakes"];
