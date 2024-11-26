@@ -32,9 +32,12 @@
       "homebrew/services"
     ];
     brews = [
-      "make"
-      "gcc"
-      "libgccjit"
+      # Basic
+      "yt-dlp"
+      "htop"
+      "exiftool"
+      "wget"
+      "curl"
 
       # PDF Tools dependencies
       "pkg-config"
@@ -48,18 +51,39 @@
       "node"
       "opentofu"
       "azure-cli"
+      "make"
+      "gcc"
+      "libgccjit"
+      "hugo"
 
       # Misc
       "syncthing"
+      "pandoc"
     ];
     casks = [
       # Development
+      "alacritty"
       "figma"
       "visual-studio-code"
+      "docker"
+      "tableplus"
+
+      # Virtualization
+      "utm"
 
       # Communication
       "whatsapp"
       "signal"
+      "slack"
+      "zoom"
+      "discord"
+
+      # Media
+      "spotify"
+      "vlc"
+
+      # Productivity
+      "todoist"
 
       # Browsers
       {
@@ -67,9 +91,6 @@
         args = {no_quarantine = true;};
       }
       "arc"
-
-      # Developer
-      "docker"
 
       # System
       "mac-mouse-fix"
@@ -83,7 +104,6 @@
       "microsoft-excel"
 
       # Misc
-      "todoist"
       "tailscale"
       "protonmail-bridge"
       "mullvadvpn"
@@ -128,12 +148,7 @@
     };
   };
 
-  # Icons customization
-  system = {
-    activationScripts.postUserActivation.text = ''
-      /System/Library/PrivateFrameworks/SystemAdministration.framework/Resources/activateSettings -u
-    '';
-  };
+  # Applications fix
   system.activationScripts.applications.text = let
     env = pkgs.buildEnv {
       name = "system-applications";

@@ -28,21 +28,6 @@
   # Enable Packages
   common-packages.enable = true;
 
-  # Machine packages
-  home.packages = [
-    # Window manager
-    pkgs.aerospace
-
-    # Media
-    pkgs.vlc-bin
-
-    # File Sync
-    pkgs.syncthing
-
-    # Development
-    pkgs.utm
-  ];
-
   # Darwin specific zsh configuration
   programs.zsh = {
     shellAliases = {

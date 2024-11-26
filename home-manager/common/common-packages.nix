@@ -22,31 +22,8 @@ in {
   };
   config = lib.mkIf config.common-packages.enable {
     home.packages = with pkgs; [
-      # Media Packages
-      spotify
-
-      # Communication Packages
-      slack
-      zoom-us
-      discord
-
-      # Apps
-      qbittorrent
-
-      # Development Packages
-      alacritty
-      cmake
-      libtool
-
       # Shell Packackes
       tex
-      pandoc
-      yt-dlp
-      htop
-      exiftool
-      hugo
-      wget
-      curl
 
       # Security Packages
       yubikey-manager

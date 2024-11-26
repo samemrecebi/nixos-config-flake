@@ -25,6 +25,23 @@
     # Misc
     pkgs.protonmail-bridge-gui
     pkgs.mullvad-vpn
+
+    # Moved from common-packages needs to be organized
+    pkgs.pandoc
+    pkgs.yt-dlp
+    pkgs.htop
+    pkgs.exiftool
+    pkgs.hugo
+    pkgs.wget
+    pkgs.curl
+    pkgs.alacritty
+    pkgs.cmake
+    pkgs.libtool
+    pkgs.spotify
+    pkgs.slack
+    pkgs.zoom-us
+    pkgs.discord
+    pkgs.qbittorrent
   ];
 
   # Editors
