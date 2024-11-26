@@ -7,7 +7,7 @@
   ...
 }: {
   imports = [
-    outputs.darwinModules.dock
+    # Nothing here
   ];
 
   # Pkgs settings
@@ -32,10 +32,9 @@
       "homebrew/services"
     ];
     brews = [
-      "htop"
-      # Emacs Native Comp
+      "make"
+      "gcc"
       "libgccjit"
-      "gmp"
 
       # PDF Tools dependencies
       "pkg-config"
@@ -56,6 +55,7 @@
     casks = [
       # Development
       "figma"
+      "visual-studio-code"
 
       # Communication
       "whatsapp"
@@ -92,7 +92,7 @@
 
   # Emacs deamon
   services.emacs = {
-    enable = true;
+    enable = false;
     package = pkgs.emacs;
   };
 
@@ -134,28 +134,25 @@
       /System/Library/PrivateFrameworks/SystemAdministration.framework/Resources/activateSettings -u
     '';
   };
-
-  # Dock layout
-  local.dock = {
-    enable = true;
-    entries = [
-      {path = "/System/Applications/Calendar.app/";}
-      {path = "/Applications/Arc.app/";}
-      {path = "/Applications/Librewolf.app/";}
-      {path = "/System/Applications/Mail.app/";}
-      {path = "/Applications/WhatsApp.app/";}
-      {path = "/Applications/Signal.app/";}
-      {path = "/Users/emrecebi/Applications/Home Manager Apps/Alacritty.app";}
-      {path = "/Users/emrecebi/Applications/Home Manager Apps/Visual Studio Code.app/";}
-      {path = "/Users/emrecebi/Applications/Home Manager Apps/Spotify.app/";}
-      {path = "/System/Applications/System Settings.app/";}
-      {
-        path = "${config.users.users.emrecebi.home}/Downloads";
-        section = "others";
-        options = "--sort name --view grid --display stack";
-      }
-    ];
-  };
+  system.activationScripts.applications.text = let
+    env = pkgs.buildEnv {
+      name = "system-applications";
+      paths = config.environment.systemPackages;
+      pathsToLink = "/Applications";
+    };
+  in
+    pkgs.lib.mkForce ''
+      # Set up applications.
+      echo "setting up /Applications..." >&2
+      rm -rf /Applications/Nix\ Apps
+      mkdir -p /Applications/Nix\ Apps
+      find ${env}/Applications -maxdepth 1 -type l -exec readlink '{}' + |
+      while read -r src; do
+        app_name=$(basename "$src")
+        echo "copying $src" >&2
+        ${pkgs.mkalias}/bin/mkalias "$src" "/Applications/Nix Apps/$app_name"
+      done
+    '';
 
   # Nix relates settings
   nix = {

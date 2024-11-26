@@ -6,7 +6,7 @@
 ;;; Code:
 
 ;;Start speedup
-
+(server-start)
 ;; Encoding
 (prefer-coding-system 'utf-8)
 (set-default-coding-systems 'utf-8)
@@ -66,8 +66,6 @@
 
 (setq create-lockfiles nil)
 
-(setq user-emacs-directory (expand-file-name "~/.cache/emacs"))
-
 ;;Font
 (set-face-attribute 'default nil
                     :font "Berkeley Mono"
@@ -108,28 +106,23 @@
 (global-so-long-mode 1)
 
 ;;Package repos
-(require 'package)
-(add-to-list
- 'package-archives '("gnu" . "https://elpa.gnu.org/packages/")
- t)
-(add-to-list
- 'package-archives '("nongnu" . "https://elpa.nongnu.org/nongnu/")
- t)
-(add-to-list
- 'package-archives '("melpa" . "https://melpa.org/packages/")
- t)
-(add-to-list 'package-archives '("org" . "https://orgmode.org/elpa/")
-             t)
-(package-initialize)
+(defvar bootstrap-version)
+(let ((bootstrap-file
+       (expand-file-name "straight/repos/straight.el/bootstrap.el"
+                         (or (bound-and-true-p straight-base-dir)
+                             user-emacs-directory)))
+      (bootstrap-version 7))
+  (unless (file-exists-p bootstrap-file)
+    (with-current-buffer
+        (url-retrieve-synchronously
+         "https://raw.githubusercontent.com/radian-software/straight.el/develop/install.el"
+         'silent
+         'inhibit-cookies)
+      (goto-char (point-max))
+      (eval-print-last-sexp)))
+  (load bootstrap-file nil 'nomessage))
 
-(when (not package-archive-contents)
-  (package-refresh-contents))
-
-(unless (package-installed-p 'use-package)
-  (package-install 'use-package))
-
-(require 'use-package-ensure)
-(setq use-package-always-ensure t)
+(straight-use-package 'use-package)
 
 ;;Loading custom files
 (add-to-list 'load-path "~/.emacs.d/custom")
@@ -138,26 +131,39 @@
 (setq custom-file "~/.emacs.d/custom.el")
 (load custom-file 'noerror)
 
-;;Packages
-;; Get Shell Variables
-(use-package
-  exec-path-from-shell
-  :config
-  (when (memq window-system '(mac ns x))
-    (exec-path-from-shell-initialize)))
+(defun set-exec-path-from-shell-PATH ()
+  "Set up Emacs' `exec-path' and PATH environment variable to match
+that used by the user's shell.
 
-;; Themes
-(use-package ef-themes)
+This is particularly useful under Mac OS X and macOS, where GUI
+apps are not started from a shell."
+  (interactive)
+  (let ((path-from-shell
+         (replace-regexp-in-string
+          "[ \t\n]*$" ""
+          (shell-command-to-string
+           "$SHELL --login -c 'echo $PATH'"))))
+    (setenv "PATH" path-from-shell)
+    (setq exec-path (split-string path-from-shell path-separator))))
+
+(set-exec-path-from-shell-PATH)
+
+;; Packages
+;; Basics
+
+;; Theme
+(use-package ef-themes :straight t)
 (load-theme 'ef-bio t t)
 (enable-theme 'ef-bio)
 
-(use-package doom-modeline :init (doom-modeline-mode 1))
+;; Modeline
+(use-package doom-modeline :straight t :init (doom-modeline-mode 1))
 (setq doom-modeline-icon t)
 
 ;; Dashboard
 (use-package
   dashboard
-  :ensure t
+  :straight t
   :config (dashboard-setup-startup-hook))
 (setq initial-buffer-choice
       (lambda () (get-buffer-create "*dashboard*")))
@@ -165,22 +171,31 @@
 ;; Nerd Icons
 (use-package
   nerd-icons
+  :straight t
   :custom (nerd-icons-font-family "Symbols Nerd Font"))
 
 ;; Parantesis
 (use-package
   rainbow-delimiters
+  :straight t
   :hook (prog-mode . rainbow-delimiters-mode))
 
 (electric-pair-mode 1)
 (setq electric-pair-pairs '((?\" . ?\") (?\' . ?\') (?\{ . ?\})))
 
+;; Which Key
+(use-package which-key
+  :straight t
+  :config (which-key-setup-side-window-right-bottom)
+  :init (which-key-mode))
+
 ;; Vertigo
-(use-package vertico :init (vertico-mode))
+(use-package vertico :straight t :init (vertico-mode))
 
 ;; Consult
 (use-package
   consult
+  :straight t
   :bind
   (("C-x b" . consult-buffer)
    ("C-x 4 b" . consult-buffer-other-window)
@@ -199,274 +214,66 @@
 (savehist-mode 1)
 (customize-set-variable 'bookmark-save-flag 1)
 
-;; Orderless
-(use-package orderless :config (setq completion-styles '(orderless)))
-
 ;; Magit
 (use-package
   magit
+  :straight t
   :commands (magit-status magit-get-current-branch)
   :custom
   (magit-display-buffer-function
    #'magit-display-buffer-same-window-except-diff-v1))
 
-;; Projectile
-(use-package
-  projectile
-  :init (projectile-mode +1)
-  :custom
-  (setq projectile-project-search-path
-	'("~/Document/Homeworks/" "~/Document/Project/"))
-  :bind
-  (:map
-   projectile-mode-map
-   ("s-p" . projectile-command-map)
-   ("C-c p" . projectile-command-map)))
+;; Project.el
+(straight-use-package 'project)
+(use-package projectile
+  :straight t)
 
 ;; Treemacs
 (use-package
   treemacs
-  :after (doom-themes)
+  :straight t
   :config
   ;; read input from a minibuffer not a child frame.
   (setq treemacs-read-string-input 'from-minibuffer))
 
-(use-package treemacs-projectile
+(use-package
+  treemacs-projectile
+  :straight t
   :after (treemacs projectile))
 
-(use-package treemacs-magit
-  :after (treemacs magit))
-
-;; Popper
-(use-package
-  popper
-  :bind
-  (("C-`" . popper-toggle)
-   ("M-`" . popper-cycle)
-   ("C-M-`" . popper-toggle-type))
-  :config
-  (setq
-   popper--reference-names nil
-   popper--reference-modes nil
-   popper--reference-predicates nil)
-  (setq popper-reference-buffers
-	'("\\*Messages\\*"
-          "\\*Warnings\\*"
-          "\\*Async Shell Command\\*"
-          "\\*Error\\*"
-          "Output\\*$"
-          "\\*HS-Error\\*"
-          "\\*lsp-help\\*"
-          "^\\*Ement compose.*\\*$"
-          "^\\*Org Export Dispatcher\\*$"
-          "^\\*Org Select\\*$"
-          "^\\*R:[^\\*]+\\*$"
-          compilation-mode))
-  (popper-mode +1))
-
-;; Vterm
-(use-package vterm)
-
-;; Code and Text Modes
-;; Initial hook
-(use-package flymake :hook (prog-mode . flymake-mode))
-
-;; Errors
-(use-package
-  flycheck
-  :ensure t
-  :init (global-flycheck-mode)
-  :bind
-  (:map
-   flycheck-mode-map
-   ("M-n" . flycheck-next-error) ; optional but recommended error navigation
-   ("M-p" . flycheck-previous-error)))
-
-;; Tree-Sitter
-(setq treesit-language-source-alist
-      '((bash "https://github.com/tree-sitter/tree-sitter-bash")
-        (cmake "https://github.com/uyha/tree-sitter-cmake")
-        (css "https://github.com/tree-sitter/tree-sitter-css")
-        (elisp "https://github.com/Wilfred/tree-sitter-elisp")
-        (go "https://github.com/tree-sitter/tree-sitter-go")
-        (html "https://github.com/tree-sitter/tree-sitter-html")
-        (javascript
-         "https://github.com/tree-sitter/tree-sitter-javascript"
-         "master"
-         "src")
-        (json "https://github.com/tree-sitter/tree-sitter-json")
-        (make "https://github.com/alemuller/tree-sitter-make")
-        (markdown "https://github.com/ikatyang/tree-sitter-markdown")
-        (python "https://github.com/tree-sitter/tree-sitter-python")
-        (toml "https://github.com/tree-sitter/tree-sitter-toml")
-        (tsx
-         "https://github.com/tree-sitter/tree-sitter-typescript"
-         "master"
-         "tsx/src")
-        (typescript
-         "https://github.com/tree-sitter/tree-sitter-typescript"
-         "master"
-         "typescript/src")
-        (yaml "https://github.com/ikatyang/tree-sitter-yaml")
-        (hcl
-         "https://github.com/tree-sitter-grammars/tree-sitter-hcl")))
-
-(setq major-mode-remap-alist
-      '((yaml-mode . yaml-ts-mode)
-        (bash-mode . bash-ts-mode)
-        (js2-mode . js-ts-mode)
-        (typescript-mode . tsx-ts-mode)
-        (json-mode . json-ts-mode)
-        (css-mode . css-ts-mode)
-        (python-mode . python-ts-mode)))
-
-;; Web (JS/TS/HTML/CSS)
-(use-package
-  typescript-mode
-  :config
-  (add-to-list
-   'auto-mode-alist '("\\.tsx?\\'" . typescriptreact-mode)))
-
-;; Terraform/HCL
-(use-package
-  terraform-mode
-  :mode "\\.tf\\'"
-  :custom (terraform-indent-level 4))
-
-;; Python
-(use-package python-mode :custom (python-shell-interpreter "python"))
-
-;;Text Modes
-(use-package
-  markdown-mode
-  :hook
-  ((markdown-mode . visual-line-mode) (markdown-mode . flyspell-mode))
-  :init (setq markdown-command "multimarkdown"))
-(use-package yaml-mode)
-(use-package json-mode)
-
-;; Nix
-(use-package nix-mode :mode "\\.nix\\'")
-(use-package nix-mode :mode ("\\.nix\\'" "\\.nix.in\\'"))
-(use-package nix-drv-mode :ensure nix-mode :mode "\\.drv\\'")
-(use-package
-  nix-shell
-  :ensure nix-mode
-  :commands (nix-shell-unpack nix-shell-configure nix-shell-build))
-(use-package nix-repl :ensure nix-mode :commands (nix-repl))
-
-;; Docker
-(use-package docker :ensure t :bind ("C-c d" . docker))
-(use-package dockerfile-mode :mode "Dockerfile\\'")
-
-;; C/C++
-(use-package clang-format)
-
-(when (memq window-system '(mac ns x))
-  (use-package pyenv-mode)
-  (pyenv-mode))
-
-;; Formatter
-(use-package apheleia
-  :config
-  (apheleia-global-mode +1))
-
-;; Key hints
-(use-package
-  which-key
-  :init (which-key-mode)
-  :diminish which-key-mode
-  :config (which-key-setup-side-window-right))
-
-;; LSP
-(use-package
-  lsp-mode
-  :diminish "LSP"
-  :hook
-  ((lsp-mode . lsp-diagnostics-mode)
-   (lsp-mode . lsp-enable-which-key-integration)
-   ((tsx-ts-mode typescript-ts-mode js-ts-mode) . lsp-deferred)
-   (python-ts-mode . lsp-deferred)
-   (c-ts-mode . lsp-deferred)
-   (nix-mode . lsp-deferred))
-  :config (setq lsp-pyls-plugins-flake8-enabled t)
-  (lsp-register-custom-settings
-   '(("pyls.plugins.pyls_mypy.enabled" t t)
-     ("pyls.plugins.pyls_mypy.live_mode" nil t)
-     ("pyls.plugins.pyls_black.enabled" t t)
-     ("pyls.plugins.pyls_isort.enabled" t t)))
-  :custom
-  (lsp-keymap-prefix "C-c l") ; Prefix for LSP actions
-  (lsp-completion-provider :none) ; Using Corfu as the provider
-  (lsp-diagnostics-provider :flycheck) (lsp-log-io t)
-  (lsp-keep-workspace-alive nil) ; Close LSP server if all project buffers are closed
-  ;; core
-  (lsp-enable-xref t) ; Use xref to find references
-  (lsp-auto-configure t) ; Used to decide between current active servers
-  (lsp-eldoc-enable-hover t) ; Display signature information in the echo area
-  (lsp-enable-dap-auto-configure t) ; Debug support
-  (lsp-enable-file-watchers nil) (lsp-enable-imenu t)
-  (lsp-enable-indentation nil) ; I use prettier
-  (lsp-enable-links nil) ; No need since we have `browse-url'
-  (lsp-enable-on-type-formatting nil) ; Prettier handles this
-  (lsp-enable-suggest-server-download t) ; Useful prompt to download LSP providers
-  (lsp-enable-symbol-highlighting t) ; Shows usages of symbol at point in the current buffer
-  (lsp-enable-text-document-color nil) ; This is Treesitter's job
-
-  (lsp-ui-sideline-show-hover nil) ; Sideline used only for diagnostics
-  (lsp-ui-sideline-diagnostic-max-lines 20) ; 20 lines since typescript errors can be quite big
-  ;; semantic
-  (lsp-semantic-tokens-enable nil) ; Related to highlighting, and we defer to treesitter
-
-  :init (setq lsp-use-plists nil))
-
-(use-package
-  lsp-ui
-  :commands (lsp-ui-doc-show lsp-ui-doc-glance)
-  :bind (:map lsp-mode-map ("C-c C-d" . 'lsp-ui-doc-glance))
-  :after (lsp-mode evil)
-  :config
-  (setq
-   lsp-ui-doc-enable t
-   evil-lookup-func #'lsp-ui-doc-glance ; Makes K in evil-mode toggle the doc for symbol at point
-   lsp-ui-doc-show-with-cursor nil ; Don't show doc when cursor is over symbol - too distracting
-   lsp-ui-doc-include-signature t ; Show signature
-   lsp-ui-doc-position 'at-point))
+(use-package treemacs-magit :straight t :after (treemacs magit))
 
 ;; Completion
+(use-package yasnippet :straight t)
+(yas-global-mode 1)
+(use-package yasnippet-snippets :straight t)
+
 (use-package
   corfu
+  :straight t
   :custom
   (corfu-cycle t)
   (corfu-auto t)
-  (corfu-auto-prefix 2)
+  (corfu-auto-prefix 3)
   (corfu-auto-delay 0.25)
   (tab-always-indent 'complete)
   :bind ("C-c c" . completion-at-point)
   :init (global-corfu-mode))
 
+(use-package company-auctex :straight t)
 
 (use-package
   cape
+  :straight t
   :after corfu
   :hook
   (org-mode . kb/cape-capf-setup-org)
   (LaTeX-mode . kb/cape-capf-setup-latex)
   :bind (("M-c" . cape-prefix-map) ("M-c t" . cape-tex))
   :init
-  (defun kb/cape-capf-setup-org ()
-    (require 'org-roam)
-    (if (org-roam-file-p)
-	(org-roam--register-completion-functions-h)
-      (let (result)
-	(dolist (element
-                 (list
-                  (cape-wrap-super #'cape-dict #'cape-dabbrev)
-                  (cape-company-to-capf
-                   #'company-yasnippet)
-                  '(cape-tex cape-file))
-                 result)
-          (add-to-list 'completion-at-point-functions element)))))
+  (add-hook 'completion-at-point-functions #'cape-dabbrev)
+  (add-hook 'completion-at-point-functions #'cape-file)
+  (add-hook 'completion-at-point-functions #'cape-elisp-block)
   (defun kb/cape-capf-setup-latex ()
     (require 'company-auctex)
     (let ((result))
@@ -487,30 +294,115 @@
                                     company-auctex-environments))))
                result)
 	(add-to-list 'completion-at-point-functions element))))
-  :config
-  (advice-add
-   'pcomplete-completions-at-point
-   :around #'cape-wrap-silent)
-  (advice-add
-   'pcomplete-completions-at-point
-   :around #'cape-wrap-purify))
+  (defun kb/cape-capf-setup-org ()
+    (require 'org-roam)
+    (let ((result))
+      (dolist (element
+               (list
+		;; First add `company-yasnippet'
+		(cape-company-to-capf #'company-yasnippet)
+		(cape-wrap-super #'cape-dict #'cape-dabbrev)
+		;; Then add `cape-tex'
+		#'cape-tex
+		#'cape-file)
+               result)
+	(add-to-list 'completion-at-point-functions element)))))
+
+;; Orderless
+(use-package
+  orderless
+  :straight t
+  :config (setq completion-styles '(orderless)))
+
+;; Code and Text Modes
+;; Errors
+(use-package
+  flycheck
+  :straight t
+  :init (global-flycheck-mode)
+  :bind
+  (:map
+   flycheck-mode-map
+   ("M-n" . flycheck-next-error) ; optional but recommended error navigation
+   ("M-p" . flycheck-previous-error)))
+
+;; Treesit
+(setq treesit-language-source-alist
+      '((bash "https://github.com/tree-sitter/tree-sitter-bash")
+	(cmake "https://github.com/uyha/tree-sitter-cmake")
+	(css "https://github.com/tree-sitter/tree-sitter-css")
+	(elisp "https://github.com/Wilfred/tree-sitter-elisp")
+	(go "https://github.com/tree-sitter/tree-sitter-go")
+	(html "https://github.com/tree-sitter/tree-sitter-html")
+	(javascript "https://github.com/tree-sitter/tree-sitter-javascript" "master" "src")
+	(json "https://github.com/tree-sitter/tree-sitter-json")
+	(make "https://github.com/alemuller/tree-sitter-make")
+	(markdown "https://github.com/ikatyang/tree-sitter-markdown")
+	(python "https://github.com/tree-sitter/tree-sitter-python")
+	(toml "https://github.com/tree-sitter/tree-sitter-toml")
+	(tsx "https://github.com/tree-sitter/tree-sitter-typescript" "master" "tsx/src")
+	(typescript "https://github.com/tree-sitter/tree-sitter-typescript" "master" "typescript/src")
+	(yaml "https://github.com/ikatyang/tree-sitter-yaml")
+	(nix "https://github.com/nix-community/tree-sitter-nix")))
+
+(setq major-mode-remap-alist
+      '((tsx-mode  . tsx-ts-mode)
+	(html-mode . html-ts-mode)
+	(css-mode . css-ts-mode)
+	(python-mode . python-ts-mode)
+	(cmake-mode . cmake-ts-mode)
+	(c-mode . c-ts-mode)
+	(c++-mode . c++-ts-mode)
+	(nix-mode . nix-ts-mode)
+	(javascript-mode . javascript-ts-mode)
+	(typescript-mode . typecript-ts-mode)
+	(json-mode . json-ts-mode)
+	(yaml-mode . yaml-ts-mode)
+	(toml-mode . toml-ts-mode)))
+
+;; Web Dev
+(use-package typescript-mode :straight t)
+
+;; Python
+(use-package
+  python-mode
+  :straight t
+  :custom (python-shell-interpreter "python"))
+
+;;Text Modes
+(use-package
+  markdown-mode
+  :straight t
+  :hook
+  ((markdown-mode . visual-line-mode) (markdown-mode . flyspell-mode))
+  :init (setq markdown-command "multimarkdown"))
+(use-package yaml-mode :straight t)
+(use-package json-mode :straight t)
+
+;; Nix
+(use-package nix-mode :straight t :mode ("\\.nix\\'" "\\.nix.in\\'"))
+
+;; Docker
+(use-package docker :straight t :bind ("C-c d" . docker))
+(use-package dockerfile-mode :straight t :mode "Dockerfile\\'")
+
+(when (memq window-system '(mac ns x))
+  (use-package pyenv-mode :straight t)
+  (pyenv-mode))
 
 ;; Formatter
-(use-package
-  elisp-autofmt
-  :commands (elisp-autofmt-mode elisp-autofmt-buffer)
-  :hook (emacs-lisp-mode . elisp-autofmt-mode))
+(use-package apheleia :straight t :config (apheleia-global-mode +1))
 
 ;; Latex
-(use-package auctex)
+(use-package auctex :straight t)
 (setq TeX-auto-save t)
 (setq TeX-parse-self t)
 (setq-default TeX-master nil)
 
-(use-package auctex-latexmk)
+(use-package auctex-latexmk :straight t)
 
-(use-package pdf-tools)
-(use-package cdlatex)
+(use-package pdf-tools :straight t)
+(use-package cdlatex :straight t)
 
 (add-to-list 'TeX-view-program-selection '(output-pdf "PDF Tools"))
 
@@ -521,11 +413,43 @@
  'TeX-after-TeX-LaTeX-command-finished-hook
  'TeX-revert-document-buffer)
 
+;; LSP
+(use-package lsp-mode
+  :straight t
+  :init
+  ;; set prefix for lsp-command-keymap (few alternatives - "C-l", "C-c l")
+  (setq lsp-keymap-prefix "C-c l")
+  :hook (;; replace XXX-mode with concrete major-mode(e. g. python-mode)
+         (tsx-mode . lsp)
+	 (c-mode . lsp)
+	 (c++-mode . lsp)
+	 (python-mode . lsp)
+         ;; if you want which-key integration
+         (lsp-mode . lsp-enable-which-key-integration))
+  :commands lsp
+  :custom
+  (lsp-completion-provider :none))
+
+;; optionally
+(use-package lsp-ui :straight t :commands lsp-ui-mode)
+(use-package lsp-treemacs :straight t :commands lsp-treemacs-errors-list)
+
+;; optionally if you want to use debugger
+(use-package dap-mode :straight t)
+;; (use-package dap-LANGUAGE) to load the dap adapter for your language
+
 ;; Org Mode
 (use-package
   org
-  :hook (org-mode . visual-line-mode) (org-mode-hook . auto-revert-mod)
-  :config (setq org-src-fontify-natively t)
+  :straight t
+  :hook
+  (org-mode . visual-line-mode)
+  (org-mode-hook . auto-revert-mode)
+  :config
+  (setq org-src-fontify-natively t)
+  (setq org-preview-latex-default-process 'dvisvgm)
+  (setq org-format-latex-options
+	(plist-put org-format-latex-options :scale 1.75))
   (setq-default
    org-startup-indented t
    org-pretty-entities t
@@ -535,19 +459,16 @@
    org-startup-with-inline-images t
    org-image-actual-width '(300))
   (custom-set-faces
-   '(org-level-1 ((t (:inherit outline-1 :height 1.25))))
-   '(org-level-2 ((t (:inherit outline-2 :height 1.2))))
-   '(org-level-3 ((t (:inherit outline-3 :height 1.15))))
-   '(org-level-4 ((t (:inherit outline-4 :height 1.10))))
-   '(org-level-5 ((t (:inherit outline-5 :height 1.05))))))
-
-(setq org-preview-latex-default-process 'dvisvgm)
-(setq org-format-latex-options
-      (plist-put org-format-latex-options :scale 1.75))
+   '(org-level-1 ((t (:inherit outline-1 :height 1.50))))
+   '(org-level-2 ((t (:inherit outline-2 :height 1.40))))
+   '(org-level-3 ((t (:inherit outline-3 :height 1.30))))
+   '(org-level-4 ((t (:inherit outline-4 :height 1.20))))
+   '(org-level-5 ((t (:inherit outline-5 :height 1.10))))))
 
 ;; Org Roam
 (use-package
   org-roam
+  :straight t
   :init (setq org-roam-v2-ack t)
   :custom (org-roam-directory "~/Documents/Notes")
   :bind
@@ -555,7 +476,5 @@
    ("C-c n f" . org-roam-node-find)
    ("C-c n i" . org-roam-node-insert))
   :config (org-roam-setup))
-
-(require 'org-roam-export)
 
 ;;; init.el ends here

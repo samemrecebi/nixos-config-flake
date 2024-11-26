@@ -16,7 +16,6 @@
     ".config/alacritty/alacritty.toml".source = ../../dotfiles/alacritty/alacritty.toml;
     ".emacs.d/init.el".source = ../../dotfiles/emacs/init.el;
     ".emacs.d/early-init.el".source = ../../dotfiles/emacs/early-init.el;
-    ".aerospace.toml".source = ../../dotfiles/aerospace.toml;
   };
 
   nixpkgs = {
@@ -51,7 +50,8 @@
     };
     sessionVariables = {
       PYENV_ROOT = "$HOME/.pyenv";
-      PATH = "$PYENV_ROOT/bin:/opt/homebrew/bin:/opt/homebrew/sbin:/etc/profiles/per-user/emrecebi/bin/fzf:$PATH";
+      PATH = "/Library/Developer/CommandLineTools/SDKs/MacOSX.sdk/usr/lib:$PYENV_ROOT/bin:/opt/homebrew/opt/make/libexec/gnubin:/opt/homebrew/bin:/opt/homebrew/sbin:/etc/profiles/per-user/emrecebi/bin/fzf:$PATH";
+      LIBRARY_PATH = ":/Library/Developer/CommandLineTools/SDKs/MacOSX.sdk/usr/lib:$LIBRARY_PATH";
     };
     initExtra = ''
       eval "$(pyenv init -)"

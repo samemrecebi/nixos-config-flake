@@ -10,7 +10,10 @@
 
 (setq package-enable-at-startup nil)
 
-;; So we can detect this having been loaded
-(provide 'early-init)
+(setenv "LIBRARY_PATH"
+  (string-join
+    '("/opt/homebrew/opt/gcc/lib/gcc/14"
+      "/opt/homebrew/opt/libgccjit/lib/gcc/14"
+      "/opt/homebrew/opt/gcc/lib/gcc/14/gcc/aarch64-apple-darwin24/14") ":"))
 
 ;;; early-init.el ends here

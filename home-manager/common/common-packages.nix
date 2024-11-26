@@ -62,14 +62,9 @@ in {
       alejandra
     ];
 
-    # Editors
-    programs.vscode = {
-      enable = true;
-    };
-
     programs.emacs = {
       enable = true;
-      package = pkgs.emacs;
+      package = pkgs.emacs30.override {withNativeCompilation = false;};
     };
   };
 }

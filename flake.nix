@@ -18,9 +18,6 @@
     # Nix Darwin
     nix-darwin.url = "github:lnl7/nix-darwin/master";
     nix-darwin.inputs.nixpkgs.follows = "nixpkgs";
-    # Darwin App Fix
-    mac-app-util.url = "github:hraban/mac-app-util";
-    mac-app-util.inputs.nixpkgs.follows = "nixpkgs";
   };
 
   outputs = {
@@ -32,7 +29,6 @@
     hyprland,
     stylix,
     nix-darwin,
-    mac-app-util,
     ...
   } @ inputs: let
     inherit (self) outputs;
@@ -95,7 +91,6 @@
       system = "aarch64-darwin";
       modules = [
         ./hosts/bomonti/configuration.nix
-        mac-app-util.darwinModules.default
         home-manager.darwinModules.home-manager
         {
           home-manager.useGlobalPkgs = true;
@@ -103,7 +98,6 @@
           home-manager.backupFileExtension = "backup";
           home-manager.extraSpecialArgs = {inherit inputs outputs;};
           home-manager.users.emrecebi = import ./home-manager/bomonti/home.nix;
-          home-manager.sharedModules = [mac-app-util.homeManagerModules.default];
         }
       ];
     };

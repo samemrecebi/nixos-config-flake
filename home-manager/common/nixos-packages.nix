@@ -27,6 +27,11 @@
     pkgs.mullvad-vpn
   ];
 
+  # Editors
+  programs.vscode = {
+    enable = true;
+  };
+
   # Syncthing
   services.syncthing = {
     enable = true;
