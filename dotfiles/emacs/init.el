@@ -5,13 +5,11 @@
 
 ;;; Code:
 
-;;Start speedup
+;;Start server
 (server-start)
+
 ;; Encoding
 (prefer-coding-system 'utf-8)
-(set-default-coding-systems 'utf-8)
-(set-terminal-coding-system 'utf-8)
-(set-keyboard-coding-system 'utf-8)
 
 ;; Speedup
 (let ((normal-gc-cons-threshold (* 20 1024 1024))
@@ -22,9 +20,6 @@
   (add-hook
    'emacs-startup-hook
    (lambda () (setq gc-cons-threshold normal-gc-cons-threshold))))
-
-;; Stop native comp errors
-(setq warning-minimum-level :error)
 
 ;; UI fixes
 (menu-bar-mode -1)
@@ -40,16 +35,28 @@
       (remq
        'process-kill-buffer-query-function
        kill-buffer-query-functions))
-(setq history-length 25)
-(savehist-mode 1)
 
 ;; Keys
 (global-set-key (kbd "<escape>") 'keyboard-escape-quit)
-
 (global-set-key (kbd "C-x k") 'kill-this-buffer)
 
+
+;; Setup exec path from shell PATH - Needed for MacOS
+(defun set-exec-path-from-shell-PATH ()
+  (interactive)
+  (let ((path-from-shell
+         (replace-regexp-in-string
+          "[ \t\n]*$" ""
+          (shell-command-to-string
+           "$SHELL --login -c 'echo $PATH'"))))
+    (setenv "PATH" path-from-shell)
+    (setq exec-path (split-string path-from-shell path-separator))))
+
 ;; Mac spesific fixes
-(setq make-backup-files nil)
+(when (memq window-system '(mac ns x))
+  (setq make-backup-files nil)
+  (setq mac-right-command-modifier 'super)
+  (set-exec-path-from-shell-PATH))
 
 ;; Auto-save-mode doesn't create the path automatically!
 (make-directory (expand-file-name "tmp/auto-saves/"
@@ -92,7 +99,6 @@
            term-mode-hook
            shell-mode-hook
            eshell-mode-hook
-           vterm-mode-hook
            text-mode-hook
            dashboard-mode-hook))
   (add-hook mode (lambda () (display-line-numbers-mode 0))))
@@ -124,33 +130,12 @@
 
 (straight-use-package 'use-package)
 
-;;Loading custom files
-(add-to-list 'load-path "~/.emacs.d/custom")
-
 ;;Keep init.el clean
 (setq custom-file "~/.emacs.d/custom.el")
 (load custom-file 'noerror)
 
-(defun set-exec-path-from-shell-PATH ()
-  "Set up Emacs' `exec-path' and PATH environment variable to match
-that used by the user's shell.
-
-This is particularly useful under Mac OS X and macOS, where GUI
-apps are not started from a shell."
-  (interactive)
-  (let ((path-from-shell
-         (replace-regexp-in-string
-          "[ \t\n]*$" ""
-          (shell-command-to-string
-           "$SHELL --login -c 'echo $PATH'"))))
-    (setenv "PATH" path-from-shell)
-    (setq exec-path (split-string path-from-shell path-separator))))
-
-(set-exec-path-from-shell-PATH)
-
 ;; Packages
 ;; Basics
-
 ;; Theme
 (use-package ef-themes :straight t)
 (load-theme 'ef-bio t t)
@@ -192,6 +177,15 @@ apps are not started from a shell."
 ;; Vertigo
 (use-package vertico :straight t :init (vertico-mode))
 
+;; Orderless compleation
+(use-package
+  orderless
+  :straight t
+  :custom
+  (completion-styles '(orderless basic))
+  (completion-category-defaults nil)
+  (completion-category-overrides '((file (styles partial-completion)))))
+
 ;; Consult
 (use-package
   consult
@@ -200,9 +194,11 @@ apps are not started from a shell."
   (("C-x b" . consult-buffer)
    ("C-x 4 b" . consult-buffer-other-window)
    ("C-x 5 b" . consult-buffer-other-frame)
+   ("C-x r b" . consult-bookmark)
    ;; M-s bindings (search-map)
    ("M-s r" . consult-ripgrep)
-   ("M-s f" . consult-find))
+   ("M-s f" . consult-find)
+   ("M-s l" . consult-line))
   :init
   (defun compat-string-width (&rest args)
     (apply #'string-width args))
@@ -210,9 +206,18 @@ apps are not started from a shell."
    consult-ripgrep-args
    "rg --null --line-buffered --color=never --max-columns=1000 --path-separator /   --smart-case --no-heading --line-number --hidden ."
    consult-find-args "find ."))
+
+(use-package consult-flycheck
+  :straight t)
+
+;; M-x history
+(use-package savehist
+  :straight t
+  :init
+  (savehist-mode))
 (add-hook 'after-init-hook #'recentf-mode)
-(savehist-mode 1)
 (customize-set-variable 'bookmark-save-flag 1)
+(setq history-length 25)
 
 ;; Magit
 (use-package
@@ -223,10 +228,16 @@ apps are not started from a shell."
   (magit-display-buffer-function
    #'magit-display-buffer-same-window-except-diff-v1))
 
-;; Project.el
+;; Projectile
 (straight-use-package 'project)
 (use-package projectile
-  :straight t)
+  :straight t
+  :init
+  (projectile-mode +1)
+  :bind (:map projectile-mode-map
+              ("s-p" . projectile-command-map)
+              ("C-c p" . projectile-command-map)))
+(setq projectile-project-search-path '("~/Documents/Projects/" "~/Documents/Homeworks/"))
 
 ;; Treemacs
 (use-package
@@ -244,10 +255,6 @@ apps are not started from a shell."
 (use-package treemacs-magit :straight t :after (treemacs magit))
 
 ;; Completion
-(use-package yasnippet :straight t)
-(yas-global-mode 1)
-(use-package yasnippet-snippets :straight t)
-
 (use-package
   corfu
   :straight t
@@ -279,12 +286,7 @@ apps are not started from a shell."
     (let ((result))
       (dolist (element
                (list
-		;; First add `company-yasnippet'
-		(cape-company-to-capf #'company-yasnippet)
-		;; Then add `cape-tex'
 		#'cape-tex
-		;; Then add `company-auctex' in the order it adds its
-		;; backends.
 		(cape-company-to-capf #'company-auctex-bibs)
 		(cape-company-to-capf #'company-auctex-labels)
 		(cape-company-to-capf
@@ -293,26 +295,30 @@ apps are not started from a shell."
                                     company-auctex-symbols
                                     company-auctex-environments))))
                result)
-	(add-to-list 'completion-at-point-functions element))))
-  (defun kb/cape-capf-setup-org ()
-    (require 'org-roam)
-    (let ((result))
-      (dolist (element
-               (list
-		;; First add `company-yasnippet'
-		(cape-company-to-capf #'company-yasnippet)
-		(cape-wrap-super #'cape-dict #'cape-dabbrev)
-		;; Then add `cape-tex'
-		#'cape-tex
-		#'cape-file)
-               result)
 	(add-to-list 'completion-at-point-functions element)))))
 
-;; Orderless
-(use-package
-  orderless
+;; LSP
+;; Basic Configuration
+(use-package lsp-mode
   :straight t
-  :config (setq completion-styles '(orderless)))
+  :init
+  (setq lsp-enable-suggest-server-download nil
+      lsp-enable-snippet nil
+      lsp-enable-dap-auto-configure nil
+      lsp-enable-on-type-formatting nil)
+  (setq lsp-idle-delay 0.250)
+  (setq lsp-keymap-prefix "C-c l")
+  (defun my/lsp-mode-setup-completion ()
+    (setf (alist-get 'styles (alist-get 'lsp-capf completion-category-defaults))
+          '(orderless)))
+  :hook ((lsp-mode . lsp-enable-which-key-integration)
+	 (lsp-completion-mode . my/lsp-mode-setup-completion))
+  :commands lsp
+  :custom
+  (lsp-completion-provider :none))
+
+(use-package lsp-ui :straight t :commands lsp-ui-mode)
+(use-package lsp-treemacs :straight t :commands lsp-treemacs-errors-list)
 
 ;; Code and Text Modes
 ;; Errors
@@ -326,42 +332,59 @@ apps are not started from a shell."
    ("M-n" . flycheck-next-error) ; optional but recommended error navigation
    ("M-p" . flycheck-previous-error)))
 
-;; Treesit
-(setq treesit-language-source-alist
-      '((bash "https://github.com/tree-sitter/tree-sitter-bash")
-	(cmake "https://github.com/uyha/tree-sitter-cmake")
-	(css "https://github.com/tree-sitter/tree-sitter-css")
-	(elisp "https://github.com/Wilfred/tree-sitter-elisp")
-	(go "https://github.com/tree-sitter/tree-sitter-go")
-	(html "https://github.com/tree-sitter/tree-sitter-html")
-	(javascript "https://github.com/tree-sitter/tree-sitter-javascript" "master" "src")
-	(json "https://github.com/tree-sitter/tree-sitter-json")
-	(make "https://github.com/alemuller/tree-sitter-make")
-	(markdown "https://github.com/ikatyang/tree-sitter-markdown")
-	(python "https://github.com/tree-sitter/tree-sitter-python")
-	(toml "https://github.com/tree-sitter/tree-sitter-toml")
-	(tsx "https://github.com/tree-sitter/tree-sitter-typescript" "master" "tsx/src")
-	(typescript "https://github.com/tree-sitter/tree-sitter-typescript" "master" "typescript/src")
-	(yaml "https://github.com/ikatyang/tree-sitter-yaml")
-	(nix "https://github.com/nix-community/tree-sitter-nix")))
+;; Formatter
+(use-package prettier
+  :straight t)
+(add-hook 'after-init-hook #'global-prettier-mode)
 
-(setq major-mode-remap-alist
-      '((tsx-mode  . tsx-ts-mode)
-	(html-mode . html-ts-mode)
-	(css-mode . css-ts-mode)
-	(python-mode . python-ts-mode)
-	(cmake-mode . cmake-ts-mode)
-	(c-mode . c-ts-mode)
-	(c++-mode . c++-ts-mode)
-	(nix-mode . nix-ts-mode)
-	(javascript-mode . javascript-ts-mode)
-	(typescript-mode . typecript-ts-mode)
-	(json-mode . json-ts-mode)
-	(yaml-mode . yaml-ts-mode)
-	(toml-mode . toml-ts-mode)))
+;;HTML
+  (use-package web-mode
+    :straight t
+    :mode ("\\.html\\'" . web-mode)
+    :mode ("\\.xhtml\\'" . web-mode)
+    :hook (web-mode . lsp-deferred))
 
-;; Web Dev
-(use-package typescript-mode :straight t)
+;; CSS
+  (use-package css-mode
+    :mode ("\\.css\\'" . css-mode)
+    :mode ("\\.scss\\'". css-mode)
+    :hook (css-mode . lsp-deferred)
+    :config
+    (with-eval-after-load "flycheck"
+      (flycheck-add-mode 'javascript-eslint 'web-mode)))
+
+;; Javascript
+   (use-package rjsx-mode
+     :straight t
+     :config
+     :mode ("\\.js\\'" . rjsx-mode)
+     :mode ("\\.jsx\\'" . rjsx-mode)
+     :hook (rjsx-mode . lsp-deferred)
+     :init     (cl-defun lsp--npm-dependency-path (&key package path &allow-other-keys)
+       "Return npm dependency PATH for PACKAGE."
+       (let ((path (executable-find
+                    (f-join lsp-server-install-dir "npm" package
+                            (cond ((eq system-type 'windows-nt) "")
+                                  (t "bin"))
+                            path))))
+         (unless (and path (f-exists? path))
+           nil)
+         path)))
+
+;; Typescript
+  (use-package typescript-mode
+    :straight t
+    :config
+    :mode ("\\.ts\\'" . typescript-mode)
+    :mode ("\\.tsx\\'" . typescript-mode)
+    :hook (typescript-mode . lsp-deferred))
+
+;; C/C++
+  (use-package clang-format
+    :straight t)
+
+    (add-hook 'c-mode-hook #'lsp-deferred)
+    (add-hook 'c++-mode-hook #'lsp-deferred)
 
 ;; Python
 (use-package
@@ -369,15 +392,26 @@ apps are not started from a shell."
   :straight t
   :custom (python-shell-interpreter "python"))
 
-;;Text Modes
-(use-package
-  markdown-mode
-  :straight t
-  :hook
-  ((markdown-mode . visual-line-mode) (markdown-mode . flyspell-mode))
-  :init (setq markdown-command "multimarkdown"))
-(use-package yaml-mode :straight t)
-(use-package json-mode :straight t)
+   ;; Magic_RB python LSP setup
+  (defun magic_rb/locate-python-executable-lsp-deffered ()
+    "Locates the python executable available to the current buffer and only then calls `lsp-deferred'."
+    (lambda ()
+      (require 'lsp-python-ms)
+      (envrc-mode)
+      (setq-local lsp-python-ms-executable (executable-find "python-language-server"))
+      (lsp-deferred)))
+
+  (use-package lsp-python-ms
+    :straight t
+    :after (lsp-mode)
+    :hook (python-mode . magic_rb/locate-python-executable-lsp-deffered)
+    :config
+    (defvar-local lsp-python-ms-executable ""))
+
+;; Mac only Pyenv setup
+(when (memq window-system '(mac ns x))
+  (use-package pyenv-mode :straight t)
+  (pyenv-mode))
 
 ;; Nix
 (use-package nix-mode :straight t :mode ("\\.nix\\'" "\\.nix.in\\'"))
@@ -386,12 +420,30 @@ apps are not started from a shell."
 (use-package docker :straight t :bind ("C-c d" . docker))
 (use-package dockerfile-mode :straight t :mode "Dockerfile\\'")
 
-(when (memq window-system '(mac ns x))
-  (use-package pyenv-mode :straight t)
-  (pyenv-mode))
+;; HCL
+(use-package hcl-mode
+  :straight t)
 
-;; Formatter
-(use-package apheleia :straight t :config (apheleia-global-mode +1))
+;; Terraform
+(use-package terraform-mode
+  :straight t)
+
+;; Text Modes
+;; Generic
+(use-package
+  markdown-mode
+  :straight t
+  :hook
+  ((markdown-mode . visual-line-mode) (markdown-mode . flyspell-mode))
+  :init (setq markdown-command "multimarkdown")
+  :mode ("\\.md\\'" . markdown-mode))
+(use-package yaml-mode
+  :straight t
+  :mode
+  (("\\.yml\\'" . yaml-mode)
+   ("\\.yaml\\'" . yaml-mode)))
+(use-package json-mode :straight t)
+(use-package toml-mode :straight t)
 
 ;; Latex
 (use-package auctex :straight t)
@@ -412,31 +464,6 @@ apps are not started from a shell."
 (add-hook
  'TeX-after-TeX-LaTeX-command-finished-hook
  'TeX-revert-document-buffer)
-
-;; LSP
-(use-package lsp-mode
-  :straight t
-  :init
-  ;; set prefix for lsp-command-keymap (few alternatives - "C-l", "C-c l")
-  (setq lsp-keymap-prefix "C-c l")
-  :hook (;; replace XXX-mode with concrete major-mode(e. g. python-mode)
-         (tsx-mode . lsp)
-	 (c-mode . lsp)
-	 (c++-mode . lsp)
-	 (python-mode . lsp)
-         ;; if you want which-key integration
-         (lsp-mode . lsp-enable-which-key-integration))
-  :commands lsp
-  :custom
-  (lsp-completion-provider :none))
-
-;; optionally
-(use-package lsp-ui :straight t :commands lsp-ui-mode)
-(use-package lsp-treemacs :straight t :commands lsp-treemacs-errors-list)
-
-;; optionally if you want to use debugger
-(use-package dap-mode :straight t)
-;; (use-package dap-LANGUAGE) to load the dap adapter for your language
 
 ;; Org Mode
 (use-package
