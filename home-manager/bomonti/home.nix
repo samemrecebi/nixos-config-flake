@@ -1,9 +1,4 @@
 {
-  pkgs,
-  outputs,
-  inputs,
-  ...
-}: {
   imports = [
     ../common/shell.nix
     ../common/fonts.nix
@@ -16,13 +11,6 @@
     ".config/alacritty/alacritty.toml".source = ../../dotfiles/alacritty/alacritty.toml;
     ".emacs.d/init.el".source = ../../dotfiles/emacs/init.el;
     ".emacs.d/early-init.el".source = ../../dotfiles/emacs/early-init.el;
-  };
-
-  nixpkgs = {
-    overlays = [
-      outputs.overlays.additions
-      outputs.overlays.modifications
-    ];
   };
 
   # Enable Packages
