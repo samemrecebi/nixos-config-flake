@@ -1,7 +1,6 @@
 {
   pkgs,
   config,
-  lib,
   ...
 }: {
   programs.zsh = {
@@ -49,6 +48,10 @@
       gpg.format = "ssh";
       user.signingkey = "~/.ssh/id_sign.pub";
     };
+  };
+  programs.lazygit = {
+    enable = true;
+    package = pkgs.lazygit;
   };
 
   programs.direnv = {

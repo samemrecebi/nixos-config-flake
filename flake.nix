@@ -91,6 +91,7 @@
       system = "aarch64-darwin";
       modules = [
         ./hosts/bomonti/configuration.nix
+        stylix.darwinModules.stylix
         home-manager.darwinModules.home-manager
         {
           home-manager.useGlobalPkgs = true;
@@ -98,6 +99,13 @@
           home-manager.backupFileExtension = "backup";
           home-manager.extraSpecialArgs = {inherit inputs outputs;};
           home-manager.users.emrecebi = import ./home-manager/bomonti/home.nix;
+          home-manager.sharedModules = [
+            {
+              stylix.targets = {
+                lazygit.enable = true;
+              };
+            }
+          ];
         }
       ];
     };
