@@ -1,11 +1,4 @@
-{
-  inputs,
-  outputs,
-  lib,
-  config,
-  pkgs,
-  ...
-}: {
+{pkgs, ...}: {
   imports = [
     # Nothing here
   ];
@@ -33,9 +26,6 @@
     ];
     brews = [
       # Basic
-      "yt-dlp"
-      "htop"
-      "exiftool"
       "wget"
       "curl"
 
@@ -46,19 +36,32 @@
       "automake"
 
       # Development
+      # Python
       "python"
       "pyenv"
+      # JS/TS
       "node"
+      "nodenv"
+      # Terraform
       "opentofu"
-      "azure-cli"
+      # C/C++
       "make"
       "gcc"
+      "bear"
+      "ccls"
       "libgccjit"
-      "hugo"
+      # Cloud
+      "azure-cli"
+
+      # Exporting
+      "pandoc"
+
+      # Downloaders
+      "yt-dlp"
 
       # Misc
+      "hugo" # Static site generator
       "syncthing"
-      "pandoc"
     ];
     casks = [
       # Development
@@ -66,6 +69,7 @@
       "figma"
       "docker"
       "tableplus"
+      "macfuse"
 
       # Editors
       "visual-studio-code"
@@ -106,6 +110,9 @@
       "microsoft-excel"
       "microsoft-powerpoint"
       "microsoft-excel"
+
+      # Downloaders
+      "qbittorrent"
 
       # Misc
       "tailscale"

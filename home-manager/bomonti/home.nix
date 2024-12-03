@@ -40,6 +40,7 @@
     };
     initExtra = ''
       eval "$(pyenv init -)"
+      eval "$(nodenv init - zsh)"
     '';
     profileExtra = ''
       eval "$(pyenv init -)"

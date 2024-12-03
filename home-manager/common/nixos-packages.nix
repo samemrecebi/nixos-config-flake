@@ -1,7 +1,19 @@
 {pkgs, ...}: {
   home.packages = [
+    # Basic
+    pkgs.wget
+    pkgs.curl
+
+    # Development
+    # Generic
+    pkgs.alacritty
+    pkgs.zed-editor
+    # Cloud access
+    pkgs.azure-cli
+
     # Media
     pkgs.vlc
+    pkgs.spotify
 
     # Browsers
     pkgs.librewolf-bin
@@ -12,6 +24,12 @@
     pkgs.element-desktop
     pkgs.whatsapp-for-linux
     pkgs.signal-desktop
+    pkgs.slack
+    pkgs.zoom-us
+    pkgs.discord
+
+    # Exporting
+    pkgs.pandoc
 
     # Office Program
     pkgs.libreoffice-qt
@@ -22,26 +40,14 @@
     # Document Viewer
     pkgs.zathura
 
+    # Downloaders
+    pkgs.yt-dlp
+    pkgs.qbittorrent
+
     # Misc
+    pkgs.hugo # Static site generator
     pkgs.protonmail-bridge-gui
     pkgs.mullvad-vpn
-
-    # Moved from common-packages needs to be organized
-    pkgs.pandoc
-    pkgs.yt-dlp
-    pkgs.htop
-    pkgs.exiftool
-    pkgs.hugo
-    pkgs.wget
-    pkgs.curl
-    pkgs.alacritty
-    pkgs.cmake
-    pkgs.libtool
-    pkgs.spotify
-    pkgs.slack
-    pkgs.zoom-us
-    pkgs.discord
-    pkgs.qbittorrent
   ];
 
   # Editors
