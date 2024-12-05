@@ -5,5 +5,6 @@
     pkgs.nerd-fonts.hack
     pkgs.nerd-fonts.roboto-mono
     pkgs.nerd-fonts.jetbrains-mono
+    pkgs.berkeley-mono
   ];
 }

@@ -71,6 +71,7 @@
                   hyprland.enable = true;
                   waybar.enable = true;
                   wofi.enable = true;
+                  fzf.enable = true;
                 };
               }
             ];
@@ -102,6 +103,7 @@
             {
               stylix.targets = {
                 lazygit.enable = true;
+                fzf.enable = true;
               };
             }
           ];

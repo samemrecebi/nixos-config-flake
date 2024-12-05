@@ -274,7 +274,6 @@
   :straight t
   :after corfu
   :hook
-  (org-mode . kb/cape-capf-setup-org)
   (LaTeX-mode . kb/cape-capf-setup-latex)
   :bind (("M-c" . cape-prefix-map) ("M-c t" . cape-tex))
   :init

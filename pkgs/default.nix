@@ -3,4 +3,5 @@
 pkgs: {
   # example = pkgs.callPackage ./example { };
   ObjectsRotator = pkgs.callPackage ./ObjectsRotator {};
+  berkeley-mono = pkgs.callPackage ./berkeley-mono {};
 }

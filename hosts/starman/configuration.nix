@@ -18,6 +18,9 @@
 
   # Nixpkgs config
   nixpkgs = {
+    overlays = [
+      (final: _prev: import ../../pkgs final.pkgs)
+    ];
     config = {
       allowUnfree = true;
       allowAliases = false;

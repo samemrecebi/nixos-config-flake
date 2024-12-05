@@ -1,10 +1,14 @@
 {pkgs, ...}: {
   imports = [
-    # Nothing here
+    # Common Components
+    ../common/stylix.nix
   ];
 
   # Pkgs settings
   nixpkgs = {
+    overlays = [
+      (final: _prev: import ../../pkgs final.pkgs)
+    ];
     config = {
       allowUnfree = true;
       allowAliases = false;

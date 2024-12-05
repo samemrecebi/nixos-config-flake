@@ -86,34 +86,31 @@ lines = 0
 x = 5
 y = 5
 
-[colors.normal]
-black = '#222522'
-red = '#ef6560'
-green = '#3fb83f'
-yellow = '#d4aa02'
-blue = '#37aff6'
-magenta = '#d38faf'
-cyan = '#6fc5ef'
-white = '#cfdfd5'
+# Colors (Ayu Dark)
 
-[colors.bright]
-black = '#505250'
-red = '#ff778f'
-green = '#00c089'
-yellow = '#cfc04f'
-blue = '#32cfef'
-magenta = '#af9fff'
-cyan = '#5dc0aa'
-white = '#808f80'
-
-[colors.cursor]
-cursor = '#35f038'
-text = '#111111'
-
+# Default colors
 [colors.primary]
-background = '#111111'
-foreground = '#cfdfd5'
+background = '#0A0E14'
+foreground = '#B3B1AD'
 
-[colors.selection]
-background = '#3a3027'
-text = '#cfdfd5'
+# Normal colors
+[colors.normal]
+black = '#01060E'
+red = '#EA6C73'
+green = '#91B362'
+yellow = '#F9AF4F'
+blue = '#53BDFA'
+magenta = '#FAE994'
+cyan = '#90E1C6'
+white = '#C7C7C7'
+
+# Bright colors
+[colors.bright]
+black = '#686868'
+red = '#F07178'
+green = '#C2D94C'
+yellow = '#FFB454'
+blue = '#59C2FF'
+magenta = '#FFEE99'
+cyan = '#95E6CB'
+white = '#FFFFFF'
