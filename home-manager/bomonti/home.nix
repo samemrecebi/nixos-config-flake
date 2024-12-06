@@ -13,9 +13,6 @@
     ".emacs.d/early-init.el".source = ../../dotfiles/emacs/early-init.el;
   };
 
-  # Enable Packages
-  common-packages.enable = true;
-
   # Darwin specific zsh configuration
   programs.zsh = {
     shellAliases = {
@@ -25,6 +22,7 @@
       PYENV_ROOT = "$HOME/.pyenv";
       PATH = "/Library/Developer/CommandLineTools/SDKs/MacOSX.sdk/usr/lib:$PYENV_ROOT/bin:/opt/homebrew/opt/make/libexec/gnubin:/opt/homebrew/bin:/opt/homebrew/sbin:/etc/profiles/per-user/emrecebi/bin/fzf:$PATH";
       LIBRARY_PATH = ":/Library/Developer/CommandLineTools/SDKs/MacOSX.sdk/usr/lib:$LIBRARY_PATH";
+      FLAKE = "/home/emrecebi/.nix-config";
     };
     initExtra = ''
       eval "$(pyenv init -)"

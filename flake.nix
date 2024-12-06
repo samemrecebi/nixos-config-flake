@@ -13,8 +13,10 @@
     my-nixos-hardware.url = "github:samemrecebi/nixos-hardware/asus-tuf15-2023-simplify";
     # Hyprland
     hyprland.url = "github:hyprwm/Hyprland";
+    hyprland.inputs.nixpkgs.follows = "nixpkgs";
     # Stylix
     stylix.url = "github:danth/stylix";
+    stylix.inputs.nixpkgs.follows = "nixpkgs";
     # Nix Darwin
     nix-darwin.url = "github:lnl7/nix-darwin/master";
     nix-darwin.inputs.nixpkgs.follows = "nixpkgs";

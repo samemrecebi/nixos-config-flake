@@ -1,4 +1,2 @@
-result
-*.zip
-pkgs/**/*.ttf
-pkgs/**/*.otf
+.direnv
+result*

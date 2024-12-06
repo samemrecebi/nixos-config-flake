@@ -49,11 +49,7 @@
       user.signingkey = "~/.ssh/id_sign.pub";
     };
   };
-  programs.lazygit = {
-    enable = true;
-    package = pkgs.lazygit;
-  };
-
+  programs.lazygit.enable = true;
   programs.direnv = {
     enable = true;
     enableZshIntegration = true;

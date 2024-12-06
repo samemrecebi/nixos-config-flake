@@ -98,7 +98,8 @@
   };
 
   # Wofi
-  programs.wofi = {
-    enable = true;
-  };
+  programs.wofi.enable = true;
+
+  # Waybar
+  programs.waybar.enable = true;
 }

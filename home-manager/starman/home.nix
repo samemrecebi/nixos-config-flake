@@ -13,8 +13,6 @@
     ../common/hyprland.nix
   ];
 
-  programs.waybar.enable = true;
-
   # Dotfiles
   home.file = {
     ".config/starship.toml".source = ../../dotfiles/starship/starship.toml;
@@ -27,22 +25,14 @@
   # Packages
   ## Device spesific user packages
   home.packages = [
+    # Empty for now
   ];
-
-  ## Packages from modules
-  common-packages.enable = true;
 
   # Shell settings
   programs.zsh = {
-    shellAliases = {
-      # Empty for now
-    };
     sessionVariables = {
       FLAKE = "/home/emrecebi/.nix-config";
     };
-    initExtra = ''
-
-    '';
   };
 
   # GPG and SSH

@@ -1,8 +1,6 @@
 {
   inputs,
   pkgs,
-  lib,
-  config,
   ...
 }: {
   # For xwayland
@@ -11,7 +9,6 @@
   # Gnome stuff
   services = {
     gnome.gnome-keyring.enable = true;
-
     gvfs.enable = true;
   };
 

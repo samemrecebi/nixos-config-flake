@@ -5,10 +5,10 @@
     pkgs.curl
 
     # Development
-    # Generic
+    ## Generic
     pkgs.alacritty
     pkgs.zed-editor
-    # Cloud access
+    ## Cloud access
     pkgs.azure-cli
 
     # Media
@@ -45,7 +45,7 @@
     pkgs.qbittorrent
 
     # Misc
-    pkgs.hugo # Static site generator
+    pkgs.hugo
     pkgs.protonmail-bridge-gui
     pkgs.mullvad-vpn
   ];
@@ -53,6 +53,7 @@
   # Editors
   programs.vscode = {
     enable = true;
+    package = pkgs.vscode.fhs;
   };
 
   # Syncthing
