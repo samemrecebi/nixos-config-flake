@@ -74,6 +74,7 @@
                   waybar.enable = true;
                   wofi.enable = true;
                   fzf.enable = true;
+                  hyprpaper.enable = true;
                 };
               }
             ];
