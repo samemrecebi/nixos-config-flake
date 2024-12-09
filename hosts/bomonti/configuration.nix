@@ -40,6 +40,8 @@
       "automake"
 
       # Development
+      "coreutils"
+      "binutils"
       # Python
       "python"
       "pyenv"
@@ -54,8 +56,12 @@
       "bear"
       "ccls"
       "libgccjit"
+      # Rust
+      "rustup"
       # Cloud
       "azure-cli"
+      "awscli"
+      "oci-cli"
 
       # Exporting
       "pandoc"

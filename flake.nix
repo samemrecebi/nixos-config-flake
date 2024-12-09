@@ -10,7 +10,7 @@
     # Nix Hardware Fork
     nixos-hardware.url = "github:nixos/nixos-hardware/master";
     # My Nix Hardware Fork
-    my-nixos-hardware.url = "github:samemrecebi/nixos-hardware/asus-tuf15-2023-simplify";
+    my-nixos-hardware.url = "github:samemrecebi/nixos-hardware/master";
     # Hyprland
     hyprland.url = "github:hyprwm/Hyprland";
     hyprland.inputs.nixpkgs.follows = "nixpkgs";
@@ -67,6 +67,34 @@
             home-manager.backupFileExtension = "backup";
             home-manager.extraSpecialArgs = {inherit inputs outputs;};
             home-manager.users.emrecebi = import ./home-manager/starman/home.nix;
+            home-manager.sharedModules = [
+              {
+                stylix.targets = {
+                  hyprland.enable = true;
+                  waybar.enable = true;
+                  wofi.enable = true;
+                  fzf.enable = true;
+                };
+              }
+            ];
+          }
+        ];
+      };
+      egger = nixpkgs.lib.nixosSystem {
+        system = "x86_64-linux";
+        specialArgs = {inherit inputs outputs;};
+        modules = [
+          ./hosts/egger/configuration.nix
+          my-nixos-hardware.nixosModules.huawei-machc-wa
+          stylix.nixosModules.stylix
+          home-manager.nixosModules.home-manager
+          {
+            # Home Manager as a module
+            home-manager.useGlobalPkgs = true;
+            home-manager.useUserPackages = true;
+            home-manager.backupFileExtension = "backup";
+            home-manager.extraSpecialArgs = {inherit inputs outputs;};
+            home-manager.users.emrecebi = import ./home-manager/egger/home.nix;
             home-manager.sharedModules = [
               {
                 stylix.targets = {
