@@ -7,7 +7,7 @@
   # Pkgs settings
   nixpkgs = {
     overlays = [
-      (final: _prev: import ../../pkgs final.pkgs)
+      (final: _prev: (import ../../pkgs final.pkgs))
     ];
     config = {
       allowUnfree = true;

@@ -1,9 +1,10 @@
-{pkgs, ...}: {
-  home.packages = [
-    pkgs.noto-fonts
-    pkgs.nerd-fonts.fira-code
-    pkgs.nerd-fonts.hack
-    pkgs.nerd-fonts.roboto-mono
-    pkgs.nerd-fonts.jetbrains-mono
+{pkgs,...}: {
+  home.packages = with pkgs;[
+    noto-fonts
+    nerd-fonts.noto
+    nerd-fonts.fira-code
+    nerd-fonts.hack
+    nerd-fonts.roboto-mono
+    nerd-fonts.jetbrains-mono
   ];
 }

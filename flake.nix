@@ -20,6 +20,8 @@
     # Nix Darwin
     nix-darwin.url = "github:lnl7/nix-darwin/master";
     nix-darwin.inputs.nixpkgs.follows = "nixpkgs";
+    # Non-free fonts
+    nonfree-fonts.url = "github:samemrecebi/font-flake";
   };
 
   outputs = {
@@ -31,6 +33,7 @@
     hyprland,
     stylix,
     nix-darwin,
+    nonfree-fonts,
     ...
   } @ inputs: let
     inherit (self) outputs;
@@ -43,7 +46,6 @@
     ];
     forAllSystems = nixpkgs.lib.genAttrs systems;
   in {
-    # Custom packages
     packages = forAllSystems (system: import ./pkgs nixpkgs.legacyPackages.${system});
     formatter = forAllSystems (system: nixpkgs.legacyPackages.${system}.alejandra);
     nixosModules = import ./modules/nixos;
@@ -71,10 +73,11 @@
               {
                 stylix.targets = {
                   hyprland.enable = true;
+                  hyprpaper.enable = true;
                   waybar.enable = true;
                   wofi.enable = true;
                   fzf.enable = true;
-                  hyprpaper.enable = true;
+                  bat.enable = true;
                 };
               }
             ];
@@ -100,9 +103,11 @@
               {
                 stylix.targets = {
                   hyprland.enable = true;
+                  hyprpaper.enable = true;
                   waybar.enable = true;
                   wofi.enable = true;
                   fzf.enable = true;
+                  bat.enable = true;
                 };
               }
             ];
@@ -135,6 +140,7 @@
               stylix.targets = {
                 lazygit.enable = true;
                 fzf.enable = true;
+                bat.enable = true;
               };
             }
           ];

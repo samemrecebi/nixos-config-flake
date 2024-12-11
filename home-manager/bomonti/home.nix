@@ -1,4 +1,4 @@
-{
+{pkgs, inputs, ...}:{
   imports = [
     ../common/shell.nix
     ../common/fonts.nix
@@ -12,6 +12,11 @@
     ".emacs.d/init.el".source = ../../dotfiles/emacs/init.el;
     ".emacs.d/early-init.el".source = ../../dotfiles/emacs/early-init.el;
   };
+
+  home.packages = with pkgs; [
+    inputs.nonfree-fonts.packages."aarch64-darwin".berkeley
+    inputs.nonfree-fonts.packages."aarch64-darwin".comiccode
+  ];
 
   # Darwin specific zsh configuration
   programs.zsh = {
