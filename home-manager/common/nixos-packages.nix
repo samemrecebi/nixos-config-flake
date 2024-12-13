@@ -14,8 +14,6 @@
     pkgs.oci-cli
     ## Terraform
     pkgs.opentofu
-    ## Database
-    pkgs.tableplus
 
     # Productivity
     pkgs.todoist-electron

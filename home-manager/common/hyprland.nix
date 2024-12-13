@@ -10,14 +10,12 @@
     general = {
       gaps_in = 5;
       gaps_out = 5;
-      border_size = 4;
+      border_size = 2;
       resize_on_border = false;
       allow_tearing = false;
       layout = "dwindle";
     };
     input = {
-      kb_layout = "us,tr";
-      kb_variant = ",qwerty";
       touchpad = {
         natural_scroll = false;
       };
@@ -45,13 +43,13 @@
     bind =
       [
         "$mod, B, exec, librewolf"
-        "$mod, enter, exec, alacritty"
+        "$mod, Return, exec, alacritty"
         "$mod, S, exec , nautilus"
         "$mod, space, exec, wofi --show drun"
         "SUPER, V, exec, clipman pick -t wofi"
 
         "$mod SHIFT, Q, exit"
-        "$mod, C, killactive,"
+        "$mod, Q, killactive,"
         "$mod, V, togglefloating,"
         "$mod, S, togglesplit,"
 
@@ -97,7 +95,7 @@
     ];
   };
   wayland.windowManager.hyprland.extraConfig = ''
-    monitor = , preferred, auto, 1.5
+    monitor = , preferred, auto, 1.25
   '';
 
   # Hyprland wallpaper
@@ -125,8 +123,9 @@
     udiskie
   ];
 
-  # Screenshot
-  programs.hyprshot.enable = true;
+  programs.waybar.enable = true;
+
+  # Screenshots
   home.sessionVariables = {
     HYPRSHOT_DIR = "~/Pictures/Screenshots";
   };
