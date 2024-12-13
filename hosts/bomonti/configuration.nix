@@ -24,6 +24,8 @@
     home = "/Users/emrecebi";
   };
 
+  # Disable stylix auto enable
+  stylix.autoEnable = false;
   # Mac homebrew
   homebrew = {
     enable = true;
