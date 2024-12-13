@@ -2,35 +2,31 @@
 {
     "position": "bottom",
     "height": 5,
-    "modules-left": ["hyprland/workspaces"],
+    "modules-left": ["hyprland/workspaces", "hyprland/submap"],
     "modules-center": ["hyprland/window"],
     "modules-right": ["pulseaudio", "network","battery", "clock", "tray"],
-    "hyprland/mode": {
-        "format": "<span style=\"italic\">{}</span>"
-    },
-    "idle_inhibitor": {
-        "format": "{icon}",
-        "format-icons": {
-            "activated": "",
-            "deactivated": ""
-        }
+    "hyprland/submap": {
+        "format": "{}",
+        "max-length": 8,
+        "tooltip": false
     },
     "tray": {
         "spacing": 20
     },
     "clock": {
-        "format": "{:%I:%M }",
-        "format-alt": "{:%Y-%m-%d}"
-      
+        "tooltip-format": "<big>{:%Y %B}</big>\n<tt><small>{calendar}</small></tt>",
+        "format": "{:%a, %d %b, %I:%M %p}"
     },
     "battery": {
         "states": {
-            "good": 95,
             "warning": 30,
             "critical": 15
         },
         "format": "{capacity}% {icon}",
-        "format-icons": ["", "", "", "", ""],
+        "format-charging": "{capacity}% ",
+        "format-plugged": "{capacity}% ",
+        "format-alt": "{time} {icon}",
+        "format-icons": ["", "", "", "", "", "", "", "", "", ""],
         "max-length": 35
     },
     "network": {
@@ -41,12 +37,23 @@
         "format-alt": "{ifname}: {ipaddr}/{cidr}"
     },
     "pulseaudio": {
-        "format": "{volume}%  {format_source}",
-        "format-bluetooth": "{volume}%  {format_source}",
-        "format-bluetooth-muted": " {format_source}",
-        "format-muted": " {format_source}",
+        "reverse-scrolling": 1,
+        "format": "{volume}% {icon} {format_source}",
+        "format-bluetooth": "{volume}% {icon} {format_source}",
+        "format-bluetooth-muted": " {icon} {format_source}",
+        "format-muted": "婢 {format_source}",
         "format-source": "{volume}% ",
         "format-source-muted": "",
-        "on-click": "pavucontrol"
+        "format-icons": {
+            "headphone": "",
+            "hands-free": "",
+            "headset": "",
+            "phone": "",
+            "portable": "",
+            "car": "",
+            "default": ["奄", "奔", "墳"]
+        },
+        "on-click": "pavucontrol",
+        "min-length": 13
     }
 }
