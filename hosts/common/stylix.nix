@@ -1,4 +1,8 @@
-{pkgs, inputs, ...}: {
+{
+  pkgs,
+  inputs,
+  ...
+}: {
   # Setup stylix base values
   stylix = {
     enable = true;
@@ -7,7 +11,7 @@
     image = ../../assets/linux-wallpaper.jpg;
     fonts = {
       monospace = {
-        package = if pkgs.stdenv.isLinux then inputs.nonfree-fonts.packages."x86_64-linux".berkeley-nf else inputs.nonfree-fonts.packages."aarch64-darwin".berkeley-nf;
+        package = inputs.nonfree-fonts.packages.${pkgs.stdenv.hostPlatform.system}.berkeley-nf;
         name = "BerkeleyMono Nerd Font";
       };
       serif = {

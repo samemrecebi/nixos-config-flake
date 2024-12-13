@@ -10,6 +10,15 @@
     pkgs.zed-editor
     ## Cloud access
     pkgs.azure-cli
+    pkgs.awscli2
+    pkgs.oci-cli
+    ## Terraform
+    pkgs.opentofu
+    ## Database
+    pkgs.tableplus
+
+    # Productivity
+    pkgs.todoist-electron
 
     # Media
     pkgs.vlc
@@ -39,6 +48,7 @@
 
     # Document Viewer
     pkgs.zathura
+    pkgs.eog
 
     # Downloaders
     pkgs.yt-dlp
@@ -48,6 +58,7 @@
     pkgs.hugo
     pkgs.protonmail-bridge-gui
     pkgs.mullvad-vpn
+    pkgs.xdg-utils
   ];
 
   # Editors

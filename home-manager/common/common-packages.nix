@@ -1,20 +1,19 @@
 {pkgs, ...}: {
-  home.packages = with pkgs; [
+  home.packages = [
     # Latex
-    texliveMedium
+    pkgs.texliveMedium
 
     # Security Packages
-    yubikey-manager
-    yubikey-personalization
-    yubikey-agent
+    pkgs.yubikey-manager
+    pkgs.yubikey-personalization
+    pkgs.yubikey-agent
 
     # LSP Packages
-    texlab
-    nil
-    nixd
+    pkgs.texlab
+    pkgs.nixd
 
     # Nix Related Packages
-    alejandra
+    pkgs.alejandra
   ];
 
   programs.emacs = {

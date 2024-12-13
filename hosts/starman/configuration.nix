@@ -1,6 +1,7 @@
 {
   config,
   pkgs,
+  inputs,
   ...
 }: {
   imports = [
@@ -139,11 +140,12 @@
   # Emacs deamon
   services.emacs = {
     enable = true;
-    package = pkgs.emacs;
+    package = pkgs.emacs30.override {withNativeCompilation = false;};
   };
 
   # Nix settings
   nix = {
+    nixPath = ["nixpkgs=${inputs.nixpkgs}"];
     settings = {
       auto-optimise-store = true;
       experimental-features = "nix-command flakes";

@@ -73,11 +73,15 @@
               {
                 stylix.targets = {
                   hyprland.enable = true;
+                  hyprland.hyprpaper.enable = true;
                   hyprpaper.enable = true;
                   waybar.enable = true;
                   wofi.enable = true;
                   fzf.enable = true;
                   bat.enable = true;
+                  dunst.enable = true;
+                  gtk.enable = true;
+                  zathura.enable = true;
                 };
               }
             ];
@@ -103,11 +107,15 @@
               {
                 stylix.targets = {
                   hyprland.enable = true;
+                  hyprland.hyprpaper.enable = true;
                   hyprpaper.enable = true;
                   waybar.enable = true;
                   wofi.enable = true;
                   fzf.enable = true;
                   bat.enable = true;
+                  dunst.enable = true;
+                  gtk.enable = true;
+                  zathura.enable = true;
                 };
               }
             ];

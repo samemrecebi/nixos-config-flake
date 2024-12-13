@@ -18,7 +18,7 @@
     vt = 3;
     settings = {
       default_session = {
-        user = "emrecebi";
+        user = "greeter";
         command = "${pkgs.greetd.tuigreet}/bin/tuigreet --time --cmd Hyprland"; # start Hyprland with a TUI login manager
       };
     };
@@ -50,14 +50,4 @@
       pkgs.xdg-desktop-portal-gtk
     ];
   };
-
-  # Packages related to hyprland
-  environment.systemPackages = with pkgs; [
-    dunst
-    networkmanagerapplet
-    hyprpolkitagent
-    nautilus
-    clipman
-    udiskie
-  ];
 }

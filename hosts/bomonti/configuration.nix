@@ -1,4 +1,8 @@
-{pkgs, ...}: {
+{
+  pkgs,
+  inputs,
+  ...
+}: {
   imports = [
     # Common Components
     ../common/stylix.nix
@@ -171,6 +175,7 @@
 
   # Nix relates settings
   nix = {
+    nixPath = ["nixpkgs=${inputs.nixpkgs}"];
     settings.trusted-users = ["emrecebi"];
     extraOptions = ''
       auto-optimise-store = true

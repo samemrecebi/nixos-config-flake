@@ -1,5 +1,11 @@
 {
+  pkgs,
+  inputs,
+  ...
+}: {
   wayland.windowManager.hyprland.enable = true;
+  wayland.windowManager.hyprland.package = inputs.hyprland.packages.${pkgs.stdenv.hostPlatform.system}.hyprland;
+  wayland.windowManager.hyprland.systemd.variables = ["--all"];
   wayland.windowManager.hyprland.settings = {
     general = {
       gaps_in = 5;
@@ -9,12 +15,20 @@
       allow_tearing = false;
       layout = "dwindle";
     };
+    input = {
+      kb_layout = "us,tr";
+      kb_variant = ",qwerty";
+      touchpad = {
+        natural_scroll = false;
+      };
+    };
     decoration = {
       rounding = 5;
       active_opacity = 1.0;
-      inactive_opacity = 1.0;
+      inactive_opacity = 0.8;
       blur = {
-        enabled = false;
+        enabled = true;
+        blurls = "waybar";
       };
     };
     misc.vfr = true;
@@ -24,27 +38,32 @@
       "wl-paste -t text --watch clipman store --no-persist"
       "systemctl --user start hyprpolkitagent"
       "hyprpaperk"
-      "nm-applet & dunst "
+      "nm-applet & dunst"
       "waybar"
     ];
     gestures.workspace_swipe = true;
     bind =
       [
-        "$mod, L, exec, librewolf"
-        "$mod, Q, exec, alacritty"
-        "$mod, R, exec, wofi --show drun"
-        "$mod, M, exit"
+        "$mod, B, exec, librewolf"
+        "$mod, enter, exec, alacritty"
+        "$mod, S, exec , nautilus"
+        "$mod, space, exec, wofi --show drun"
+        "SUPER, V, exec, clipman pick -t wofi"
+
+        "$mod SHIFT, Q, exit"
         "$mod, C, killactive,"
         "$mod, V, togglefloating,"
-        "$mod, E, exec, $fileManager"
-        "$mod, J, togglesplit,"
+        "$mod, S, togglesplit,"
 
-        "$mod, left, movefocus, l"
-        "$mod, right, movefocus, r"
-        "$mod, up, movefocus, u"
-        "$mod, down, movefocus, d"
+        "$mod, H, movefocus, l"
+        "$mod, L, movefocus, r"
+        "$mod, K, movefocus, u"
+        "$mod, J, movefocus, d"
 
-        "SUPER, V, exec, clipman pick -t wofi"
+        # Screenshot
+        "$mod, PRINT, exec, hyprshot -m window"
+        ",PRINT, exec, hyprshot -m output"
+        "$mod SHIFT, PRINT, exec, hyprshot -m region"
       ]
       ++ (
         # workspaces
@@ -78,7 +97,7 @@
     ];
   };
   wayland.windowManager.hyprland.extraConfig = ''
-    monitor = , preferred, auto, 1
+    monitor = , preferred, auto, 1.5
   '';
 
   # Hyprland wallpaper
@@ -94,9 +113,21 @@
     };
   };
 
-  # Wofi
-  programs.wofi.enable = true;
+  home.packages = with pkgs; [
+    wofi
+    waybar
+    hyprshot
+    dunst
+    networkmanagerapplet
+    hyprpolkitagent
+    nautilus
+    clipman
+    udiskie
+  ];
 
-  # Waybar
-  programs.waybar.enable = true;
+  # Screenshot
+  programs.hyprshot.enable = true;
+  home.sessionVariables = {
+    HYPRSHOT_DIR = "~/Pictures/Screenshots";
+  };
 }

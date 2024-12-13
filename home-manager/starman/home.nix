@@ -1,4 +1,8 @@
-{pkgs, ...}: {
+{
+  pkgs,
+  inputs,
+  ...
+}: {
   home.username = "emrecebi";
   home.homeDirectory = "/home/emrecebi";
   home.stateVersion = "23.11"; # Please read the comment before changing.
@@ -22,12 +26,6 @@
     ".config/waybar/config".source = ../../dotfiles/waybar/config;
   };
 
-  # Packages
-  ## Device spesific user packages
-  home.packages = [
-    # Empty for now
-  ];
-
   # Shell settings
   programs.zsh = {
     sessionVariables = {
@@ -39,6 +37,7 @@
   services.gpg-agent = {
     enable = true;
     enableBashIntegration = true;
+    enableZshIntegration = true;
     enableSshSupport = true;
     pinentryPackage = pkgs.pinentry-gnome3;
     enableScDaemon = true;
