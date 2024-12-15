@@ -33,7 +33,7 @@
     pkgs.signal-desktop
     pkgs.slack
     pkgs.zoom-us
-    pkgs.discord
+    pkgs.webcord
 
     # Exporting
     pkgs.pandoc
@@ -52,12 +52,22 @@
     pkgs.yt-dlp
     pkgs.qbittorrent
 
+    # VPN
+    pkgs.trayscale
+    pkgs.mullvad-vpn
+
     # Misc
     pkgs.hugo
     pkgs.protonmail-bridge-gui
-    pkgs.mullvad-vpn
     pkgs.xdg-utils
   ];
+
+  # Common NixOS ZSH configuration
+  programs.zsh = {
+    sessionVariables = {
+      FLAKE = "/home/emrecebi/.nix-config";
+    };
+  };
 
   # Editors
   programs.vscode = {

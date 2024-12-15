@@ -211,10 +211,10 @@
         "text/x-c++"
       ];
     in
-      (lib.genAttrs code (_: ["zed-editor.desktop"]))
+      (lib.genAttrs code (_: ["dev.zed.Zed.desktop"]))
       // (lib.genAttrs images (_: ["org.gnome.eog.desktop"]))
-      // (lib.genAttrs urls (_: ["librewolf.desktop"]))
-      // (lib.genAttrs documents (_: ["zathura.desktop"]))
+      // (lib.genAttrs urls (_: ["io.gitlab.LibreWolf.desktop"]))
+      // (lib.genAttrs documents (_: ["org.pwmt.zathura.desktop"]))
       // (lib.genAttrs audioVideo (_: ["vlc.desktop"]))
       // (lib.genAttrs [
         "x-scheme-handler/sgnl"

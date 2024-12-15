@@ -1,21 +1,65 @@
 
 {
     "position": "bottom",
-    "height": 5,
-    "modules-left": ["hyprland/workspaces", "hyprland/submap"],
+    "height": 4,
+    "modules-left": ["hyprland/workspaces"],
     "modules-center": ["hyprland/window"],
-    "modules-right": ["pulseaudio", "network","battery", "clock", "tray"],
-    "hyprland/submap": {
-        "format": "{}",
-        "max-length": 8,
-        "tooltip": false
-    },
+    "modules-right": ["group/tray", "pulseaudio","battery", "clock", "group/group-power"],
+    "group/tray": {
+      "orientation": "inherit",
+      "drawer": {
+          "transition-duration": 500,
+          "transition-left-to-right": false
+      },
+  		"modules": [
+        "custom/extend",
+  			"tray"
+  		]
+  	},
+   "custom/extend": {
+       "format": "",
+       "tooltip": false,
+   },
+   "group/group-power": {
+       "orientation": "inherit",
+       "drawer": {
+           "transition-duration": 500,
+           "children-class": "not-power",
+           "transition-left-to-right": false
+       },
+       "modules": [
+           "custom/power", // First element is the "group leader" and won't ever be hidden
+           "custom/quit",
+           "custom/lock",
+           "custom/reboot"
+       ]
+   },
+   "custom/quit": {
+       "format": "󰗼",
+       "tooltip": false,
+       "on-click": "hyprctl dispatch exit"
+   },
+   "custom/lock": {
+       "format": "󰍁",
+       "tooltip": false,
+       "on-click": "uwsm app -- hyprlock"
+   },
+   "custom/reboot": {
+       "format": "󰜉",
+       "tooltip": false,
+       "on-click": "reboot"
+   },
+   "custom/power": {
+       "format": "",
+       "tooltip": false,
+       "on-click": "shutdown now"
+   },
     "tray": {
-        "spacing": 20
+        "spacing": 5
     },
     "clock": {
         "tooltip-format": "<big>{:%Y %B}</big>\n<tt><small>{calendar}</small></tt>",
-        "format": "{:%a, %d %b, %I:%M %p}"
+        "format": "{:%a %b %d %I:%M %p}"
     },
     "battery": {
         "states": {
@@ -38,7 +82,7 @@
     },
     "pulseaudio": {
         "reverse-scrolling": 1,
-        "format": "{volume}% {icon} {format_source}",
+        "format": "{volume}% {icon}",
         "format-bluetooth": "{volume}% {icon} {format_source}",
         "format-bluetooth-muted": " {icon} {format_source}",
         "format-muted": "婢 {format_source}",
@@ -53,7 +97,6 @@
             "car": "",
             "default": ["奄", "奔", "墳"]
         },
-        "on-click": "pavucontrol",
-        "min-length": 13
+        "on-click": "pavucontrol"
     }
 }

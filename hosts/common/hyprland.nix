@@ -12,6 +12,16 @@
     gvfs.enable = true;
   };
 
+  # UWSM
+  programs.uwsm.enable = true;
+  programs.uwsm.waylandCompositors = {
+    hyprland = {
+      prettyName = "Hyprland";
+      comment = "Hyprland compositor managed by UWSM";
+      binPath = "/run/current-system/sw/bin/Hyprland";
+    };
+  };
+
   # Login
   services.greetd = {
     enable = true;
@@ -19,7 +29,7 @@
     settings = {
       default_session = {
         user = "greeter";
-        command = "${pkgs.greetd.tuigreet}/bin/tuigreet --time --cmd Hyprland"; # start Hyprland with a TUI login manager
+        command = "${pkgs.greetd.tuigreet}/bin/tuigreet --time"; # start Hyprland with a TUI login manager
       };
     };
   };
@@ -32,6 +42,7 @@
     package = inputs.hyprland.packages.${pkgs.stdenv.hostPlatform.system}.hyprland;
     portalPackage = inputs.hyprland.packages.${pkgs.stdenv.hostPlatform.system}.xdg-desktop-portal-hyprland;
     xwayland.enable = true;
+    withUWSM = true;
   };
 
   # Electron app patch
@@ -50,4 +61,7 @@
       pkgs.xdg-desktop-portal-gtk
     ];
   };
+
+  # Bluetooth applet
+  services.blueman.enable = true;
 }
