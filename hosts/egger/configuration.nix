@@ -86,8 +86,8 @@
       intel-media-driver
       intel-vaapi-driver
     ];
-    extraPackages32 = with pkgs.pkgsi686Linux; [ intel-vaapi-driver ];
-    environment.sessionVariables = { LIBVA_DRIVER_NAME = "iHD"; };
+    extraPackages32 = with pkgs.pkgsi686Linux; [intel-vaapi-driver];
+    environment.sessionVariables = {LIBVA_DRIVER_NAME = "iHD";};
   };
 
   # Enable sound with pipewire.
