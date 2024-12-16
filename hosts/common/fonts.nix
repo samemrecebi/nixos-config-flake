@@ -1,4 +1,8 @@
-{pkgs, inputs, ...}: {
+{
+  pkgs,
+  inputs,
+  ...
+}: {
   fonts.enableDefaultPackages = true;
   fonts.packages = with pkgs; [
     noto-fonts

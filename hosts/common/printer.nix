@@ -1,4 +1,4 @@
-{pkgs, ...}:{
+{pkgs, ...}: {
   # Printers
   services.printing = {
     enable = true;

@@ -159,6 +159,11 @@
     egl-wayland
   ];
 
+  # Stylix
+  stylix.targets = {
+    grub.useImage = false;
+  };
+
   # Emacs deamon
   services.emacs = {
     enable = true;
