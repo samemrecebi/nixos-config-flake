@@ -42,6 +42,10 @@
     };
     blacklistedKernelModules = ["nouveau"];
   };
+  boot.loader.systemd-boot.enable = true;
+  boot.loader.efi.canTouchEfiVariables = true;
+
+  boot.initrd.luks.devices."luks-0ee43806-d1b0-4ea9-9394-afe1adaef5ea".device = "/dev/disk/by-uuid/0ee43806-d1b0-4ea9-9394-afe1adaef5ea";
 
   # System Modules
   hardware.enableRedistributableFirmware = true;
