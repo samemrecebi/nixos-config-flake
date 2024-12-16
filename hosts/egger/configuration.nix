@@ -1,6 +1,7 @@
 {
   config,
   pkgs,
+  inputs,
   ...
 }: {
   imports = [
@@ -13,6 +14,9 @@
     ../common/nix-ld.nix
     ../common/tailscale.nix
     ../common/stylix.nix
+    ../common/printer.nix
+    ../common/virt.nix
+    ../common/fonts.nix
   ];
 
   # Nixpkgs config
@@ -31,16 +35,24 @@
     consoleLogLevel = 0;
     kernelParams = [
       "quiet"
-      "log_level=3"
+      "loglevel=3"
       "audit=0"
       "nowatchdog"
       "splash"
+      "boot.shell_on_fail"
+      "udev.log_priority=3"
+      "rd.udev.log_level=3"
+      "rd.systemd.show_status=false"
+      "pcie_aspm.policy=powersupersave"
     ];
+    blacklistedKernelModules = ["nouveau"];
+    loader = {
+      timeout = 0;
+      systemd-boot.configurationLimit = 4;
+    };
     plymouth = {
       enable = true;
-      theme = "bgrt";
     };
-    blacklistedKernelModules = ["nouveau"];
   };
   boot.loader.systemd-boot.enable = true;
   boot.loader.efi.canTouchEfiVariables = true;
@@ -51,12 +63,16 @@
   hardware.enableRedistributableFirmware = true;
   zramSwap.enable = true;
 
+  # Devices firmware
+  services.fwupd.enable = true;
+
   # Timezone
   services.automatic-timezoned.enable = true;
 
   # Enable networking
   networking.networkmanager.enable = true;
   networking.hostName = "egger";
+  services.resolved.enable = true;
 
   # Firewall
   networking.firewall.enable = true;
@@ -70,6 +86,12 @@
   hardware.graphics = {
     enable = true;
     enable32Bit = true;
+    extraPackages = with pkgs; [
+      intel-media-driver
+      intel-vaapi-driver
+    ];
+    extraPackages32 = with pkgs.pkgsi686Linux; [ intel-vaapi-driver ];
+    environment.sessionVariables = { LIBVA_DRIVER_NAME = "iHD"; };
   };
 
   # Enable sound with pipewire.
@@ -83,26 +105,32 @@
     jack.enable = true;
   };
 
-  # System Fonts
-  fonts.enableDefaultPackages = true;
-  environment.sessionVariables = {
-    FREETYPE_PROPERTIES = "cff:no-stem-darkening=0 autofitter:no-stem-darkening=0";
-  };
-
   # Laptop power managment
   powerManagement.enable = true;
+  services.tlp = {
+    enable = true;
+    settings = {
+      CPU_SCALING_GOVERNOR_ON_AC = "performance";
+      CPU_SCALING_GOVERNOR_ON_BAT = "powersave";
+
+      CPU_ENERGY_PERF_POLICY_ON_BAT = "power";
+      CPU_ENERGY_PERF_POLICY_ON_AC = "performance";
+
+      CPU_MIN_PERF_ON_AC = 0;
+      CPU_MAX_PERF_ON_AC = 100;
+      CPU_MIN_PERF_ON_BAT = 0;
+      CPU_MAX_PERF_ON_BAT = 20;
+    };
+  };
 
   # Bluetooth
-  hardware.bluetooth = {
-    enable = true;
-    powerOnBoot = true;
-  };
+  hardware.bluetooth.enable = true;
 
   # User
   users.users.emrecebi = {
     isNormalUser = true;
     description = "Emre Cebi";
-    extraGroups = ["networkmanager" "wheel"];
+    extraGroups = ["networkmanager" "wheel" "docker" "audio"];
   };
 
   programs.zsh.enable = true;
@@ -117,11 +145,12 @@
   # Emacs deamon
   services.emacs = {
     enable = true;
-    package = pkgs.emacs;
+    package = pkgs.emacs30.override {withNativeCompilation = false;};
   };
 
   # Nix settings
   nix = {
+    nixPath = ["nixpkgs=${inputs.nixpkgs}"];
     settings = {
       auto-optimise-store = true;
       experimental-features = "nix-command flakes";

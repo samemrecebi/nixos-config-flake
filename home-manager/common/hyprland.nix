@@ -1,105 +1,154 @@
 {
-  wayland.windowManager.hyprland.enable = true;
-  wayland.windowManager.hyprland.settings = {
-    general = {
-      gaps_in = 5;
-      gaps_out = 5;
-      border_size = 4;
-      resize_on_border = false;
-      allow_tearing = false;
-      layout = "dwindle";
-    };
-    decoration = {
-      rounding = 5;
-      active_opacity = 1.0;
-      inactive_opacity = 1.0;
-      drop_shadow = false;
-      shadow_range = 4;
-      shadow_render_power = 3;
-      blur = {
-        enabled = false;
-      };
-    };
-    misc.vfr = true;
-    "$mod" = "SUPER";
-    exec-once = [
-      "udiskie"
-      "wl-paste -t text --watch clipman store --no-persist"
-      "systemctl --user start hyprpolkitagent"
-      "hyprpaperk"
-      "nm-applet & dunst "
-      "waybar"
-    ];
-    gestures.workspace_swipe = true;
-    bind =
-      [
-        "$mod, L, exec, librewolf"
-        "$mod, Q, exec, alacritty"
-        "$mod, R, exec, wofi --show drun"
-        "$mod, M, exit"
-        "$mod, C, killactive,"
-        "$mod, V, togglefloating,"
-        "$mod, E, exec, $fileManager"
-        "$mod, J, togglesplit,"
-
-        "$mod, left, movefocus, l"
-        "$mod, right, movefocus, r"
-        "$mod, up, movefocus, u"
-        "$mod, down, movefocus, d"
-
-        "SUPER, V, exec, clipman pick -t wofi"
-      ]
-      ++ (
-        # workspaces
-        # binds $mod + [shift +] {1..9} to [move to] workspace {1..9}
-        builtins.concatLists (builtins.genList (
-            i: let
-              ws = i + 1;
-            in [
-              "$mod, code:1${toString i}, workspace, ${toString ws}"
-              "$mod SHIFT, code:1${toString i}, movetoworkspace, ${toString ws}"
-            ]
-          )
-          9)
-      );
-    bindm = [
-      "$mod, mouse:272, movewindow"
-      "$mod, mouse:273, resizewindow"
-    ];
-    bindl = [
-      ",XF86AudioRaiseVolume, exec, wpctl set-volume -l 1 @DEFAULT_AUDIO_SINK@ 5%+"
-      ",XF86AudioLowerVolume, exec, wpctl set-volume @DEFAULT_AUDIO_SINK@ 5%-"
-      ",XF86AudioMute, exec, wpctl set-mute @DEFAULT_AUDIO_SINK@ toggle"
-      ",XF86AudioMicMute, exec, wpctl set-mute @DEFAULT_AUDIO_SOURCE@ toggle"
-      ",XF86MonBrightnessUp, exec, brightnessctl s 10%+"
-      ",XF86MonBrightnessDown, exec, brightnessctl s 10%-"
-    ];
-    env = [
-      "GDK_BACKEND,wayland,x11,*"
-      "QT_QPA_PLATFORM,wayland;xcb"
-      "SDL_VIDEODRIVER,wayland"
-    ];
+  pkgs,
+  inputs,
+  ...
+}: {
+  home.file = {
+    ".config/uwsm/env".source = ../../dotfiles/uwsm/env;
+    ".config/uwsm/env-hyprland".source = ../../dotfiles/uwsm/env-hyprland;
   };
-  wayland.windowManager.hyprland.extraConfig = ''
-    monitor = , preferred, auto, 1
-  '';
+
+  wayland.windowManager.hyprland = {
+    enable = true;
+    package = inputs.hyprland.packages.${pkgs.stdenv.hostPlatform.system}.hyprland;
+    systemd.enable = false;
+    xwayland.enable = true;
+    settings = {
+      general = {
+        gaps_in = 5;
+        gaps_out = 10;
+        border_size = 2;
+        resize_on_border = true;
+        allow_tearing = true;
+        layout = "dwindle";
+      };
+      decoration = {
+        rounding = 10;
+        active_opacity = 1.0;
+        inactive_opacity = 0.8;
+        blur = {
+          enabled = true;
+        };
+      };
+      misc.vfr = true;
+      "$mod" = "SUPER";
+      exec-once = [
+        "uwsm app -- udiskie"
+        "uwsm app -- wl-paste -t text --watch clipman store --no-persist"
+        "uwsm app -- trayscale --hide-window"
+        "systemctl --user enable --now hyprpolkitagent.service"
+        "systemctl --user enable --now hyprpaper.service"
+        "systemctl --user enable --now hypridle.service"
+        "systemctl --user enable --now waybar.service"
+        "uwsm app -- nm-applet"
+        "uwsm app -- blueman-applet"
+        "uwsm app -- dunst"
+      ];
+      gestures.workspace_swipe = true;
+      bind =
+        [
+          # App Execution
+          "$mod, B, exec, uwsm app -- io.gitlab.LibreWolf.desktop"
+          "$mod, Return, exec, uwsm app -- Alacritty.desktop"
+          "$mod, N, exec, uwsm app -- org.gnome.Nautilus.desktop"
+
+          # Spotlight
+          "$mod, space, exec, uwsm app -- wofi --show drun"
+
+          # Clipboard
+          "$mod, V, exec, uwsm app -- clipman pick -t wofi"
+
+          # Lock
+          "$mod SHIFT, L, exec, uwsm app -- hyprlock"
+
+          # Screenshot
+          "$mod, PRINT, exec, uwsm app -- hyprshot -m window"
+          ",PRINT, exec, uwsm app -- hyprshot -m output"
+          "$mod SHIFT, PRINT, exec, uwsm app -- hyprshot -m region"
+
+          # Hyprland keybindings
+          "$mod SHIFT, Q, exec, uwsm stop"
+          "$mod, Q, killactive,"
+          "$mod, F, togglefloating,"
+          "$mod, S, togglesplit,"
+          "$mod, H, movefocus, l"
+          "$mod, L, movefocus, r"
+          "$mod, K, movefocus, u"
+          "$mod, J, movefocus, d"
+        ]
+        ++ (
+          # Workspaces
+          builtins.concatLists (builtins.genList (
+              i: let
+                ws = i + 1;
+              in [
+                "$mod, code:1${toString i}, workspace, ${toString ws}"
+                "$mod SHIFT, code:1${toString i}, movetoworkspace, ${toString ws}"
+              ]
+            )
+            9)
+        );
+      bindm = [
+        "$mod, mouse:272, movewindow"
+        "$mod, mouse:273, resizewindow"
+      ];
+      bindl = [
+        ",XF86AudioRaiseVolume, exec, wpctl set-volume -l 1 @DEFAULT_AUDIO_SINK@ 5%+"
+        ",XF86AudioLowerVolume, exec, wpctl set-volume @DEFAULT_AUDIO_SINK@ 5%-"
+        ",XF86AudioMute, exec, wpctl set-mute @DEFAULT_AUDIO_SINK@ toggle"
+        ",XF86AudioMicMute, exec, wpctl set-mute @DEFAULT_AUDIO_SOURCE@ toggle"
+        ",XF86MonBrightnessUp, exec, brightnessctl s 10%+"
+        ",XF86MonBrightnessDown, exec, brightnessctl s 10%-"
+      ];
+    };
+  };
 
   # Hyprland wallpaper
-  services.hyprpaper = {
+  services.hyprpaper.enable = true;
+
+  # Hyprland lock screen
+  programs.hyprlock = {
     enable = true;
-    settings = {
-      preload = [
-        "/home/emrecebi/.nix-config/assets/linux-wallpaper.jpg"
-      ];
-      wallpaper = [
-        "/home/emrecebi/.nix-config/assets/linux-wallpaper.jpg"
-      ];
-    };
+    extraConfig = ''
+      background {
+        path=/home/emrecebi/.nix-config/assets/linux-wallpaper.jpg
+      }
+
+      input-field {
+        monitor =
+        size = 50%, 50%
+        outline_thickness = 2
+
+        fade_on_empty = true
+        font_family = NotoSans Nerd Font
+        placeholder_text = <i>Password</i>
+        rounding = 15
+
+        position = 0, -20
+        halign = center
+        valign = center
+
+        check_color=rgb(ffb454)
+        fail_color=rgb(f07178)
+        font_color=rgb(e6e1cf)
+        inner_color=rgb(0f1419)
+        outer_color=rgb(3e4b59)
+      }
+    '';
   };
 
-  # Wofi
-  programs.wofi.enable = true;
-
-  # Waybar
+  # Task Bar
   programs.waybar.enable = true;
+
+  home.packages = with pkgs; [
+    wofi
+    hyprshot
+    dunst
+    networkmanagerapplet
+    hyprpolkitagent
+    nautilus
+    clipman
+    udiskie
+    brightnessctl
+  ];
 }

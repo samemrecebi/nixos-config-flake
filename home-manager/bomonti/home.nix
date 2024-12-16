@@ -1,4 +1,8 @@
 {
+  pkgs,
+  inputs,
+  ...
+}: {
   imports = [
     ../common/shell.nix
     ../common/fonts.nix

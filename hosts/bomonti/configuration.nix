@@ -1,4 +1,8 @@
-{pkgs, ...}: {
+{
+  pkgs,
+  inputs,
+  ...
+}: {
   imports = [
     # Common Components
     ../common/stylix.nix
@@ -7,7 +11,7 @@
   # Pkgs settings
   nixpkgs = {
     overlays = [
-      (final: _prev: import ../../pkgs final.pkgs)
+      (final: _prev: (import ../../pkgs final.pkgs))
     ];
     config = {
       allowUnfree = true;
@@ -20,6 +24,8 @@
     home = "/Users/emrecebi";
   };
 
+  # Disable stylix auto enable
+  stylix.autoEnable = false;
   # Mac homebrew
   homebrew = {
     enable = true;
@@ -171,6 +177,7 @@
 
   # Nix relates settings
   nix = {
+    nixPath = ["nixpkgs=${inputs.nixpkgs}"];
     settings.trusted-users = ["emrecebi"];
     extraOptions = ''
       auto-optimise-store = true

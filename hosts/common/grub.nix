@@ -5,7 +5,7 @@
       grub = {
         enable = true;
         efiSupport = true;
-        configurationLimit = 10;
+        configurationLimit = 4;
         devices = ["nodev"];
         useOSProber = true;
       };
