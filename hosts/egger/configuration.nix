@@ -48,16 +48,15 @@
     blacklistedKernelModules = ["nouveau"];
     loader = {
       timeout = 0;
+      systemd-boot.enable = true;
       systemd-boot.configurationLimit = 4;
+      efi.canTouchEfiVariables = true;
     };
+    initrd.luks.devices."luks-0ee43806-d1b0-4ea9-9394-afe1adaef5ea".device = "/dev/disk/by-uuid/0ee43806-d1b0-4ea9-9394-afe1adaef5ea";
     plymouth = {
       enable = true;
     };
   };
-  boot.loader.systemd-boot.enable = true;
-  boot.loader.efi.canTouchEfiVariables = true;
-
-  boot.initrd.luks.devices."luks-0ee43806-d1b0-4ea9-9394-afe1adaef5ea".device = "/dev/disk/by-uuid/0ee43806-d1b0-4ea9-9394-afe1adaef5ea";
 
   # System Modules
   hardware.enableRedistributableFirmware = true;
@@ -91,8 +90,8 @@
       intel-vaapi-driver
     ];
     extraPackages32 = with pkgs.pkgsi686Linux; [ intel-vaapi-driver ];
-    environment.sessionVariables = { LIBVA_DRIVER_NAME = "iHD"; };
   };
+  environment.sessionVariables = { LIBVA_DRIVER_NAME = "iHD"; };
 
   # Enable sound with pipewire.
   security.rtkit.enable = true;
