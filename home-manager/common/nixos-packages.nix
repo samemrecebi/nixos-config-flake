@@ -3,66 +3,66 @@
   lib,
   ...
 }: {
-  home.packages = [
+  home.packages = with pkgs; [
     # Basic
-    pkgs.wget
-    pkgs.curl
+    wget
+    curl
 
     # Development
     ## Generic
-    pkgs.alacritty
+    alacritty
     ## Cloud access
-    pkgs.azure-cli
-    pkgs.awscli2
-    pkgs.oci-cli
+    azure-cli
+    awscli2
+    oci-cli
     ## Terraform
-    pkgs.opentofu
+    opentofu
 
     # Productivity
-    pkgs.todoist-electron
+    todoist-electron
 
     # Media
-    pkgs.vlc
-    pkgs.spotify
+    vlc
+    spotify
 
     # Browsers
-    pkgs.librewolf-bin
-    pkgs.google-chrome
+    librewolf-bin
+    google-chrome
 
     # Communication
-    pkgs.thunderbird
-    pkgs.element-desktop
-    pkgs.whatsapp-for-linux
-    pkgs.signal-desktop
-    pkgs.slack
-    pkgs.zoom-us
-    pkgs.webcord
+    thunderbird
+    element-desktop
+    whatsapp-for-linux
+    signal-desktop
+    slack
+    zoom-us
+    webcord
 
     # Exporting
-    pkgs.pandoc
+    pandoc
 
     # Office Program
-    pkgs.libreoffice-qt
-    pkgs.hunspell
-    pkgs.hunspellDicts.en_US
-    pkgs.hunspellDicts.tr_TR
+    libreoffice-qt
+    hunspell
+    hunspellDicts.en_US
+    hunspellDicts.tr_TR
 
     # Document Viewer
-    pkgs.zathura
-    pkgs.eog
+    zathura
+    eog
 
     # Downloaders
-    pkgs.yt-dlp
-    pkgs.qbittorrent
+    yt-dlp
+    qbittorrent
 
     # VPN
-    pkgs.trayscale
-    pkgs.mullvad-vpn
+    trayscale
+    mullvad-vpn
 
     # Misc
-    pkgs.hugo
-    pkgs.protonmail-bridge-gui
-    pkgs.xdg-utils
+    hugo
+    protonmail-bridge-gui
+    xdg-utils
   ];
 
   # Common NixOS ZSH configuration
@@ -127,6 +127,11 @@
       };
 
       lsp = {
+        typescript-language-server = {
+          binary = {
+            path_lookup = true;
+          };
+        };
         nixd = {
           binary = {
             path_lookup = true;
@@ -147,7 +152,7 @@
         };
         clangd = {
           binary = {
-            path = lib.getExe pkgs.clang "clangd";
+            path_lookup = true;
           };
         };
       };
@@ -171,7 +176,7 @@
           language_servers = ["typescript-language-server" "!vtsls" "..."];
         };
         "C" = {
-          format_on_save = true;
+          format_on_save = "on";
           tab_size = 2;
         };
       };

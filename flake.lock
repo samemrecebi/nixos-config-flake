@@ -334,19 +334,17 @@
         "hyprlang": "hyprlang",
         "hyprutils": "hyprutils",
         "hyprwayland-scanner": "hyprwayland-scanner",
-        "nixpkgs": [
-          "nixpkgs"
-        ],
+        "nixpkgs": "nixpkgs",
         "pre-commit-hooks": "pre-commit-hooks",
         "systems": "systems",
         "xdph": "xdph"
       },
       "locked": {
-        "lastModified": 1734365160,
-        "narHash": "sha256-Oqfmif2PA5r+My5mq4n0i9DjJNHhf9L908afbJV5Xlg=",
+        "lastModified": 1734400655,
+        "narHash": "sha256-adHaqITToj7mWDLrrONH4c8Zc3EazvBFHCUMlsRnTPQ=",
         "owner": "hyprwm",
         "repo": "Hyprland",
-        "rev": "eaac5c7cbdd40a2211c75a770df56bd2153b77cb",
+        "rev": "4b6163aef38d19e3489f563c80828e7174e939e8",
         "type": "github"
       },
       "original": {
@@ -545,13 +543,13 @@
       "locked": {
         "lastModified": 1734119587,
         "narHash": "sha256-AKU6qqskl0yf2+JdRdD0cfxX4b9x3KKV5RqA6wijmPM=",
-        "owner": "nixos",
+        "owner": "NixOS",
         "repo": "nixpkgs",
         "rev": "3566ab7246670a43abd2ffa913cc62dad9cdf7d5",
         "type": "github"
       },
       "original": {
-        "owner": "nixos",
+        "owner": "NixOS",
         "ref": "nixos-unstable",
         "repo": "nixpkgs",
         "type": "github"
@@ -575,6 +573,22 @@
     },
     "nixpkgs_2": {
       "locked": {
+        "lastModified": 1734119587,
+        "narHash": "sha256-AKU6qqskl0yf2+JdRdD0cfxX4b9x3KKV5RqA6wijmPM=",
+        "owner": "nixos",
+        "repo": "nixpkgs",
+        "rev": "3566ab7246670a43abd2ffa913cc62dad9cdf7d5",
+        "type": "github"
+      },
+      "original": {
+        "owner": "nixos",
+        "ref": "nixos-unstable",
+        "repo": "nixpkgs",
+        "type": "github"
+      }
+    },
+    "nixpkgs_3": {
+      "locked": {
         "lastModified": 1734303123,
         "narHash": "sha256-R6KtZLZnep6k3d7yJg42DkVbXySEFLGDrhmu/B364t8=",
         "owner": "NixOS",
@@ -591,7 +605,7 @@
     "nonfree-fonts": {
       "inputs": {
         "flake-utils": "flake-utils",
-        "nixpkgs": "nixpkgs_2",
+        "nixpkgs": "nixpkgs_3",
         "nonfree-fonts": "nonfree-fonts_2"
       },
       "locked": {
@@ -655,7 +669,7 @@
         "my-nixos-hardware": "my-nixos-hardware",
         "nix-darwin": "nix-darwin",
         "nixos-hardware": "nixos-hardware",
-        "nixpkgs": "nixpkgs",
+        "nixpkgs": "nixpkgs_2",
         "nonfree-fonts": "nonfree-fonts",
         "stylix": "stylix"
       }

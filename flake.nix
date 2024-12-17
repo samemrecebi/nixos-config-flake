@@ -13,7 +13,6 @@
     my-nixos-hardware.url = "github:samemrecebi/nixos-hardware/master";
     # Hyprland
     hyprland.url = "github:hyprwm/Hyprland";
-    hyprland.inputs.nixpkgs.follows = "nixpkgs";
     # Stylix
     stylix.url = "github:danth/stylix";
     stylix.inputs.nixpkgs.follows = "nixpkgs";

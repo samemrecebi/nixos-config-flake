@@ -10,10 +10,12 @@
 
   wayland.windowManager.hyprland = {
     enable = true;
-    package = inputs.hyprland.packages.${pkgs.stdenv.hostPlatform.system}.hyprland;
+    package = pkgs.hyprland;
     systemd.enable = false;
     xwayland.enable = true;
     settings = {
+      disable_hyprland_logo = true;
+      disable_splash_rendering = true;
       general = {
         gaps_in = 5;
         gaps_out = 10;
@@ -27,7 +29,10 @@
         active_opacity = 1.0;
         inactive_opacity = 0.8;
         blur = {
-          enabled = true;
+          enabled = false;
+        };
+        shadow = {
+          enabled = false;
         };
       };
       misc.vfr = true;
