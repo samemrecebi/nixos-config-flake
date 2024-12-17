@@ -86,6 +86,7 @@
       alejandra
       clang
       clang-tools
+      pyright
     ];
     extensions = ["nix" "toml" "json" "html" "dockerfile" "make"];
     userSettings = {
@@ -128,6 +129,11 @@
 
       lsp = {
         typescript-language-server = {
+          binary = {
+            path_lookup = true;
+          };
+        };
+        pyright = {
           binary = {
             path_lookup = true;
           };

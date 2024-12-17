@@ -48,11 +48,6 @@
           on-resume = "brightnessctl -r";
         }
         {
-          timeout = 150;
-          on-timeout = "asusctl --prev-kbd-bright";
-          on-resume = "asusctl --next-kbd-bright";
-        }
-        {
           timeout = 300;
           on-timeout = "loginctl lock-session";
         }

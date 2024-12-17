@@ -14,8 +14,6 @@
     systemd.enable = false;
     xwayland.enable = true;
     settings = {
-      disable_hyprland_logo = true;
-      disable_splash_rendering = true;
       general = {
         gaps_in = 5;
         gaps_out = 10;
@@ -36,6 +34,8 @@
         };
       };
       misc.vfr = true;
+      misc.disable_hyprland_logo = true;
+      misc.disable_splash_rendering = true;
       "$mod" = "SUPER";
       exec-once = [
         "uwsm app -- udiskie"
