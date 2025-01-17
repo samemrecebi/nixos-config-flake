@@ -5,7 +5,6 @@
 }: {
   imports = [
     ../common/shell.nix
-    ../common/fonts.nix
     ../common/common-packages.nix
   ];
 

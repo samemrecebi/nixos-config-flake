@@ -37,6 +37,16 @@
   };
 
   programs.starship.enable = true;
+
+  programs.tmux = {
+    enable = true;
+    clock24 = true;
+    prefix = "C-b";
+    mouse = true;
+    extraConfig = ''
+      bind r source-file ~/.config/tmux/tmux.conf
+    '';
+  };
   programs.git = {
     enable = true;
     package = pkgs.git;
@@ -63,6 +73,7 @@
   programs.fzf = {
     enable = true;
     enableZshIntegration = true;
+    tmux.enableShellIntegration = true;
   };
   programs.bat = {
     enable = true;

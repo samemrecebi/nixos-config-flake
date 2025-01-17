@@ -24,6 +24,21 @@
     home = "/Users/emrecebi";
   };
 
+  # Fonts
+  fonts.packages = with pkgs; [
+    noto-fonts
+    font-awesome
+    liberation_ttf
+    nerd-fonts.noto
+    nerd-fonts.fira-code
+    nerd-fonts.hack
+    nerd-fonts.roboto-mono
+    nerd-fonts.jetbrains-mono
+    inputs.nonfree-fonts.packages.${stdenv.hostPlatform.system}.berkeley
+    inputs.nonfree-fonts.packages.${stdenv.hostPlatform.system}.berkeley-nf
+    inputs.nonfree-fonts.packages.${stdenv.hostPlatform.system}.comiccode
+  ];
+
   # Disable stylix auto enable
   stylix.autoEnable = false;
 
@@ -77,12 +92,13 @@
       "yt-dlp"
 
       # Misc
-      "hugo" # Static site generator
+      "hugo"
       "syncthing"
     ];
     casks = [
       # Development
       "alacritty"
+      "ghostty"
       "figma"
       "docker"
       "tableplus"
@@ -132,8 +148,10 @@
       "qbittorrent"
 
       # Misc
+      "balenaetcher"
+      "raspberry-pi-imager"
       "tailscale"
-      "protonmail-bridge"
+      "proton-mail-bridge"
       "mullvadvpn"
     ];
   };
@@ -149,6 +167,12 @@
   # System Configuration
   system.defaults = {
     alf.globalstate = 1;
+    NSGlobalDomain = {
+      AppleICUForce24HourTime = true;
+      AppleInterfaceStyle = "Dark";
+      AppleMeasurementUnits = "Centimeters";
+      AppleMetricUnits = 1;
+    };
     dock = {
       orientation = "left";
       autohide = true;
@@ -159,6 +183,7 @@
       wvous-tr-corner = 1;
     };
     finder = {
+      AppleShowAllExtensions = true;
       FXPreferredViewStyle = "Nlsv";
       ShowPathbar = true;
     };

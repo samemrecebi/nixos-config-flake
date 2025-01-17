@@ -1,19 +1,17 @@
 {pkgs, ...}: {
-  home.packages = [
+  home.packages = with pkgs; [
+    # Shared Development Packages
+    alejandra
+    nixd
+    # ghostty Broken on darwin
+
     # Latex
-    pkgs.texliveMedium
+    texliveMedium
 
     # Security Packages
-    pkgs.yubikey-manager
-    pkgs.yubikey-personalization
-    pkgs.yubikey-agent
-
-    # LSP Packages
-    pkgs.texlab
-    pkgs.nixd
-
-    # Nix Related Packages
-    pkgs.alejandra
+    yubikey-manager
+    yubikey-personalization
+    yubikey-agent
   ];
 
   programs.emacs = {

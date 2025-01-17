@@ -4,6 +4,9 @@
 # Inserts a blank line between shell prompts
 add_newline = false
 
+# Command timeout incresed from the default
+command_timeout = 1000
+
 [character]
 success_symbol = "[❯](purple)"
 error_symbol = "[❯](red)"

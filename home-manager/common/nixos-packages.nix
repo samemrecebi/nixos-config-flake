@@ -11,12 +11,15 @@
     # Development
     ## Generic
     alacritty
+    ghostty
     ## Cloud access
     azure-cli
     awscli2
     oci-cli
     ## Terraform
     opentofu
+    ## LaTeX LSP
+    texlab
 
     # Productivity
     todoist-electron
