@@ -3,7 +3,6 @@
     # Shared Development Packages
     alejandra
     nixd
-    # ghostty Broken on darwin
 
     # Latex
     texliveMedium

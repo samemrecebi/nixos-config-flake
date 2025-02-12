@@ -10,7 +10,8 @@
 
   wayland.windowManager.hyprland = {
     enable = true;
-    package = inputs.hyprland.packages.${pkgs.stdenv.hostPlatform.system}.hyprland;
+    package = null;
+    portalPackage = null;
     systemd.enable = false;
     xwayland.enable = true;
     settings = {
@@ -54,7 +55,7 @@
         [
           # App Execution
           "$mod, B, exec, uwsm app -- io.gitlab.LibreWolf.desktop"
-          "$mod, Return, exec, uwsm app -- Alacritty.desktop"
+          "$mod, Return, exec, uwsm app -- Ghostty.desktop"
           "$mod, N, exec, uwsm app -- org.gnome.Nautilus.desktop"
 
           # Spotlight
@@ -124,10 +125,12 @@
         size = 50%, 50%
         outline_thickness = 2
 
+        hide_input = true
+
         fade_on_empty = true
         font_family = NotoSans Nerd Font
         placeholder_text = <i>Password</i>
-        rounding = 15
+        rounding = -1
 
         position = 0, -20
         halign = center
@@ -141,6 +144,9 @@
       }
     '';
   };
+
+  # Wayland Electron Apps
+  home.sessionVariables.NIXOS_OZONE_WL = "1";
 
   # Task Bar
   programs.waybar.enable = true;
