@@ -44,7 +44,7 @@ format = '\[[$symbol$state( \($name\))]($style)\]'
 
 [python]
 symbol = " "
-pyenv_version_name = true
+pyenv_version_name = false
 format = '\[[${symbol}${pyenv_prefix}(${version})(\($virtualenv\))]($style)\]'
 
 [package]

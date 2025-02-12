@@ -22,17 +22,23 @@
       updatesys = "darwin-rebuild switch --flake ~/.nix";
     };
     sessionVariables = {
-      PYENV_ROOT = "$HOME/.pyenv";
-      PATH = "/Library/Developer/CommandLineTools/SDKs/MacOSX.sdk/usr/lib:$PYENV_ROOT/bin:/opt/homebrew/opt/make/libexec/gnubin:/opt/homebrew/bin:/opt/homebrew/sbin:/etc/profiles/per-user/emrecebi/bin/fzf:$PATH";
+      PATH = "/Users/emrecebi/.local/bin:/Library/Developer/CommandLineTools/SDKs/MacOSX.sdk/usr/lib:$PYENV_ROOT/bin:/opt/homebrew/opt/make/libexec/gnubin:/opt/homebrew/bin:/opt/homebrew/sbin:/etc/profiles/per-user/emrecebi/bin/fzf:$PATH";
       LIBRARY_PATH = ":/Library/Developer/CommandLineTools/SDKs/MacOSX.sdk/usr/lib:$LIBRARY_PATH";
       FLAKE = "/home/emrecebi/.nix-config";
     };
     initExtra = ''
-      eval "$(pyenv init -)"
       eval "$(nodenv init - zsh)"
+      eval "$(pixi completion --shell zsh)"
+      eval "$(uv generate-shell-completion zsh)"
+      eval "$(uvx --generate-shell-completion zsh)"
+      export PYENV_ROOT="$HOME/.pyenv"
+      [[ -d $PYENV_ROOT/bin ]] && export PATH="$PYENV_ROOT/bin:$PATH"
+      eval "$(pyenv init - zsh)"
     '';
     profileExtra = ''
-      eval "$(pyenv init -)"
+      export PYENV_ROOT="$HOME/.pyenv"
+      [[ -d $PYENV_ROOT/bin ]] && export PATH="$PYENV_ROOT/bin:$PATH"
+      eval "$(pyenv init - zsh)"
     '';
   };
 

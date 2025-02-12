@@ -67,6 +67,8 @@
       # Python
       "python"
       "pyenv"
+      "pixi"
+      "uv"
       # JS/TS
       "node"
       "nodenv"
@@ -75,11 +77,12 @@
       # C/C++
       "make"
       "gcc"
-      "bear"
       "ccls"
       "libgccjit"
       # Rust
       "rustup"
+      # Go
+      "golang"
       # Cloud
       "azure-cli"
       "awscli"
@@ -87,6 +90,7 @@
 
       # Exporting
       "pandoc"
+      "graphviz"
 
       # Downloaders
       "yt-dlp"
@@ -99,14 +103,13 @@
       # Development
       "alacritty"
       "ghostty"
-      "figma"
       "docker"
-      "tableplus"
-      "macfuse"
+      "temurin"
 
       # Editors
       "visual-studio-code"
       "zed"
+      "cursor"
       "jetbrains-toolbox"
 
       # Virtualization
@@ -131,7 +134,7 @@
         name = "librewolf";
         args = {no_quarantine = true;};
       }
-      "arc"
+      "google-chrome"
 
       # System
       "mac-mouse-fix"

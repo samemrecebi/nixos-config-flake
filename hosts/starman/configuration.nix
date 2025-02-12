@@ -51,6 +51,7 @@
       "rd.udev.log_level=3"
       "rd.systemd.show_status=false"
       "pcie_aspm.policy=powersupersave"
+      "nvidia.NVreg_PreserveVideoMemoryAllocations=1"
       "amd_pstate.shared_mem=1"
       "amd_pstate=active"
     ];
@@ -60,7 +61,6 @@
       availableKernelModules = ["cryptd"];
       luks.devices."luks-48e95629-d19a-4e8a-924e-53c660939c0c".device = "/dev/disk/by-uuid/48e95629-d19a-4e8a-924e-53c660939c0c";
     };
-    loader.timeout = 0;
     plymouth = {
       enable = true;
     };

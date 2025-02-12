@@ -14,7 +14,8 @@
     };
     sessionVariables = {
       DIRENV_LOG_FORMAT = ""; # silence direnv
-      EDITOR = "code";
+      EDITOR = "code --wait";
+      VISUAL = "code --wait";
       NIXPKGS_ALLOW_UNFREE = "1";
     };
     plugins = [
@@ -38,20 +39,12 @@
 
   programs.starship.enable = true;
 
-  programs.tmux = {
-    enable = true;
-    clock24 = true;
-    prefix = "C-b";
-    mouse = true;
-    extraConfig = ''
-      bind r source-file ~/.config/tmux/tmux.conf
-    '';
-  };
   programs.git = {
     enable = true;
     package = pkgs.git;
     userName = "Emre Cebi";
     userEmail = "emre@cebi.io";
+    lfs.enable = true;
     extraConfig = {
       commit.gpgsign = true;
       pull.rebase = false;
