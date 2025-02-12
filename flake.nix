@@ -74,6 +74,7 @@
                   alacritty.enable = false;
                   emacs.enable = false;
                   vscode.enable = false;
+                  zed.enable = false;
                   hyprlock.enable = false;
                 };
               }

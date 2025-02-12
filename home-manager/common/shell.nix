@@ -14,7 +14,7 @@
     };
     sessionVariables = {
       DIRENV_LOG_FORMAT = ""; # silence direnv
-      EDITOR = "code";
+      EDITOR = "zed";
       NIXPKGS_ALLOW_UNFREE = "1";
     };
     plugins = [
