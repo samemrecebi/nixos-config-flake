@@ -78,7 +78,7 @@
 
   # Enable networking
   networking.networkmanager.enable = true;
-  networking.hostName = "starman";
+  networking.hostName = "tuborg";
   services.resolved.enable = true;
 
   # Firewall

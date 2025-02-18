@@ -194,9 +194,12 @@
       ];
 
       code = [
+        "text/x-nix"
         "text/english"
         "text/plain"
         "text/x-makefile"
+        "text/x-javascript"
+        "text/x-python"
         "text/x-c++hdr"
         "text/x-c++src"
         "text/x-chdr"
