@@ -53,11 +53,11 @@
 
     # NixOS configuration entrypoint
     nixosConfigurations = {
-      starman = nixpkgs.lib.nixosSystem {
+      tuborg = nixpkgs.lib.nixosSystem {
         system = "x86_64-linux";
         specialArgs = {inherit inputs outputs;};
         modules = [
-          ./hosts/starman/configuration.nix
+          ./hosts/tuborg/configuration.nix
           my-nixos-hardware.nixosModules.asus-fa507nv
           stylix.nixosModules.stylix
           home-manager.nixosModules.home-manager
@@ -67,7 +67,7 @@
             home-manager.useUserPackages = true;
             home-manager.backupFileExtension = "backup";
             home-manager.extraSpecialArgs = {inherit inputs outputs;};
-            home-manager.users.emrecebi = import ./home-manager/starman/home.nix;
+            home-manager.users.emrecebi = import ./home-manager/tuborg/home.nix;
             home-manager.sharedModules = [
               {
                 stylix.targets = {
@@ -135,6 +135,7 @@
             {
               stylix.targets = {
                 lazygit.enable = true;
+                zed.enable = true;
                 fzf.enable = true;
                 bat.enable = true;
                 # ghostty.enable = true;

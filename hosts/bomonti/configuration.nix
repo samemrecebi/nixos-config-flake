@@ -83,6 +83,8 @@
       "rustup"
       # Go
       "golang"
+      # Java
+      "openjdk@21"
       # Cloud
       "azure-cli"
       "awscli"
@@ -108,8 +110,6 @@
 
       # Editors
       "visual-studio-code"
-      "zed"
-      "cursor"
       "jetbrains-toolbox"
 
       # Virtualization
@@ -121,6 +121,8 @@
       "slack"
       "zoom"
       "discord"
+      "element"
+      "microsoft-teams"
 
       # Media
       "spotify"
@@ -209,7 +211,6 @@
     nixPath = ["nixpkgs=${inputs.nixpkgs}"];
     settings.trusted-users = ["emrecebi"];
     extraOptions = ''
-      auto-optimise-store = true
       experimental-features = nix-command flakes
       extra-platforms = x86_64-darwin aarch64-darwin
     '';
@@ -221,6 +222,5 @@
   };
 
   system.stateVersion = 4;
-  services.nix-daemon.enable = true;
   security.pam.enableSudoTouchIdAuth = true;
 }

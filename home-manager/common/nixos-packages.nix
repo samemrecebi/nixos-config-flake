@@ -19,14 +19,9 @@
     opentofu
     ## LaTeX LSP
     texlab
-    ## Python Pixi
-    (pkgs.buildFHSEnv {
-      name = "pixi";
-      runScript = "pixi";
-      targetPkgs = pkgs: with pkgs; [pixi];
-    })
+    ## PlantUML
+    graphviz
     ## Editors / IDEs
-    code-cursor
     (pkgs.jetbrains.plugins.addPlugins pkgs.jetbrains.clion ["github-copilot"])
     (pkgs.jetbrains.plugins.addPlugins pkgs.jetbrains.pycharm-professional ["github-copilot"])
 
@@ -76,6 +71,15 @@
     protonmail-bridge-gui
     xdg-utils
   ];
+
+  # VSCode
+  programs.vscode = {
+    enable = true;
+    package = pkgs.vscode-fhs;
+  };
+
+  # Java
+  programs.java.enable = true;
 
   # Common NixOS ZSH configuration
   programs.zsh = {

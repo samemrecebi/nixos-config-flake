@@ -22,7 +22,7 @@
       updatesys = "darwin-rebuild switch --flake ~/.nix";
     };
     sessionVariables = {
-      PATH = "/Users/emrecebi/.local/bin:/Library/Developer/CommandLineTools/SDKs/MacOSX.sdk/usr/lib:$PYENV_ROOT/bin:/opt/homebrew/opt/make/libexec/gnubin:/opt/homebrew/bin:/opt/homebrew/sbin:/etc/profiles/per-user/emrecebi/bin/fzf:$PATH";
+      PATH = "$JAVA_HOME/bin:/Users/emrecebi/.local/bin:/Library/Developer/CommandLineTools/SDKs/MacOSX.sdk/usr/lib:$PYENV_ROOT/bin:/opt/homebrew/opt/make/libexec/gnubin:/opt/homebrew/bin:/opt/homebrew/sbin:/etc/profiles/per-user/emrecebi/bin/fzf:$PATH";
       LIBRARY_PATH = ":/Library/Developer/CommandLineTools/SDKs/MacOSX.sdk/usr/lib:$LIBRARY_PATH";
       FLAKE = "/home/emrecebi/.nix-config";
     };
@@ -34,6 +34,7 @@
       export PYENV_ROOT="$HOME/.pyenv"
       [[ -d $PYENV_ROOT/bin ]] && export PATH="$PYENV_ROOT/bin:$PATH"
       eval "$(pyenv init - zsh)"
+      export JAVA_HOME=$(/usr/libexec/java_home -v 23)
     '';
     profileExtra = ''
       export PYENV_ROOT="$HOME/.pyenv"
@@ -41,6 +42,11 @@
       eval "$(pyenv init - zsh)"
     '';
   };
+
+  home.packages = with pkgs; [
+    # Development
+    zed-editor
+  ];
 
   home.stateVersion = "23.11";
   programs.home-manager.enable = true;

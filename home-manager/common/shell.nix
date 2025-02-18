@@ -14,8 +14,8 @@
     };
     sessionVariables = {
       DIRENV_LOG_FORMAT = ""; # silence direnv
-      EDITOR = "code --wait";
-      VISUAL = "code --wait";
+      EDITOR = "nano -w";
+      VISUAL = "cursor --wait";
       NIXPKGS_ALLOW_UNFREE = "1";
     };
     plugins = [
