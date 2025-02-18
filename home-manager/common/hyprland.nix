@@ -11,7 +11,7 @@
   wayland.windowManager.hyprland = {
     enable = true;
     package = inputs.hyprland.packages.${pkgs.stdenv.hostPlatform.system}.hyprland;
-    portalPackage = inputs.hyprland.packages.${pkgs.stdenv.hostPlatform.system}.hyprland;
+    portalPackage = inputs.hyprland.packages.${pkgs.stdenv.hostPlatform.system}.xdg-desktop-portal-hyprland;
     systemd.enable = false;
     xwayland.enable = true;
     settings = {
@@ -45,7 +45,7 @@
         "systemctl --user enable --now hyprpolkitagent.service"
         "systemctl --user enable --now hyprpaper.service"
         "systemctl --user enable --now hypridle.service"
-        "systemctl --user enable --now waybar.service"
+        # "systemctl --user enable --now waybar.service"
         "uwsm app -- nm-applet"
         "uwsm app -- blueman-applet"
         "uwsm app -- dunst"

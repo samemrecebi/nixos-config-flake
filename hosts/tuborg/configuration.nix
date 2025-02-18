@@ -61,9 +61,6 @@
       availableKernelModules = ["cryptd"];
       luks.devices."luks-48e95629-d19a-4e8a-924e-53c660939c0c".device = "/dev/disk/by-uuid/48e95629-d19a-4e8a-924e-53c660939c0c";
     };
-    plymouth = {
-      enable = true;
-    };
   };
 
   # System Modules
