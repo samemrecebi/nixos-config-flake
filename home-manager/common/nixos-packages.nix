@@ -20,7 +20,7 @@
     ## LaTeX LSP
     texlab
     ## Python Pixi
-    (buildFHSUserEnv {
+    (pkgs.buildFHSEnv {
       name = "pixi";
       runScript = "pixi";
       targetPkgs = pkgs: with pkgs; [pixi];
@@ -44,7 +44,7 @@
     # Communication
     thunderbird
     element-desktop
-    whatsapp-for-linux
+    wasistlos
     signal-desktop
     slack
     zoom-us
