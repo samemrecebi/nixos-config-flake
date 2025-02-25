@@ -33,8 +33,5 @@
         terminal = 12;
       };
     };
-    targets = {
-      grub.enable = false;
-    };
   };
 }
