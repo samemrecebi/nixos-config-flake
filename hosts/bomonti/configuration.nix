@@ -66,7 +66,6 @@
       "binutils"
       # Python
       "python"
-      "pyenv"
       "pixi"
       "uv"
       # JS/TS
@@ -79,6 +78,8 @@
       "gcc"
       "ccls"
       "libgccjit"
+      "clang-format"
+      "libomp"
       # Rust
       "rustup"
       # Go
@@ -110,6 +111,7 @@
 
       # Editors
       "visual-studio-code"
+      "zed"
       "jetbrains-toolbox"
 
       # Virtualization

@@ -134,7 +134,6 @@
             {
               stylix.targets = {
                 lazygit.enable = true;
-                zed.enable = true;
                 fzf.enable = true;
                 bat.enable = true;
                 # ghostty.enable = true;
