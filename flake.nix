@@ -102,7 +102,6 @@
                   alacritty.enable = false;
                   emacs.enable = false;
                   vscode.enable = false;
-                  hyprlock.enable = false;
                 };
               }
             ];

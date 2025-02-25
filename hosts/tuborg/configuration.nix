@@ -91,15 +91,6 @@
   hardware.graphics = {
     enable = true;
     enable32Bit = true;
-    extraPackages = with pkgs; [
-      vaapiVdpau
-      libvdpau
-      libvdpau-va-gl
-      nvidia-vaapi-driver
-      vdpauinfo
-      libva
-      libva-utils
-    ];
   };
 
   hardware.amdgpu.initrd.enable = true;
@@ -178,8 +169,6 @@
       auto-optimise-store = true;
       experimental-features = "nix-command flakes";
       nix-path = config.nix.nixPath;
-      substituters = ["https://hyprland.cachix.org"];
-      trusted-public-keys = ["hyprland.cachix.org-1:a7pgxzMz7+chwVL3/pzj6jIBMioiJM7ypFP8PwtkuGc="];
     };
     channel.enable = true;
   };

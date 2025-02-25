@@ -78,6 +78,12 @@
     package = pkgs.vscode-fhs;
   };
 
+  # Zed
+  programs.zed-editor = {
+    enable = true;
+    installRemoteServer = true;
+  };
+
   # Java
   programs.java.enable = true;
 
