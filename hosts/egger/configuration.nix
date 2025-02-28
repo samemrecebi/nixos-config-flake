@@ -60,9 +60,6 @@
   hardware.enableRedistributableFirmware = true;
   zramSwap.enable = true;
 
-  # Devices firmware
-  services.fwupd.enable = true;
-
   # Timezone
   services.automatic-timezoned.enable = true;
 

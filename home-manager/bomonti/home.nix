@@ -33,8 +33,6 @@
       eval "$(uvx --generate-shell-completion zsh)"
       export JAVA_HOME=$(/usr/libexec/java_home -v 23)
     '';
-    profileExtra = ''
-    '';
   };
 
   home.stateVersion = "23.11";

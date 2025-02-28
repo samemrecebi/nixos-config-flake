@@ -54,12 +54,7 @@
       # Basic
       "wget"
       "curl"
-
-      # PDF Tools dependencies
-      "pkg-config"
-      "poppler"
-      "autoconf"
-      "automake"
+      "sl"
 
       # Development
       "coreutils"
@@ -77,11 +72,8 @@
       "make"
       "gcc"
       "ccls"
-      "libgccjit"
       "clang-format"
       "libomp"
-      # Rust
-      "rustup"
       # Go
       "golang"
       # Java
@@ -104,18 +96,12 @@
     ];
     casks = [
       # Development
-      "alacritty"
       "ghostty"
       "docker"
-      "temurin"
 
       # Editors
       "visual-studio-code"
-      "zed"
       "jetbrains-toolbox"
-
-      # Virtualization
-      "utm"
 
       # Communication
       "whatsapp"
@@ -147,9 +133,8 @@
       "zwift"
 
       # Office Suite
-      "microsoft-excel"
+      "microsoft-word"
       "microsoft-powerpoint"
-      "microsoft-excel"
 
       # Downloaders
       "qbittorrent"
@@ -211,15 +196,10 @@
   # Nix relates settings
   nix = {
     nixPath = ["nixpkgs=${inputs.nixpkgs}"];
-    settings.trusted-users = ["emrecebi"];
-    extraOptions = ''
-      experimental-features = nix-command flakes
-      extra-platforms = x86_64-darwin aarch64-darwin
-    '';
-    gc = {
-      automatic = true;
-      interval.Day = 7; #Hours, minutes
-      options = "--delete-older-than 7d";
+    settings = {
+      trusted-users = ["emrecebi"];
+      auto-optimise-store = true;
+      experimental-features = "nix-command flakes";
     };
   };
 
