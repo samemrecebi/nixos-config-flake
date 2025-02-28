@@ -196,13 +196,18 @@
   # Nix relates settings
   nix = {
     nixPath = ["nixpkgs=${inputs.nixpkgs}"];
-    settings = {
-      trusted-users = ["emrecebi"];
-      auto-optimise-store = true;
-      experimental-features = "nix-command flakes";
+    settings.trusted-users = ["emrecebi"];
+    extraOptions = ''
+      experimental-features = nix-command flakes
+      extra-platforms = x86_64-darwin aarch64-darwin
+    '';
+    gc = {
+      automatic = true;
+      interval.Day = 7; #Hours, minutes
+      options = "--delete-older-than 7d";
     };
   };
 
   system.stateVersion = 4;
-  security.pam.enableSudoTouchIdAuth = true;
+  security.pam.services.sudo_local.touchIdAuth = true;
 }
