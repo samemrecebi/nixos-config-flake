@@ -65,7 +65,6 @@
       "uv"
       # JS/TS
       "node"
-      "nodenv"
       # Terraform
       "opentofu"
       # C/C++
