@@ -15,7 +15,7 @@
     sessionVariables = {
       DIRENV_LOG_FORMAT = ""; # silence direnv
       EDITOR = "nano -w";
-      VISUAL = "cursor --wait";
+      VISUAL = "code --wait";
       NIXPKGS_ALLOW_UNFREE = "1";
     };
     plugins = [
@@ -24,7 +24,7 @@
         src = pkgs.fetchFromGitHub {
           owner = "aloxaf";
           repo = "fzf-tab";
-          rev = "v1.1.2";
+          rev = "v1.2.0";
           hash = "sha256-Qv8zAiMtrr67CbLRrFjGaPzFZcOiMVEFLg1Z+N6VMhg=";
         };
       }

@@ -28,7 +28,7 @@
     ];
     config = {
       allowUnfree = true;
-      allowAliases = false;
+      allowAliases = true;
     };
   };
 
@@ -138,7 +138,7 @@
   users.users.emrecebi = {
     isNormalUser = true;
     description = "Emre Cebi";
-    extraGroups = ["networkmanager" "wheel" "docker" "audio"];
+    extraGroups = ["networkmanager" "wheel" "docker" "audio" "libvirtd"];
   };
 
   # Shell
@@ -149,12 +149,18 @@
   environment.systemPackages = with pkgs; [
     # Wayland Nvidia Hyprland Compatibility Apps
     egl-wayland
+    via
   ];
 
   # Stylix
   stylix.targets = {
+    grub.enable = false;
     grub.useImage = false;
   };
+
+  # QMK
+  hardware.keyboard.qmk.enable = true;
+  services.udev.packages = [pkgs.via];
 
   # Emacs deamon
   services.emacs = {

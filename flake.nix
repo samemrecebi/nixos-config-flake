@@ -7,12 +7,8 @@
     # Home manager
     home-manager.url = "github:nix-community/home-manager";
     home-manager.inputs.nixpkgs.follows = "nixpkgs";
-    # Nix Hardware Fork
-    nixos-hardware.url = "github:nixos/nixos-hardware/master";
     # My Nix Hardware Fork
     my-nixos-hardware.url = "github:samemrecebi/nixos-hardware/master";
-    # Hyprland
-    hyprland.url = "github:hyprwm/Hyprland";
     # Stylix
     stylix.url = "github:danth/stylix";
     stylix.inputs.nixpkgs.follows = "nixpkgs";
@@ -27,9 +23,7 @@
     self,
     nixpkgs,
     home-manager,
-    nixos-hardware,
     my-nixos-hardware,
-    hyprland,
     stylix,
     nix-darwin,
     nonfree-fonts,
@@ -71,10 +65,8 @@
             home-manager.sharedModules = [
               {
                 stylix.targets = {
-                  alacritty.enable = false;
                   emacs.enable = false;
                   vscode.enable = false;
-                  hyprlock.enable = false;
                 };
               }
             ];
@@ -99,7 +91,6 @@
             home-manager.sharedModules = [
               {
                 stylix.targets = {
-                  alacritty.enable = false;
                   emacs.enable = false;
                   vscode.enable = false;
                 };
@@ -135,7 +126,6 @@
                 lazygit.enable = true;
                 fzf.enable = true;
                 bat.enable = true;
-                # ghostty.enable = true;
               };
             }
           ];

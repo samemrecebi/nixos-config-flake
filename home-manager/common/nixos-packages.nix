@@ -11,6 +11,20 @@
     # Development
     ## Generic
     ghostty
+    ## PlantUML
+    graphviz
+    ## Editors / IDEs
+    (pkgs.jetbrains.plugins.addPlugins pkgs.jetbrains.clion ["github-copilot"])
+    (pkgs.jetbrains.plugins.addPlugins pkgs.jetbrains.pycharm-professional ["github-copilot"])
+    ## Python
+    uv
+    (pkgs.buildFHSEnv {
+      name = "pixi";
+      runScript = "pixi";
+      targetPkgs = pkgs: with pkgs; [pixi];
+    })
+    ## JS/TS
+    nodejs
     ## Cloud access
     azure-cli
     awscli2
@@ -19,11 +33,6 @@
     opentofu
     ## LaTeX LSP
     texlab
-    ## PlantUML
-    graphviz
-    ## Editors / IDEs
-    (pkgs.jetbrains.plugins.addPlugins pkgs.jetbrains.clion ["github-copilot"])
-    (pkgs.jetbrains.plugins.addPlugins pkgs.jetbrains.pycharm-professional ["github-copilot"])
 
     # Productivity
     todoist-electron
@@ -38,15 +47,20 @@
 
     # Communication
     thunderbird
+    protonmail-bridge-gui
     element-desktop
     wasistlos
     signal-desktop
     slack
     zoom-us
-    webcord
+    discord
+    teams-for-linux
 
     # Exporting
     pandoc
+
+    # Password Managers
+    bitwarden-desktop
 
     # Office Program
     libreoffice-qt
@@ -63,25 +77,17 @@
     qbittorrent
 
     # VPN
-    trayscale
     mullvad-vpn
 
     # Misc
     hugo
-    protonmail-bridge-gui
-    xdg-utils
+    rpi-imager
   ];
 
   # VSCode
   programs.vscode = {
     enable = true;
-    package = pkgs.vscode-fhs;
-  };
-
-  # Zed
-  programs.zed-editor = {
-    enable = true;
-    installRemoteServer = true;
+    package = pkgs.vscode;
   };
 
   # Java
