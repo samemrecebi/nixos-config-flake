@@ -16,7 +16,6 @@
       DIRENV_LOG_FORMAT = ""; # silence direnv
       EDITOR = "nano -w";
       VISUAL = "code --wait";
-      NIXPKGS_ALLOW_UNFREE = "1";
     };
     plugins = [
       {
@@ -50,6 +49,7 @@
       pull.rebase = false;
       gpg.format = "ssh";
       user.signingkey = "~/.ssh/id_sign.pub";
+      init.defaultBranch = "main";
     };
   };
   programs.lazygit.enable = true;

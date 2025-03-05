@@ -54,12 +54,7 @@
       # Basic
       "wget"
       "curl"
-
-      # PDF Tools dependencies
-      "pkg-config"
-      "poppler"
-      "autoconf"
-      "automake"
+      "sl"
 
       # Development
       "coreutils"
@@ -77,11 +72,8 @@
       "make"
       "gcc"
       "ccls"
-      "libgccjit"
       "clang-format"
       "libomp"
-      # Rust
-      "rustup"
       # Go
       "golang"
       # Java
@@ -104,18 +96,12 @@
     ];
     casks = [
       # Development
-      "alacritty"
       "ghostty"
       "docker"
-      "temurin"
 
       # Editors
       "visual-studio-code"
-      "zed"
       "jetbrains-toolbox"
-
-      # Virtualization
-      "utm"
 
       # Communication
       "whatsapp"
@@ -147,9 +133,8 @@
       "zwift"
 
       # Office Suite
-      "microsoft-excel"
+      "microsoft-word"
       "microsoft-powerpoint"
-      "microsoft-excel"
 
       # Downloaders
       "qbittorrent"
@@ -224,5 +209,5 @@
   };
 
   system.stateVersion = 4;
-  security.pam.enableSudoTouchIdAuth = true;
+  security.pam.services.sudo_local.touchIdAuth = true;
 }

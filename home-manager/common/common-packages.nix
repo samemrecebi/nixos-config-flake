@@ -6,11 +6,6 @@
 
     # Latex
     texliveMedium
-
-    # Security Packages
-    yubikey-manager
-    yubikey-personalization
-    yubikey-agent
   ];
 
   programs.emacs = {

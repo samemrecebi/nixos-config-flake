@@ -67,9 +67,6 @@
   hardware.enableRedistributableFirmware = true;
   zramSwap.enable = true;
 
-  # Devices firmware
-  services.fwupd.enable = true;
-
   # Timezone
   services.automatic-timezoned.enable = true;
 
@@ -176,7 +173,6 @@
       experimental-features = "nix-command flakes";
       nix-path = config.nix.nixPath;
     };
-    channel.enable = true;
   };
   system.stateVersion = "23.11";
 }
