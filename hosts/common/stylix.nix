@@ -15,22 +15,22 @@
         name = "BerkeleyMono Nerd Font";
       };
       serif = {
-        package = pkgs.nerd-fonts.noto;
-        name = "NotoSerif Nerd Font";
+        package = pkgs.dejavu_fonts;
+        name = "DejaVu Serif";
       };
       sansSerif = {
-        package = pkgs.nerd-fonts.noto;
-        name = "NotoSans Nerd Font";
+        package = pkgs.dejavu_fonts;
+        name = "DejaVu Sans";
       };
       emoji = {
         package = pkgs.noto-fonts-color-emoji;
         name = "Noto Color Emoji";
       };
       sizes = {
-        applications = 12;
+        applications = 14;
         desktop = 12;
         popups = 12;
-        terminal = 12;
+        terminal = 14;
       };
     };
   };

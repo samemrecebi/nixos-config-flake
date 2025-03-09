@@ -1,52 +1,51 @@
 {pkgs, ...}: {
+  # Im trying this out
+  services.envfs.enable = true;
+
   # Enable nix-ld
   programs.nix-ld.enable = true;
 
   # nix-ld libaries
   programs.nix-ld.libraries = with pkgs; [
-    stdenv.cc.cc
-    zlib
-    fuse3
-    icu
-    zlib
-    nss
-    openssl
-    curl
-    expat
-    wget
-    alsa-lib
-    at-spi2-atk
-    at-spi2-core
-    atk
-    cairo
-    cups
-    curl
+    acl
+    attr
+    bzip2
     dbus
     expat
     fontconfig
     freetype
     fuse3
-    gdk-pixbuf
-    glib
-    gtk3
     icu
-    libGL
-    libappindicator-gtk3
-    libdrm
-    libglvnd
     libnotify
-    libpulseaudio
+    libsodium
+    libssh
     libunwind
     libusb1
     libuuid
-    libxkbcommon
-    libxml2
-    mesa
     nspr
     nss
-    pango
+    stdenv.cc.cc
+    util-linux
+    zlib
+    zstd
     pipewire
-    systemd
+    cups
+    libxkbcommon
+    pango
+    mesa
+    libdrm
+    libglvnd
+    libpulseaudio
+    atk
+    cairo
+    alsa-lib
+    at-spi2-atk
+    at-spi2-core
+    gdk-pixbuf
+    glib
+    gtk3
+    libGL
+    libappindicator-gtk3
     vulkan-loader
     xorg.libX11
     xorg.libXScrnSaver
