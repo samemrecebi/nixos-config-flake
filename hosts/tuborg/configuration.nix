@@ -28,7 +28,6 @@
     ];
     config = {
       allowUnfree = true;
-      allowAliases = true;
     };
   };
 

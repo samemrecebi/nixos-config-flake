@@ -5,7 +5,7 @@
 }: {
   imports = [
     # Common Components
-    ../common/stylix.nix
+    # ../common/stylix.nix
   ];
 
   # Pkgs settings
@@ -15,7 +15,6 @@
     ];
     config = {
       allowUnfree = true;
-      allowAliases = false;
     };
   };
 
@@ -28,19 +27,18 @@
   fonts.packages = with pkgs; [
     noto-fonts
     font-awesome
-    liberation_ttf
     nerd-fonts.noto
     nerd-fonts.fira-code
     nerd-fonts.hack
     nerd-fonts.roboto-mono
     nerd-fonts.jetbrains-mono
-    inputs.nonfree-fonts.packages.${stdenv.hostPlatform.system}.berkeley
-    inputs.nonfree-fonts.packages.${stdenv.hostPlatform.system}.berkeley-nf
-    inputs.nonfree-fonts.packages.${stdenv.hostPlatform.system}.comiccode
+    # inputs.nonfree-fonts.packages.${stdenv.hostPlatform.system}.berkeley
+    # inputs.nonfree-fonts.packages.${stdenv.hostPlatform.system}.berkeley-nf
+    # inputs.nonfree-fonts.packages.${stdenv.hostPlatform.system}.comiccode
   ];
 
   # Disable stylix auto enable
-  stylix.autoEnable = false;
+  # stylix.autoEnable = false;
 
   # Mac homebrew
   homebrew = {
@@ -51,14 +49,7 @@
       "homebrew/services"
     ];
     brews = [
-      # Basic
-      "wget"
-      "curl"
-      "sl"
-
       # Development
-      "coreutils"
-      "binutils"
       # Python
       "python"
       "pixi"
@@ -70,27 +61,14 @@
       # C/C++
       "make"
       "gcc"
-      "ccls"
       "clang-format"
       "libomp"
       # Go
       "golang"
       # Java
       "openjdk@21"
-      # Cloud
-      "azure-cli"
-      "awscli"
-      "oci-cli"
-
-      # Exporting
-      "pandoc"
-      "graphviz"
-
-      # Downloaders
-      "yt-dlp"
 
       # Misc
-      "hugo"
       "syncthing"
     ];
     casks = [
@@ -100,7 +78,6 @@
 
       # Editors
       "visual-studio-code"
-      "jetbrains-toolbox"
 
       # Communication
       "whatsapp"
@@ -119,27 +96,21 @@
       "todoist"
 
       # Browsers
-      {
-        name = "librewolf";
-        args = {no_quarantine = true;};
-      }
+      "firefox"
       "google-chrome"
 
       # System
       "mac-mouse-fix"
 
-      # Games
-      "zwift"
-
       # Office Suite
       "microsoft-word"
       "microsoft-powerpoint"
+      "microsoft-excel"
 
       # Downloaders
       "qbittorrent"
 
       # Misc
-      "balenaetcher"
       "raspberry-pi-imager"
       "tailscale"
       "proton-mail-bridge"

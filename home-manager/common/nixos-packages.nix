@@ -11,11 +11,6 @@
     # Development
     ## Generic
     ghostty
-    ## PlantUML
-    graphviz
-    ## Editors / IDEs
-    (pkgs.jetbrains.plugins.addPlugins pkgs.jetbrains.clion ["github-copilot"])
-    (pkgs.jetbrains.plugins.addPlugins pkgs.jetbrains.pycharm-professional ["github-copilot"])
     ## Python
     python3
     uv
@@ -26,14 +21,8 @@
     })
     ## JS/TS
     nodejs
-    ## Cloud access
-    azure-cli
-    awscli2
-    oci-cli
     ## Terraform
     opentofu
-    ## LaTeX LSP
-    texlab
 
     # Productivity
     todoist-electron
@@ -43,7 +32,7 @@
     spotify
 
     # Browsers
-    librewolf-bin
+    firefox-bin
     google-chrome
 
     # Communication
@@ -56,9 +45,6 @@
     zoom-us
     discord
     teams-for-linux
-
-    # Exporting
-    pandoc
 
     # Password Managers
     bitwarden-desktop
@@ -81,7 +67,6 @@
     mullvad-vpn
 
     # Misc
-    hugo
     rpi-imager
   ];
 

@@ -122,11 +122,11 @@
           home-manager.users.emrecebi = import ./home-manager/bomonti/home.nix;
           home-manager.sharedModules = [
             {
-              stylix.targets = {
-                lazygit.enable = true;
-                fzf.enable = true;
-                bat.enable = true;
-              };
+              # stylix.targets = {
+              #   lazygit.enable = true;
+              #   fzf.enable = true;
+              #   bat.enable = true;
+              # };
             }
           ];
         }

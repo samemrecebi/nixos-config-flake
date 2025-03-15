@@ -1,8 +1,20 @@
 {pkgs, ...}: {
   home.packages = with pkgs; [
+    # Basic
+    sl
+
     # Shared Development Packages
     alejandra
     nixd
+
+    # Blogging
+    hugo
+
+    # Exporting
+    pandoc
+
+    # Downloaders
+    yt-dlp
 
     # Latex
     texliveMedium

@@ -12,14 +12,9 @@
 (prefer-coding-system 'utf-8)
 
 ;; Speedup
-(let ((normal-gc-cons-threshold (* 20 1024 1024))
-      (init-gc-cons-threshold (* 128 1024 1024)))
-  (setq gc-cons-threshold init-gc-cons-threshold)
-  (setq read-process-output-max (* 4 1024 1024))
-  (setq process-adaptive-read-buffering nil)
-  (add-hook
-   'emacs-startup-hook
-   (lambda () (setq gc-cons-threshold normal-gc-cons-threshold))))
+(setq process-adaptive-read-buffering nil
+      read-process-output-max (* 4 1024 1024)
+      gc-cons-threshold 100000000)
 
 ;; UI fixes
 (menu-bar-mode -1)
@@ -42,21 +37,16 @@
 
 
 ;; Setup exec path from shell PATH - Needed for MacOS
-(defun set-exec-path-from-shell-PATH ()
-  (interactive)
-  (let ((path-from-shell
-         (replace-regexp-in-string
-          "[ \t\n]*$" ""
-          (shell-command-to-string
-           "$SHELL --login -c 'echo $PATH'"))))
-    (setenv "PATH" path-from-shell)
-    (setq exec-path (split-string path-from-shell path-separator))))
+(use-package exec-path-from-shell
+  :ensure t
+  :config
+  (when (memq window-system '(mac ns x))
+    (exec-path-from-shell-initialize)))
 
 ;; Mac spesific fixes
 (when (memq window-system '(mac ns x))
   (setq make-backup-files nil)
-  (setq mac-right-command-modifier 'super)
-  (set-exec-path-from-shell-PATH))
+  (setq mac-right-command-modifier 'super))
 
 ;; Auto-save-mode doesn't create the path automatically!
 (make-directory (expand-file-name "tmp/auto-saves/"
@@ -228,32 +218,6 @@
   (magit-display-buffer-function
    #'magit-display-buffer-same-window-except-diff-v1))
 
-;; Projectile
-(straight-use-package 'project)
-(use-package projectile
-  :straight t
-  :init
-  (projectile-mode +1)
-  :bind (:map projectile-mode-map
-              ("s-p" . projectile-command-map)
-              ("C-c p" . projectile-command-map)))
-(setq projectile-project-search-path '("~/Documents/Projects/" "~/Documents/Homeworks/"))
-
-;; Treemacs
-(use-package
-  treemacs
-  :straight t
-  :config
-  ;; read input from a minibuffer not a child frame.
-  (setq treemacs-read-string-input 'from-minibuffer))
-
-(use-package
-  treemacs-projectile
-  :straight t
-  :after (treemacs projectile))
-
-(use-package treemacs-magit :straight t :after (treemacs magit))
-
 ;; Completion
 (use-package
   corfu
@@ -296,30 +260,28 @@
                result)
 	(add-to-list 'completion-at-point-functions element)))))
 
-;; LSP
-;; Basic Configuration
-(use-package lsp-mode
+;; Envrc
+(use-package envrc
   :straight t
-  :init
-  (setq lsp-enable-suggest-server-download nil
-      lsp-enable-snippet nil
-      lsp-enable-dap-auto-configure nil
-      lsp-enable-on-type-formatting nil)
-  (setq lsp-idle-delay 0.250)
-  (setq lsp-keymap-prefix "C-c l")
-  (defun my/lsp-mode-setup-completion ()
-    (setf (alist-get 'styles (alist-get 'lsp-capf completion-category-defaults))
-          '(orderless)))
-  :hook ((lsp-mode . lsp-enable-which-key-integration)
-	 (lsp-completion-mode . my/lsp-mode-setup-completion))
-  :commands lsp
-  :custom
-  (lsp-completion-provider :none))
-
-(use-package lsp-ui :straight t :commands lsp-ui-mode)
-(use-package lsp-treemacs :straight t :commands lsp-treemacs-errors-list)
+  :config
+  (envrc-global-mode))
 
 ;; Code and Text Modes
+;; Treesit
+(setq treesit-language-source-alist
+'((css . ("https://github.com/tree-sitter/tree-sitter-css" "v0.20.0"))
+               (go . ("https://github.com/tree-sitter/tree-sitter-go" "v0.20.0"))
+               (html . ("https://github.com/tree-sitter/tree-sitter-html" "v0.20.1"))
+               (javascript . ("https://github.com/tree-sitter/tree-sitter-javascript" "v0.20.1" "src"))
+               (json . ("https://github.com/tree-sitter/tree-sitter-json" "v0.20.2"))
+               (markdown . ("https://github.com/ikatyang/tree-sitter-markdown" "v0.7.1"))
+               (python . ("https://github.com/tree-sitter/tree-sitter-python" "v0.20.4"))
+               (rust . ("https://github.com/tree-sitter/tree-sitter-rust" "v0.21.2"))
+               (toml . ("https://github.com/tree-sitter/tree-sitter-toml" "v0.5.1"))
+               (tsx . ("https://github.com/tree-sitter/tree-sitter-typescript" "v0.20.3" "tsx/src"))
+               (typescript . ("https://github.com/tree-sitter/tree-sitter-typescript" "v0.20.3" "typescript/src"))
+               (yaml . ("https://github.com/ikatyang/tree-sitter-yaml" "v0.5.0"))))
+
 ;; Errors
 (use-package
   flycheck
@@ -328,67 +290,42 @@
   :bind
   (:map
    flycheck-mode-map
-   ("M-n" . flycheck-next-error) ; optional but recommended error navigation
+   ("M-n" . flycheck-next-error)
    ("M-p" . flycheck-previous-error)))
 
 ;; Formatter
 (use-package prettier
   :straight t)
-(add-hook 'after-init-hook #'global-prettier-mode)
 
 ;;HTML
   (use-package web-mode
     :straight t
     :mode ("\\.html\\'" . web-mode)
-    :mode ("\\.xhtml\\'" . web-mode)
-    :hook (web-mode . lsp-deferred))
+          ("\\.xhtml\\'" . web-mode))
 
 ;; CSS
   (use-package css-mode
     :mode ("\\.css\\'" . css-mode)
-    :mode ("\\.scss\\'". css-mode)
-    :hook (css-mode . lsp-deferred)
-    :config
-    (with-eval-after-load "flycheck"
-      (flycheck-add-mode 'javascript-eslint 'web-mode)))
+          ("\\.scss\\'". css-mode))
 
 ;; Javascript
    (use-package rjsx-mode
      :straight t
      :config
      :mode ("\\.js\\'" . rjsx-mode)
-     :mode ("\\.jsx\\'" . rjsx-mode)
-     :hook (rjsx-mode . lsp-deferred)
-     :init     (cl-defun lsp--npm-dependency-path (&key package path &allow-other-keys)
-       "Return npm dependency PATH for PACKAGE."
-       (let ((path (executable-find
-                    (f-join lsp-server-install-dir "npm" package
-                            (cond ((eq system-type 'windows-nt) "")
-                                  (t "bin"))
-                            path))))
-         (unless (and path (f-exists? path))
-           nil)
-         path)))
+           ("\\.jsx\\'" . rjsx-mode)
+     :hook (rjsx-mode . lsp-deferred))
 
 ;; Typescript
-  (use-package typescript-mode
-    :straight t
-    :config
-    :mode ("\\.ts\\'" . typescript-mode)
-    :mode ("\\.tsx\\'" . typescript-mode)
-    :hook (typescript-mode . lsp-deferred))
-
-;; C/C++
-(use-package ccls
+(use-package typescript-mode
   :straight t
   :config
-  (setq ccls-executable "ccls")
-  (setq lsp-prefer-flymake nil)
-  (setq-default flycheck-disabled-checkers '(c/c++-clang c/c++-cppcheck c/c++-gcc))
-  :hook ((c-mode c++-mode objc-mode) .
-         (lambda () (require 'ccls) (lsp))))
-  (use-package clang-format
-    :straight t)
+  :mode ("\\.ts\\'" . typescript-mode)
+        ("\\.tsx\\'" . typescript-mode))
+
+;; C/C++
+(use-package clang-format
+  :straight t)
 
 ;; Python
 (use-package
@@ -396,29 +333,8 @@
   :straight t
   :custom (python-shell-interpreter "python"))
 
-   ;; Magic_RB python LSP setup
-  (defun magic_rb/locate-python-executable-lsp-deffered ()
-    "Locates the python executable available to the current buffer and only then calls `lsp-deferred'."
-    (lambda ()
-      (require 'lsp-python-ms)
-      (envrc-mode)
-      (setq-local lsp-python-ms-executable (executable-find "python-language-server"))
-      (lsp-deferred)))
-
-  (use-package lsp-python-ms
-    :straight t
-    :after (lsp-mode)
-    :hook (python-mode . magic_rb/locate-python-executable-lsp-deffered)
-    :config
-    (defvar-local lsp-python-ms-executable ""))
-
-;; Mac only Pyenv setup
-(when (memq window-system '(mac ns x))
-  (use-package pyenv-mode :straight t)
-  (pyenv-mode))
-
 ;; Nix
-(use-package nix-mode :straight t :mode ("\\.nix\\'" "\\.nix.in\\'"))
+(use-package nix-ts-mode :straight t :mode ("\\.nix\\'" "\\.nix.in\\'"))
 
 ;; Docker
 (use-package docker :straight t :bind ("C-c d" . docker))
@@ -435,39 +351,27 @@
 ;; Text Modes
 ;; Generic
 (use-package
-  markdown-mode
+  markdown-ts-mode
   :straight t
   :hook
-  ((markdown-mode . visual-line-mode) (markdown-mode . flyspell-mode))
-  :init (setq markdown-command "multimarkdown")
-  :mode ("\\.md\\'" . markdown-mode))
-(use-package yaml-mode
-  :straight t
-  :mode
-  (("\\.yml\\'" . yaml-mode)
-   ("\\.yaml\\'" . yaml-mode)))
-(use-package json-mode :straight t)
-(use-package toml-mode :straight t)
+  ((markdown-ts-mode . visual-line-mode) (markdown-ts-mode . flyspell-mode))
+  :mode ("\\.md\\'" . markdown-ts-mode))
 
-;; Latex
-(use-package auctex :straight t)
-(setq TeX-auto-save t)
-(setq TeX-parse-self t)
-(setq-default TeX-master nil)
+(setq major-mode-remap-alist
+ '((yaml-mode . yaml-ts-mode)
+   (bash-mode . bash-ts-mode)
+   (js2-mode . js-ts-mode)
+   (typescript-mode . typescript-ts-mode)
+   (json-mode . json-ts-mode)
+   (html-mode . html-ts-mode)
+   (css-mode . css-ts-mode)
+   (python-mode . python-ts-mode)))
 
-(use-package auctex-latexmk :straight t)
-
-(use-package pdf-tools :straight t)
-(use-package cdlatex :straight t)
-
-(add-to-list 'TeX-view-program-selection '(output-pdf "PDF Tools"))
-
-(setq TeX-view-program-selection '((output-pdf "PDF Tools")))
-
-;; Update PDF buffers after successful LaTeX runs
-(add-hook
- 'TeX-after-TeX-LaTeX-command-finished-hook
- 'TeX-revert-document-buffer)
+;; LSP
+(use-package eglot
+  :ensure t
+  :defer t
+  :hook (python-mode . eglot-ensure))
 
 ;; Org Mode
 (use-package
