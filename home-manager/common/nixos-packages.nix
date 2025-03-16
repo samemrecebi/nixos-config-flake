@@ -1,19 +1,6 @@
-{
-  pkgs,
-  lib,
-  ...
-}: {
+{pkgs, ...}: {
   home.packages = with pkgs; [
-    # Basic
-    wget
-    curl
-
-    # Development
-    ## Generic
-    ghostty
     ## Python
-    python3
-    uv
     (pkgs.buildFHSEnv {
       name = "pixi";
       runScript = "pixi";
@@ -21,53 +8,49 @@
     })
     ## JS/TS
     nodejs
-    ## Terraform
-    opentofu
 
     # Productivity
     todoist-electron
 
     # Media
-    vlc
     spotify
 
-    # Browsers
-    firefox-bin
-    google-chrome
-
     # Communication
-    thunderbird
     protonmail-bridge-gui
     element-desktop
     wasistlos
-    signal-desktop
-    slack
-    zoom-us
-    discord
     teams-for-linux
+    discord
+    slack
+    signal-desktop
 
     # Password Managers
     bitwarden-desktop
 
-    # Office Program
-    libreoffice-qt
-    hunspell
-    hunspellDicts.en_US
-    hunspellDicts.tr_TR
+    # VPN
+    mullvad-vpn
 
-    # Document Viewer
-    zathura
-    eog
+    # Shared Development Packages
+    # C/C++
+    gcc
+    # Python
+    python3
+    uv
+    # Terraform
+    opentofu
+
+    # Blogging
+    hugo
+
+    # Exporting
+    pandoc
 
     # Downloaders
     yt-dlp
     qbittorrent
 
-    # VPN
-    mullvad-vpn
-
-    # Misc
-    rpi-imager
+    # Latex
+    texliveMedium
   ];
 
   # VSCode
@@ -86,8 +69,13 @@
     };
   };
 
-  # Syncthing
-  services.syncthing = {
+  programs.emacs = {
     enable = true;
+    package = pkgs.emacs30.override {withNativeCompilation = false;};
   };
+
+  # better eval time
+  manual.html.enable = false;
+  manual.manpages.enable = false;
+  manual.json.enable = false;
 }

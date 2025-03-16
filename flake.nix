@@ -73,32 +73,6 @@
           }
         ];
       };
-      egger = nixpkgs.lib.nixosSystem {
-        system = "x86_64-linux";
-        specialArgs = {inherit inputs outputs;};
-        modules = [
-          ./hosts/egger/configuration.nix
-          my-nixos-hardware.nixosModules.huawei-machc-wa
-          stylix.nixosModules.stylix
-          home-manager.nixosModules.home-manager
-          {
-            # Home Manager as a module
-            home-manager.useGlobalPkgs = true;
-            home-manager.useUserPackages = true;
-            home-manager.backupFileExtension = "backup";
-            home-manager.extraSpecialArgs = {inherit inputs outputs;};
-            home-manager.users.emrecebi = import ./home-manager/egger/home.nix;
-            home-manager.sharedModules = [
-              {
-                stylix.targets = {
-                  emacs.enable = false;
-                  vscode.enable = false;
-                };
-              }
-            ];
-          }
-        ];
-      };
       installerIso = nixpkgs.lib.nixosSystem {
         system = "x86_64-linux";
         specialArgs = {inherit inputs outputs;};
@@ -111,24 +85,14 @@
       specialArgs = {inherit inputs outputs;};
       system = "aarch64-darwin";
       modules = [
-        ./hosts/bomonti/configuration.nix
-        stylix.darwinModules.stylix
+        ./darwin/nix-darwin/bomonti/configuration.nix
         home-manager.darwinModules.home-manager
         {
           home-manager.useGlobalPkgs = true;
           home-manager.useUserPackages = true;
           home-manager.backupFileExtension = "backup";
           home-manager.extraSpecialArgs = {inherit inputs outputs;};
-          home-manager.users.emrecebi = import ./home-manager/bomonti/home.nix;
-          home-manager.sharedModules = [
-            {
-              # stylix.targets = {
-              #   lazygit.enable = true;
-              #   fzf.enable = true;
-              #   bat.enable = true;
-              # };
-            }
-          ];
+          home-manager.users.emrecebi = import ./darwin/home-manager/bomonti/home.nix;
         }
       ];
     };

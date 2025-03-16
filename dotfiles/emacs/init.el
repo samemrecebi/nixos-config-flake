@@ -4,13 +4,6 @@
 ;; Uga Buga
 
 ;;; Code:
-
-;;Start server
-(server-start)
-
-;; Encoding
-(prefer-coding-system 'utf-8)
-
 ;; Speedup
 (setq process-adaptive-read-buffering nil
       read-process-output-max (* 4 1024 1024)
@@ -35,13 +28,6 @@
 (global-set-key (kbd "<escape>") 'keyboard-escape-quit)
 (global-set-key (kbd "C-x k") 'kill-this-buffer)
 
-
-;; Setup exec path from shell PATH - Needed for MacOS
-(use-package exec-path-from-shell
-  :ensure t
-  :config
-  (when (memq window-system '(mac ns x))
-    (exec-path-from-shell-initialize)))
 
 ;; Mac spesific fixes
 (when (memq window-system '(mac ns x))
@@ -125,7 +111,15 @@
 (load custom-file 'noerror)
 
 ;; Packages
+
 ;; Basics
+;; Setup exec path from shell PATH - Needed for MacOS
+(use-package exec-path-from-shell
+  :ensure t
+  :config
+  (when (memq window-system '(mac ns x))
+    (exec-path-from-shell-initialize)))
+
 ;; Theme
 (use-package ef-themes :straight t)
 (load-theme 'ef-bio t t)

@@ -43,7 +43,6 @@
     package = pkgs.git;
     userName = "Emre Cebi";
     userEmail = "emre@cebi.io";
-    lfs.enable = true;
     extraConfig = {
       commit.gpgsign = true;
       pull.rebase = false;
@@ -52,7 +51,6 @@
       init.defaultBranch = "main";
     };
   };
-  programs.lazygit.enable = true;
   programs.direnv = {
     enable = true;
     enableZshIntegration = true;

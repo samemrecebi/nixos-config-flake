@@ -8,17 +8,14 @@
     ./hardware-configuration.nix
 
     # Common Components
+    ../common/common-setup.nix
     ../common/grub.nix
     ../common/i18n.nix
     ../common/gnome.nix
-    ../common/nh.nix
     ../common/nix-ld.nix
-    ../common/tailscale.nix
     ../common/stylix.nix
-    ../common/docker.nix
     ../common/printer.nix
     ../common/virt.nix
-    ../common/fonts.nix
   ];
 
   # Nixpkgs config
@@ -45,14 +42,7 @@
       "audit=0"
       "nowatchdog"
       "splash"
-      "boot.shell_on_fail"
-      "udev.log_priority=3"
-      "rd.udev.log_level=3"
-      "rd.systemd.show_status=false"
-      "pcie_aspm.policy=powersupersave"
       "nvidia.NVreg_PreserveVideoMemoryAllocations=1"
-      "amd_pstate.shared_mem=1"
-      "amd_pstate=active"
     ];
     blacklistedKernelModules = ["nouveau"];
     initrd = {
@@ -147,12 +137,6 @@
     egl-wayland
     via
   ];
-
-  # Stylix
-  stylix.targets = {
-    grub.enable = false;
-    grub.useImage = false;
-  };
 
   # QMK
   hardware.keyboard.qmk.enable = true;
