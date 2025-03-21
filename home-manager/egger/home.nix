@@ -21,7 +21,6 @@
   # Gnome Home Settings
   dconf = {
     enable = true;
-
     settings = {
       # You need quotes to escape '/'
       "org/gnome/desktop/interface" = {

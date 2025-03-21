@@ -6,7 +6,7 @@
   # Setup stylix base values
   stylix = {
     enable = true;
-    base16Scheme = "${pkgs.base16-schemes}/share/themes/gruber.yaml";
+    base16Scheme = "${pkgs.base16-schemes}/share/themes/monokai.yaml";
     polarity = "dark";
     image = ../../assets/linux-wallpaper.jpg;
     fonts = {

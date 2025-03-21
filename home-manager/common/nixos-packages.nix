@@ -1,6 +1,8 @@
 {pkgs, ...}: {
   home.packages = with pkgs; [
     ## Python
+    python3
+    uv
     (pkgs.buildFHSEnv {
       name = "pixi";
       runScript = "pixi";
@@ -8,6 +10,10 @@
     })
     ## JS/TS
     nodejs
+    # C/C++
+    gcc
+    # Terraform
+    opentofu
 
     # Productivity
     todoist-electron
@@ -26,18 +32,6 @@
 
     # Password Managers
     bitwarden-desktop
-
-    # VPN
-    mullvad-vpn
-
-    # Shared Development Packages
-    # C/C++
-    gcc
-    # Python
-    python3
-    uv
-    # Terraform
-    opentofu
 
     # Blogging
     hugo

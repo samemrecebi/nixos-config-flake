@@ -5,16 +5,26 @@
 }: {
   # Nix System Packages
   environment.systemPackages = with pkgs; [
-    # Shared Development Packages
-    # C/C++
+    # Development Packages
+    ## General
+    cmake
+    libtool
+    emacs-lsp-booster
+    ## Nix
+    alejandra
+    nixd
+    ## C/C++
     gcc
     libgccjit
     libclang
-    # Python
+    ## Python
     python3
     pixi
     uv
-    # Terraform
+    ruff
+    ## TS
+    typescript-language-server
+    ## Terraform
     opentofu
 
     # Blogging

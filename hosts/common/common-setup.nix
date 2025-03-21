@@ -70,4 +70,11 @@
     openFirewall = true;
   };
   networking.firewall.trustedInterfaces = ["tailscale0"];
+
+  # Mullvad VPN
+  services.resolved.enable = true; # Required for Mullvad VPN see https://discourse.nixos.org/t/connected-to-mullvadvpn-but-no-internet-connection/35803/8?u=lion
+  services.mullvad-vpn = {
+    enable = true;
+    package = pkgs.mullvad-vpn;
+  };
 }

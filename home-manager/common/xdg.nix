@@ -214,9 +214,9 @@
         "text/x-c++"
       ];
     in
-      (lib.genAttrs code (_: ["dev.zed.Zed.desktop"]))
+      (lib.genAttrs code (_: ["code.desktop"]))
       // (lib.genAttrs images (_: ["org.gnome.eog.desktop"]))
-      // (lib.genAttrs urls (_: ["Firefox.desktop"]))
+      // (lib.genAttrs urls (_: ["firefox.desktop"]))
       // (lib.genAttrs documents (_: ["org.pwmt.zathura.desktop"]))
       // (lib.genAttrs audioVideo (_: ["vlc.desktop"]))
       // (lib.genAttrs [

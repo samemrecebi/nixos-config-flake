@@ -115,19 +115,31 @@
 ;; Basics
 ;; Setup exec path from shell PATH - Needed for MacOS
 (use-package exec-path-from-shell
-  :ensure t
+  :straight t
   :config
+  (setq exec-path-from-shell-warn-duration-millis 2000) ;; I am lazy and dont care about it taking 1 second
   (when (memq window-system '(mac ns x))
     (exec-path-from-shell-initialize)))
 
+;; Envrc
+(use-package envrc
+  :straight t
+  :config
+  (envrc-global-mode))
+
 ;; Theme
-(use-package ef-themes :straight t)
-(load-theme 'ef-bio t t)
-(enable-theme 'ef-bio)
+(use-package monokai-theme :straight t)
+(load-theme 'monokai t t)
+(enable-theme 'monokai)
 
 ;; Modeline
-(use-package doom-modeline :straight t :init (doom-modeline-mode 1))
-(setq doom-modeline-icon t)
+(use-package doom-modeline
+  :straight t
+  :config
+  (setq doom-modeline-buffer-encoding nil)
+  (setq doom-modeline-icon t)
+  :init
+  (doom-modeline-mode 1))
 
 ;; Dashboard
 (use-package
@@ -158,17 +170,21 @@
   :config (which-key-setup-side-window-right-bottom)
   :init (which-key-mode))
 
+;; fake right key
+(use-package embark
+  :straight t
+  :bind
+  (("C-." . embark-act)
+   ("C-;" . embark-dwim)
+   ("C-h B" . embark-bindings))
+  :init
+  (setq embark-indicators '(embark-minimal-indicator)))
+
+(use-package embark-consult
+  :straight t)
+
 ;; Vertigo
 (use-package vertico :straight t :init (vertico-mode))
-
-;; Orderless compleation
-(use-package
-  orderless
-  :straight t
-  :custom
-  (completion-styles '(orderless basic))
-  (completion-category-defaults nil)
-  (completion-category-overrides '((file (styles partial-completion)))))
 
 ;; Consult
 (use-package
@@ -180,9 +196,11 @@
    ("C-x 5 b" . consult-buffer-other-frame)
    ("C-x r b" . consult-bookmark)
    ;; M-s bindings (search-map)
-   ("M-s r" . consult-ripgrep)
-   ("M-s f" . consult-find)
-   ("M-s l" . consult-line))
+   ("C-c j r" . consult-ripgrep)
+   ("C-c j f" . consult-find)
+   ("C-c j l" . consult-line)
+   ("C-c j s" . consult-fd)
+   ("C-c j e" . consult-flycheck))
   :init
   (defun compat-string-width (&rest args)
     (apply #'string-width args))
@@ -203,6 +221,13 @@
 (customize-set-variable 'bookmark-save-flag 1)
 (setq history-length 25)
 
+;; Undo
+(use-package undo-tree
+  :straight t)
+
+(use-package vundo
+  :straight t)
+
 ;; Magit
 (use-package
   magit
@@ -211,6 +236,13 @@
   :custom
   (magit-display-buffer-function
    #'magit-display-buffer-same-window-except-diff-v1))
+
+;; Projectile
+(use-package projectile
+  :straight t)
+
+(projectile-mode +1)
+(define-key projectile-mode-map (kbd "C-c p") 'projectile-command-map)
 
 ;; Completion
 (use-package
@@ -222,117 +254,205 @@
   (corfu-auto-prefix 3)
   (corfu-auto-delay 0.25)
   (tab-always-indent 'complete)
+  (corfu-separator ?\s)
   :bind ("C-c c" . completion-at-point)
   :init (global-corfu-mode))
 
+(setq company-global-modes nil)
+
 (use-package company-auctex :straight t)
 
-(use-package
-  cape
-  :straight t
-  :after corfu
-  :hook
-  (LaTeX-mode . kb/cape-capf-setup-latex)
-  :bind (("M-c" . cape-prefix-map) ("M-c t" . cape-tex))
-  :init
-  (add-hook 'completion-at-point-functions #'cape-dabbrev)
-  (add-hook 'completion-at-point-functions #'cape-file)
-  (add-hook 'completion-at-point-functions #'cape-elisp-block)
-  (defun kb/cape-capf-setup-latex ()
-    (require 'company-auctex)
-    (let ((result))
-      (dolist (element
-               (list
-		#'cape-tex
-		(cape-company-to-capf #'company-auctex-bibs)
-		(cape-company-to-capf #'company-auctex-labels)
-		(cape-company-to-capf
-                 (apply-partially #'company--multi-backend-adapter
-                                  '(company-auctex-macros
-                                    company-auctex-symbols
-                                    company-auctex-environments))))
-               result)
-	(add-to-list 'completion-at-point-functions element)))))
+(defun cape-setup-capf-prog ()
+  "Setup cape completions for prog-mode"
+  (cape-setup-capf))
 
-;; Envrc
-(use-package envrc
+(defun cape-setup-capf-text ()
+  "Setup cape completions for text-mode"
+  (cape-setup-capf))
+
+(defun cape-setup-capf ()
+  "Setup cape completions"
+  (add-hook 'completion-at-point-functions #'cape-file -100 'local)
+  (add-hook 'completion-at-point-functions #'cape-tex -100 'local))
+
+(use-package cape
+  :straight t
+  :hook
+  ((prog-mode . cape-setup-capf-prog)
+   (text-mode . cape-setup-capf-text)))
+
+(use-package orderless
   :straight t
   :config
-  (envrc-global-mode))
+  (setq completion-styles '(orderless)))
 
 ;; Code and Text Modes
-;; Treesit
-(setq treesit-language-source-alist
-'((css . ("https://github.com/tree-sitter/tree-sitter-css" "v0.20.0"))
-               (go . ("https://github.com/tree-sitter/tree-sitter-go" "v0.20.0"))
-               (html . ("https://github.com/tree-sitter/tree-sitter-html" "v0.20.1"))
-               (javascript . ("https://github.com/tree-sitter/tree-sitter-javascript" "v0.20.1" "src"))
-               (json . ("https://github.com/tree-sitter/tree-sitter-json" "v0.20.2"))
-               (markdown . ("https://github.com/ikatyang/tree-sitter-markdown" "v0.7.1"))
-               (python . ("https://github.com/tree-sitter/tree-sitter-python" "v0.20.4"))
-               (rust . ("https://github.com/tree-sitter/tree-sitter-rust" "v0.21.2"))
-               (toml . ("https://github.com/tree-sitter/tree-sitter-toml" "v0.5.1"))
-               (tsx . ("https://github.com/tree-sitter/tree-sitter-typescript" "v0.20.3" "tsx/src"))
-               (typescript . ("https://github.com/tree-sitter/tree-sitter-typescript" "v0.20.3" "typescript/src"))
-               (yaml . ("https://github.com/ikatyang/tree-sitter-yaml" "v0.5.0"))))
-
-;; Errors
-(use-package
-  flycheck
+;; LSP
+(use-package lsp-mode
   :straight t
-  :init (global-flycheck-mode)
+  :commands (lsp lsp-deferred)
   :bind
-  (:map
-   flycheck-mode-map
-   ("M-n" . flycheck-next-error)
-   ("M-p" . flycheck-previous-error)))
+  (("C-c l l" . lsp)
+   ("C-c l r" . lsp-workspace-restart)
+   ("C-c l s" . lsp-workspace-shutdown)))
 
-;; Formatter
-(use-package prettier
-  :straight t)
+(setq lsp-enable-suggest-server-download nil
+      lsp-enable-snippet nil
+      lsp-enable-dap-auto-configure nil
+      lsp-enable-on-type-formatting nil)
+
+(defun vherrmann/cleanup-lsp-mode-post-command-hook()
+  "Cleans up lsp-modes mess."
+  (when (bound-and-true-p lsp-mode)
+    (setq-default post-command-hook
+                  (--filter (not (and (consp it)
+                                      (eq (car it) 'closure)
+                                      (not (-difference
+                                            '(cancel-callback method buf hook workspaces id)
+                                            (-map #'car (cadr it))))))
+                            (default-value 'post-command-hook)))))
+
+(setq lsp-completion-provider :none)
+
+(add-hook 'kill-buffer-hook #'vherrmann/cleanup-lsp-mode-post-command-hook)
+
+(advice-add 'lsp-completion-at-point :around #'cape-wrap-nonexclusive)
+
+(use-package cape-lsp-mode
+  :no-require t
+  :after (cape lsp-mode)
+  :hook
+  ((lsp-mode . cape-setup-capf)))
+
+(setq lsp-idle-delay 0.250)
+
+(defun lsp-booster--advice-json-parse (old-fn &rest args)
+  "Try to parse bytecode instead of json."
+  (or
+   (when (equal (following-char) ?#)
+     (let ((bytecode (read (current-buffer))))
+       (when (byte-code-function-p bytecode)
+         (funcall bytecode))))
+   (apply old-fn args)))
+(advice-add (if (progn (require 'json)
+                       (fboundp 'json-parse-buffer))
+                'json-parse-buffer
+              'json-read)
+            :around
+            #'lsp-booster--advice-json-parse)
+
+(defun lsp-booster--advice-final-command (old-fn cmd &optional test?)
+  "Prepend emacs-lsp-booster command to lsp CMD."
+  (let ((orig-result (funcall old-fn cmd test?)))
+    (if (and (not test?)                             ;; for check lsp-server-present?
+             (not (file-remote-p default-directory)) ;; see lsp-resolve-final-command, it would add extra shell wrapper
+             lsp-use-plists
+             (not (functionp 'json-rpc-connection))  ;; native json-rpc
+             (executable-find "emacs-lsp-booster"))
+        (progn
+          (when-let ((command-from-exec-path (executable-find (car orig-result))))  ;; resolve command from exec-path (in case not found in $PATH)
+            (setcar orig-result command-from-exec-path))
+          (message "Using emacs-lsp-booster for %s!" orig-result)
+          (cons "emacs-lsp-booster" orig-result))
+      orig-result)))
+(advice-add 'lsp-resolve-final-command :around #'lsp-booster--advice-final-command)
 
 ;;HTML
-  (use-package web-mode
-    :straight t
-    :mode ("\\.html\\'" . web-mode)
-          ("\\.xhtml\\'" . web-mode))
+(use-package web-mode
+  :straight t
+  :mode ("\\.html\\'" . web-mode)
+  :mode ("\\.xhtml\\'" . web-mode)
+  :hook (web-mode . lsp-deferred))
 
 ;; CSS
-  (use-package css-mode
-    :mode ("\\.css\\'" . css-mode)
-          ("\\.scss\\'". css-mode))
+(use-package css-mode
+  :mode ("\\.css\\'" . css-mode)
+  :mode ("\\.scss\\'". css-mode)
+  :hook (css-mode . lsp-deferred)
+  :config
+  (with-eval-after-load "flycheck"
+    (flycheck-add-mode 'javascript-eslint 'web-mode)))
 
 ;; Javascript
-   (use-package rjsx-mode
-     :straight t
-     :config
-     :mode ("\\.js\\'" . rjsx-mode)
-           ("\\.jsx\\'" . rjsx-mode)
-     :hook (rjsx-mode . lsp-deferred))
+(use-package rjsx-mode
+  :straight t
+  :config
+  :mode ("\\.js\\'" . rjsx-mode)
+  :mode ("\\.jsx\\'" . rjsx-mode)
+  :hook (rjsx-mode . lsp-deferred)
+  :init
+  ;; Originally this function exits with a call to `error`, which causes the simple "PATH lookup"
+  ;; scheme to not be tried
+  (cl-defun lsp--npm-dependency-path (&key package path &allow-other-keys)
+    "Return npm dependency PATH for PACKAGE."
+    (let ((path (executable-find
+                 (f-join lsp-server-install-dir "npm" package
+                         (cond ((eq system-type 'windows-nt) "")
+                               (t "bin"))
+                         path))))
+      (unless (and path (f-exists? path))
+        nil)
+      path)))
 
 ;; Typescript
 (use-package typescript-mode
   :straight t
   :config
   :mode ("\\.ts\\'" . typescript-mode)
-        ("\\.tsx\\'" . typescript-mode))
+  :mode ("\\.tsx\\'" . typescript-mode)
+  :hook (typescript-mode . lsp-deferred))
 
 ;; C/C++
+(use-package lsp-c++-c
+  :after (lsp-mode)
+  :no-require t
+  :init
+  (add-hook 'c-mode-hook #'lsp-deferred)
+  (add-hook 'c++-mode-hook #'lsp-deferred))
+
 (use-package clang-format
   :straight t)
 
 ;; Python
-(use-package
-  python-mode
+(defun magic_rb/locate-python-executable-lsp-deffered ()
+  "Locates the python executable available to the current buffer and only then calls `lsp-deferred'."
+  (lambda ()
+    (require 'lsp-python-ms)
+    (envrc-mode)
+    (setq-local lsp-python-ms-executable (executable-find "python-language-server"))
+    (lsp-deferred)))
+
+(use-package lsp-python-ms
   :straight t
-  :custom (python-shell-interpreter "python"))
+  :after (lsp-mode)
+  :hook (python-mode . magic_rb/locate-python-executable-lsp-deffered)
+  :config
+  (defvar-local lsp-python-ms-executable ""))
+
+(use-package lsp-pyright
+  :straight t)
+
+;; Go
+(use-package go-mode
+  :straight t)
 
 ;; Nix
-(use-package nix-ts-mode :straight t :mode ("\\.nix\\'" "\\.nix.in\\'"))
+(use-package nix-mode
+  :straight t
+  :mode ("\\.nix\\'" . nix-mode)
+  :hook
+  (nix-mode . lsp-deferred) ;; So that envrc mode will work
+  :custom
+  (lsp-disabled-clients '((nix-mode . nix-nil))) ;; Disable nil so that nixd will be used as lsp-server
+  :config
+  (setq lsp-nix-nixd-server-path "nixd"
+	lsp-nix-nixd-formatting-command [ "alejandra" ]
+	lsp-nix-nixd-nixpkgs-expr "import <nixpkgs> { }"
+	lsp-nix-nixd-nixos-options-expr "(builtins.getFlake \"/Users/emrecebi/.nix\").nixosConfigurations.\"Emres-MacBook-Pro\".options"))
 
 ;; Docker
 (use-package docker :straight t :bind ("C-c d" . docker))
-(use-package dockerfile-mode :straight t :mode "Dockerfile\\'")
+(use-package dockerfile-mode :straight t)
 
 ;; HCL
 (use-package hcl-mode
@@ -342,30 +462,25 @@
 (use-package terraform-mode
   :straight t)
 
-;; Text Modes
-;; Generic
+;; Markdown
 (use-package
-  markdown-ts-mode
+  markdown-mode
+  :straight t)
+
+;; Formatter
+(use-package apheleia
   :straight t
-  :hook
-  ((markdown-ts-mode . visual-line-mode) (markdown-ts-mode . flyspell-mode))
-  :mode ("\\.md\\'" . markdown-ts-mode))
+  :config
+  (push '(alejandra . ("alejandra"))
+        apheleia-formatters)
+  (push '(fourmolu . ("fourmolu" "--stdin-input-file" filepath))
+        apheleia-formatters)
+  (push '(nix-mode . alejandra)
+        apheleia-mode-alist)
+  (apheleia-global-mode +1))
 
-(setq major-mode-remap-alist
- '((yaml-mode . yaml-ts-mode)
-   (bash-mode . bash-ts-mode)
-   (js2-mode . js-ts-mode)
-   (typescript-mode . typescript-ts-mode)
-   (json-mode . json-ts-mode)
-   (html-mode . html-ts-mode)
-   (css-mode . css-ts-mode)
-   (python-mode . python-ts-mode)))
-
-;; LSP
-(use-package eglot
-  :ensure t
-  :defer t
-  :hook (python-mode . eglot-ensure))
+(setf (alist-get 'python-mode apheleia-mode-alist)
+      '(ruff-isort ruff))
 
 ;; Org Mode
 (use-package

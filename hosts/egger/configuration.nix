@@ -15,7 +15,6 @@
     ../common/nix-ld.nix
     ../common/stylix.nix
     ../common/printer.nix
-    ../common/virt.nix
   ];
 
   # Nixpkgs config
@@ -30,7 +29,6 @@
 
   # Bootloader.
   boot = {
-    kernelPackages = pkgs.linuxPackages_latest;
     consoleLogLevel = 0;
     kernelParams = [
       "quiet"
@@ -43,7 +41,6 @@
     initrd = {
       kernelModules = ["nvidia"];
       availableKernelModules = ["cryptd"];
-      luks.devices."luks-48e95629-d19a-4e8a-924e-53c660939c0c".device = "/dev/disk/by-uuid/48e95629-d19a-4e8a-924e-53c660939c0c";
     };
   };
 
@@ -53,7 +50,7 @@
 
   # Enable networking
   networking.networkmanager.enable = true;
-  networking.hostName = "tuborg";
+  networking.hostName = "egger";
 
   # Firewall
   networking.firewall.enable = true;
@@ -62,13 +59,7 @@
   services.xserver.xkb.layout = "us,tr";
 
   # Graphics
-  hardware = {
-    graphics.enable = true;
-    nvidia.package = pkgs.linuxPackages_latest.nvidiaPackages.beta;
-  };
-
-  # Asus related stuff
-  services.supergfxd.enable = true;
+  hardware.graphics.enable = true;
 
   # Enable sound with pipewire.
   security.rtkit.enable = true;
@@ -76,20 +67,23 @@
   services.pipewire = {
     enable = true;
     alsa.enable = true;
+    alsa.support32Bit = true;
     pulse.enable = true;
     jack.enable = true;
   };
 
   # Laptop power managment
   powerManagement.enable = true;
-  services.auto-cpufreq.settings = {
-    battery = {
-      governor = "powersave";
-      turbo = "never";
-    };
-    charger = {
-      governor = "performance";
-      turbo = "auto";
+  services.auto-cpufreq = {
+    settings = {
+      battery = {
+        governor = "powersave";
+        turbo = "never";
+      };
+      charger = {
+        governor = "performance";
+        turbo = "auto";
+      };
     };
   };
 
@@ -100,7 +94,7 @@
   users.users.emrecebi = {
     isNormalUser = true;
     description = "Emre Cebi";
-    extraGroups = ["networkmanager" "wheel" "docker" "audio" "libvirtd"];
+    extraGroups = ["networkmanager" "wheel" "audio"];
   };
 
   # Shell
@@ -111,10 +105,6 @@
   environment.systemPackages = with pkgs; [
     # Empty for now
   ];
-
-  # QMK
-  hardware.keyboard.qmk.enable = true;
-  services.udev.packages = [pkgs.via];
 
   # Emacs deamon
   services.emacs = {
