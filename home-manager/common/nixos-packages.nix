@@ -1,5 +1,8 @@
 {pkgs, ...}: {
   home.packages = with pkgs; [
+    # Development
+    ## Generic
+    gh
     ## Python
     python3
     uv
