@@ -18,17 +18,6 @@
     ".emacs.d/early-init.el".source = ../../dotfiles/emacs/early-init.el;
   };
 
-  # Gnome Home Settings
-  dconf = {
-    enable = true;
-    settings = {
-      # You need quotes to escape '/'
-      "org/gnome/desktop/interface" = {
-        clock-show-weekday = true;
-      };
-    };
-  };
-
   # GPG and SSH
   services.gpg-agent = {
     enable = true;

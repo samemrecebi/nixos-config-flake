@@ -11,7 +11,7 @@
     ../common/common-setup.nix
     ../common/grub.nix
     ../common/i18n.nix
-    ../common/gnome.nix
+    ../common/xfce.nix
     ../common/nix-ld.nix
     ../common/stylix.nix
     ../common/printer.nix
