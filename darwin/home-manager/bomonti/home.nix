@@ -1,8 +1,4 @@
 {
-  pkgs,
-  inputs,
-  ...
-}: {
   imports = [
     ../../../home-manager/common/shell.nix
     ../common/common-packages.nix
@@ -21,9 +17,9 @@
       updatesys = "darwin-rebuild switch --flake ~/.nix";
     };
     sessionVariables = {
-      PATH = "$JAVA_HOME/bin:/Users/emrecebi/.local/bin:/Library/Developer/CommandLineTools/SDKs/MacOSX.sdk/usr/lib:/opt/homebrew/bin:/opt/homebrew/sbin:/etc/profiles/per-user/emrecebi/bin/fzf:$PATH";
-      LIBRARY_PATH = ":/Library/Developer/CommandLineTools/SDKs/MacOSX.sdk/usr/lib:$LIBRARY_PATH";
-      FLAKE = "/home/emrecebi/.nix-config";
+      PATH = "$JAVA_HOME/bin:/Users/emrecebi/.local/bin:/Library/Developer/CommandLineTools/SDKs/MacOSX.sdk/usr/lib:/etc/profiles/per-user/emrecebi/bin/fzf:$PATH";
+      LIBRARY_PATH = "/Library/Developer/CommandLineTools/SDKs/MacOSX.sdk/usr/lib:$LIBRARY_PATH";
+      FLAKE = "/Users/emrecebi/.nix-config";
       NVM_DIR = "/Users/emrecebi/.nvm";
     };
     initExtra = ''

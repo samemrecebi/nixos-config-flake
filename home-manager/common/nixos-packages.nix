@@ -1,22 +1,12 @@
 {pkgs, ...}: {
   home.packages = with pkgs; [
     # Development
-    ## Generic
-    gh
     ## Python
-    python3
     uv
-    (pkgs.buildFHSEnv {
-      name = "pixi";
-      runScript = "pixi";
-      targetPkgs = pkgs: with pkgs; [pixi];
-    })
     ## JS/TS
     nodejs
     # C/C++
     gcc
-    # Terraform
-    opentofu
 
     # Productivity
     todoist-electron
@@ -56,14 +46,16 @@
     package = pkgs.vscode;
   };
 
-  # Java
-  programs.java.enable = true;
-
   # Common NixOS ZSH configuration
   programs.zsh = {
     sessionVariables = {
+      PATH = "/home/emrecebi/.local/bin:$PATH";
       FLAKE = "/home/emrecebi/.nix-config";
     };
+    initExtra = ''
+      eval "$(uv generate-shell-completion zsh)"
+      eval "$(uvx --generate-shell-completion zsh)"
+    '';
   };
 
   programs.emacs = {

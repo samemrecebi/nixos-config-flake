@@ -9,9 +9,6 @@
     home-manager.inputs.nixpkgs.follows = "nixpkgs";
     # My Nix Hardware Fork
     my-nixos-hardware.url = "github:samemrecebi/nixos-hardware/master";
-    # Stylix
-    stylix.url = "github:danth/stylix";
-    stylix.inputs.nixpkgs.follows = "nixpkgs";
     # Nix Darwin
     nix-darwin.url = "github:lnl7/nix-darwin/master";
     nix-darwin.inputs.nixpkgs.follows = "nixpkgs";
@@ -24,7 +21,6 @@
     nixpkgs,
     home-manager,
     my-nixos-hardware,
-    stylix,
     nix-darwin,
     nonfree-fonts,
     ...
@@ -53,7 +49,6 @@
         modules = [
           ./hosts/tuborg/configuration.nix
           my-nixos-hardware.nixosModules.asus-fa507nv
-          stylix.nixosModules.stylix
           home-manager.nixosModules.home-manager
           {
             # Home Manager as a module
@@ -62,14 +57,6 @@
             home-manager.backupFileExtension = "backup";
             home-manager.extraSpecialArgs = {inherit inputs outputs;};
             home-manager.users.emrecebi = import ./home-manager/tuborg/home.nix;
-            home-manager.sharedModules = [
-              {
-                stylix.targets = {
-                  emacs.enable = false;
-                  vscode.enable = false;
-                };
-              }
-            ];
           }
         ];
       };
@@ -79,7 +66,6 @@
         modules = [
           ./hosts/egger/configuration.nix
           my-nixos-hardware.nixosModules.huawei-machc-wa
-          stylix.nixosModules.stylix
           home-manager.nixosModules.home-manager
           {
             # Home Manager as a module
@@ -88,14 +74,6 @@
             home-manager.backupFileExtension = "backup";
             home-manager.extraSpecialArgs = {inherit inputs outputs;};
             home-manager.users.emrecebi = import ./home-manager/egger/home.nix;
-            home-manager.sharedModules = [
-              {
-                stylix.targets = {
-                  emacs.enable = false;
-                  vscode.enable = false;
-                };
-              }
-            ];
           }
         ];
       };

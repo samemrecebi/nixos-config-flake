@@ -6,26 +6,14 @@
   # Nix System Packages
   environment.systemPackages = with pkgs; [
     # Development Packages
-    ## General
-    cmake
-    libtool
-    emacs-lsp-booster
     ## Nix
     alejandra
     nixd
-    ## C/C++
-    gcc
-    libgccjit
-    libclang
     ## Python
-    python3
     pixi
     uv
-    ruff
     ## TS
     typescript-language-server
-    ## Terraform
-    opentofu
 
     # Blogging
     hugo
@@ -50,8 +38,17 @@
     ];
     brews = [
       # Development
+      ## Generic
+      "cmake"
       ## C/C++
       "libomp"
+      "llvm"
+      "gcc"
+      "libgccjit"
+      ## Python
+      "python"
+      ## Pinecil
+      "blisp"
     ];
     casks = [
       # Development

@@ -16,6 +16,8 @@
       DIRENV_LOG_FORMAT = ""; # silence direnv
       EDITOR = "nano -w";
       VISUAL = "code --wait";
+      ZSH_AUTOSUGGEST_BUFFER_MAX_SIZE = "20";
+      ZSH_AUTOSUGGEST_USE_ASYNC = "1";
     };
     plugins = [
       {
@@ -28,11 +30,17 @@
         };
       }
     ];
-    history.size = 10000;
+    history.size = 1000;
     history.path = "${config.xdg.dataHome}/zsh/history";
     initExtra = ''
       zstyle ':fzf-tab:complete:cd:*' fzf-preview 'ls --color $realpath'
       zstyle ':fzf-tab:complete:__zoxide_z:*' fzf-preview 'ls --color $realpath'
+      autoload -Uz compinit
+      if [ "$(date +'%j')" != "$(stat -f '%Sm' -t '%j' ~/.zcompdump 2>/dev/null)" ]; then
+          compinit
+      else
+          compinit -C
+      fi
     '';
   };
 
@@ -64,7 +72,6 @@
   programs.fzf = {
     enable = true;
     enableZshIntegration = true;
-    tmux.enableShellIntegration = true;
   };
   programs.bat = {
     enable = true;

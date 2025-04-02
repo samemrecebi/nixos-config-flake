@@ -18,15 +18,39 @@
     ".emacs.d/early-init.el".source = ../../dotfiles/emacs/early-init.el;
   };
 
+  home.packages = with pkgs; [
+    gnomeExtensions.tailscale-status
+  ];
+
   # Gnome Home Settings
   dconf = {
     enable = true;
-
     settings = {
-      # You need quotes to escape '/'
+      "org/gnome/shell" = {
+        disable-user-extensions = false;
+        enabled-extensions = [
+          "tailscale-status@maxgallup.github.com"
+        ];
+      };
       "org/gnome/desktop/interface" = {
         clock-show-weekday = true;
+        color-scheme = "prefer-dark";
       };
+    };
+  };
+
+  # GTK
+  gtk = {
+    enable = true;
+    gtk3.extraConfig = {
+      Settings = ''
+        gtk-application-prefer-dark-theme=1
+      '';
+    };
+    gtk4.extraConfig = {
+      Settings = ''
+        gtk-application-prefer-dark-theme=1
+      '';
     };
   };
 
