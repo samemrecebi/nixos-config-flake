@@ -9,6 +9,7 @@
     ".config/starship.toml".source = ../../../dotfiles/starship/starship.toml;
     ".emacs.d/init.el".source = ../../../dotfiles/emacs/init.el;
     ".emacs.d/early-init.el".source = ../../../dotfiles/emacs/early-init.el;
+    ".config/ghostty/config".source = ../../../dotfiles/ghostty/config.toml;
   };
 
   # Darwin specific zsh configuration
@@ -17,10 +18,9 @@
       updatesys = "darwin-rebuild switch --flake ~/.nix";
     };
     sessionVariables = {
-      PATH = "$JAVA_HOME/bin:/Users/emrecebi/.local/bin:/Library/Developer/CommandLineTools/SDKs/MacOSX.sdk/usr/lib:/etc/profiles/per-user/emrecebi/bin/fzf:$PATH";
-      LIBRARY_PATH = "/Library/Developer/CommandLineTools/SDKs/MacOSX.sdk/usr/lib:$LIBRARY_PATH";
-      FLAKE = "/Users/emrecebi/.nix-config";
-      NVM_DIR = "/Users/emrecebi/.nvm";
+      PATH = "$HOME/.cargo/env:$HOME/.local/bin:/etc/profiles/per-user/emrecebi/bin/fzf:$PATH";
+      FLAKE = "/$HOME/.nix-config";
+      NVM_DIR = "$HOME/emrecebi/.nvm";
     };
     initExtra = ''
       eval "$(pixi completion --shell zsh)"

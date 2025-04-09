@@ -12,8 +12,11 @@
     ## Python
     pixi
     uv
-    ## TS
+    ## Rust
+    rustup
+    ## LSP
     typescript-language-server
+    pyright
 
     # Blogging
     hugo
@@ -26,6 +29,9 @@
 
     # Latex
     texliveMedium
+
+    # Pinecil
+    pineflash
   ];
 
   # Homebrew System Packages
@@ -38,17 +44,11 @@
     ];
     brews = [
       # Development
-      ## Generic
-      "cmake"
-      ## C/C++
+      ## C/C++, Nix version doesnt play nice with MacOS
       "libomp"
       "llvm"
       "gcc"
       "libgccjit"
-      ## Python
-      "python"
-      ## Pinecil
-      "blisp"
     ];
     casks = [
       # Development
@@ -59,6 +59,8 @@
       "zed"
       ## Containers
       "docker"
+      ## SQL
+      "tableplus"
 
       # Browsers
       "firefox"
@@ -75,6 +77,7 @@
       "discord"
       "microsoft-teams"
       "thunderbird"
+      "zoom"
 
       # Productivity
       "todoist"

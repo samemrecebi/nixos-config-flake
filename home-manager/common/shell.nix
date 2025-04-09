@@ -52,11 +52,16 @@
     userName = "Emre Cebi";
     userEmail = "emre@cebi.io";
     extraConfig = {
-      commit.gpgsign = true;
+      commit.gpgsign = false;
       pull.rebase = false;
-      gpg.format = "ssh";
-      user.signingkey = "~/.ssh/id_sign.pub";
       init.defaultBranch = "main";
+    };
+    aliases = {
+      st = "status";
+      co = "checkout";
+      br = "branch";
+      cm = "commit -m";
+      cs = "commit -S -m";
     };
   };
   programs.direnv = {

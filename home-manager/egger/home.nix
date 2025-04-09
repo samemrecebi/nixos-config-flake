@@ -6,7 +6,7 @@
 
   imports = [
     ../common/shell.nix
-    ../common/common-packages.nix
+    ../common/nixos-packages.nix
     ../common/xdg.nix
     ../common/nixos-packages.nix
   ];
