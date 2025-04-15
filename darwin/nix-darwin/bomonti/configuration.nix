@@ -66,6 +66,13 @@
   nix = {
     nixPath = ["nixpkgs=${inputs.nixpkgs}"];
     settings.trusted-users = ["emrecebi"];
+    settings.substituters = [
+      "https://nix-community.cachix.org"
+      "https://cache.nixos.org/"
+    ];
+    settings.trusted-public-keys = [
+      "nix-community.cachix.org-1:mB9FSh9qf2dCimDSUo8Zy7bkq5CX+/rkCWyvRCYg3Fs="
+    ];
     extraOptions = ''
       experimental-features = nix-command flakes
       extra-platforms = x86_64-darwin aarch64-darwin

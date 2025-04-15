@@ -1,7 +1,10 @@
 {pkgs, ...}: {
-  programs.emacs = {
+  services.emacs = {
     enable = true;
-    package = pkgs.emacs30.override {withNativeCompilation = false;};
+    package = pkgs.emacs.override {
+      withNativeCompilation = true;
+      withTreeSitter = true;
+    };
   };
 
   # better eval time

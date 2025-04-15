@@ -14,6 +14,8 @@
     uv
     ## Rust
     rustup
+    ## Terraform
+    opentofu
     ## LSP
     typescript-language-server
     pyright
@@ -29,9 +31,6 @@
 
     # Latex
     texliveMedium
-
-    # Pinecil
-    pineflash
   ];
 
   # Homebrew System Packages
@@ -120,6 +119,9 @@
   # Emacs deamon
   services.emacs = {
     enable = true;
-    package = pkgs.emacs30.override {withNativeCompilation = false;};
+    package = pkgs.emacs.override {
+      withNativeCompilation = true;
+      withTreeSitter = true;
+    };
   };
 }
